@@ -5,4 +5,5 @@ export * from './surrealdb/surrealdb.module';
 export * from './surrealdb/surrealdb.service';
 export * from './surrealdb/types';
 export * from './surrealdb/interfaces';
-// export * from './surrealdb/enums';
+export * from './surrealdb/decorators';
+export * from './surrealdb/dto';

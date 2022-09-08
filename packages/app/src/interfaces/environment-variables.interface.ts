@@ -1,4 +1,7 @@
 export interface EnvironmentVariables {
-  accessTokenJwtSecret: string,
-  accessTokenExpiresIn: string,
+  url: string;
+  namespace: string;
+  database: string;
+  user: string;
+  pass: string;
 }

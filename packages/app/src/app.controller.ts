@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
 import { SurrealDbModuleOptions, SurrealDbService, SurrealDbUser as User } from '@koakh/nestjs-surrealdb';
+import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AddUserDto, IncrementUserDto } from './dto';
 
 @Controller()
 export class AppController {
