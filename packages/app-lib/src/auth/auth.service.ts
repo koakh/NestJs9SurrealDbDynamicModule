@@ -37,7 +37,7 @@ export class AuthService {
 
   // this is from consumer app AppModule/AppService
   getHelloAppModule(): { message: string } {
-    return { message: this.appService.getHello() };
+    return { message: `${this.appService.getHello()} (called in AuthService.etHelloAppModule())` };
   }
 
   // this is from consumer app AppModule/UserService
