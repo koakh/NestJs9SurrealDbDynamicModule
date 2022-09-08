@@ -1,7 +1,7 @@
 {
-  "name": "app-lib",
-  "version": "1.0.0",
-  "description": "Koakh NestJS Jwt GraphQL Authentication Starter Package",
+  "name": "@koakh/nestjs-surrealdb",
+  "version": "0.1.0",
+  "description": "SurrealDb proxy driver for NestJs 9",
   "author": "Mário Monteiro <marioammonteiro@gmail.com>",
   "license": "MIT",
   "readmeFilename": "README.md",

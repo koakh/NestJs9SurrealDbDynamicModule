@@ -5,7 +5,7 @@ interface User {
   tokenVersion: number;
 }
 
-export class AuthStore {
+export class SurrealDbStore {
   store: User[];
 
   constructor() {

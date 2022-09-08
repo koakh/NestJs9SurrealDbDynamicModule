@@ -11,8 +11,9 @@
     "lerna:clean": "lerna clean",
     "lerna:build": "lerna run build",
     "lerna:test": "lerna exec npm run test",
-    "pkg:app:debug": "npx lerna run start:debug --scope app --stream",
-    "pkg:app-lib:dev": "npx lerna run dev --scope app-lib --stream"
+    "pkg:app-lib:dev": "npx lerna run dev --scope @koakh/nestjs-surrealdb --stream",
+    "pkg:app-lib:build": "npx lerna run build --scope @koakh/nestjs-surrealdb --stream",
+    "pkg:app:debug": "npx lerna run start:debug --scope app --stream"
   },
   "dependencies": {
     "npm-check-updates": "^16.1.0"

@@ -1,4 +1,4 @@
-export type AuthUser = {
+export type SurrealDbUser = {
   id: string;
   username: string;
   password: string;

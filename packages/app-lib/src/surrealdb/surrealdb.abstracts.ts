@@ -1,5 +1,5 @@
 import { CurrentUserPayload } from './interfaces';
-import { AuthUser as User } from './types';
+import { SurrealDbUser as User } from './types';
 
 export abstract class AppServiceAbstract {
   abstract getHello(): string;

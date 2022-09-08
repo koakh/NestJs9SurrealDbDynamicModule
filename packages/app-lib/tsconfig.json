@@ -8,7 +8,7 @@
     "target": "es6",
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "src",
     "baseUrl": "./",
     "noLib": false,
     "typeRoots": [
@@ -16,6 +16,6 @@
       "src/typings"
     ]
   },
-  "include": ["src/**/*.ts", "src/auth/decorators/current-user.decorator.ts_DELETE"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -1,10 +1,7 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { AuthModuleOptions, AuthService, AuthUser as User } from 'app-lib';
 import { AppService } from './app.service';
-import { AuthService } from 'app-lib';
-import { AuthModuleOptions, AuthUser as User } from 'app-lib';
-import { Body } from '@nestjs/common';
 import { AddUserDto, IncrementUserDto } from './dto';
-import { Post } from '@nestjs/common';
 
 @Controller()
 export class AppController {
