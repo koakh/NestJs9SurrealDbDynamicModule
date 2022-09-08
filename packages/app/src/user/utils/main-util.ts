@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { UserRoles } from 'app-lib';
+import { UserRoles } from '@koakh/nestjs-surrealdb';
 
 const bcryptSaltRounds: number = 10;
 

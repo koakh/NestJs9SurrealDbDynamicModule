@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AppServiceAbstract } from 'app-lib';
+import { AppServiceAbstract } from '@koakh/nestjs-surrealdb';
 
 @Injectable()
 // must implement AppServiceAbstract to fulfill injected test service

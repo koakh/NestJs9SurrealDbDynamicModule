@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CurrentUserPayload, AuthUser as User, UserServiceAbstract } from 'app-lib';
+import { CurrentUserPayload, SurrealDbUser as User, UserServiceAbstract } from '@koakh/nestjs-surrealdb';
 import { UserData } from './interfaces';
 import { UserInMemory } from './user.data';
 import { UserStore } from './user.store';

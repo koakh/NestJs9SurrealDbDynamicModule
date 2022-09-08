@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { AuthModuleOptions, AuthService, AuthUser as User } from 'app-lib';
+import { SurrealDbModuleOptions, SurrealDbService, SurrealDbUser as User } from '@koakh/nestjs-surrealdb';
 import { AppService } from './app.service';
 import { AddUserDto, IncrementUserDto } from './dto';
 
@@ -7,7 +7,7 @@ import { AddUserDto, IncrementUserDto } from './dto';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly authService: AuthService,
+    private readonly SurrealDbService: SurrealDbService,
   ) { }
 
   // local appService call
@@ -19,31 +19,31 @@ export class AppController {
   // use app-lib
   @Post('adduser')
   addUser(@Body() { username }: AddUserDto): { username: string, tokenVersion: number } {
-    return this.authService.addUser(username, 1);
+    return this.SurrealDbService.addUser(username, 1);
   }
 
   // use app-lib
   @Post('increment')
   addToken(@Body() { username }: IncrementUserDto): { username: string, tokenVersion: number } {
-    return this.authService.incrementTokenVersion(username);
+    return this.SurrealDbService.incrementTokenVersion(username);
   }
 
   // use passed config from consumerApp
   @Get('config')
-  getConfig(): AuthModuleOptions {
-    return this.authService.getConfig();
+  getConfig(): SurrealDbModuleOptions {
+    return this.SurrealDbService.getConfig();
   }
 
   // use app-lib > calling appService
   @Get('appservice')
   getHelloAppModule(): { message: string } {
-    // Logger.log(JSON.stringify(this.authService));
-    return this.authService.getHelloAppModule();
+    // Logger.log(JSON.stringify(this.SurrealDbService));
+    return this.SurrealDbService.getHelloAppModule();
   }
 
   // use app-lib > calling userService
   @Get('userservice')
   async getUserFindOneByField(): Promise<User> {
-    return await this.authService.getUserFindOneByField();
+    return this.SurrealDbService.getUserFindOneByField();
   }
 }

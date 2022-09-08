@@ -1,4 +1,4 @@
-import { AuthUser as User, CurrentUserPayload } from "app-lib";
+import { SurrealDbUser as User, CurrentUserPayload } from '@koakh/nestjs-surrealdb';
 import { NotFoundException } from "@nestjs/common";
 import { UserData } from "./interfaces";
 import { constants as c } from "./user.constants";

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_SERVICE, AuthModule } from 'app-lib';
+import { APP_SERVICE, SurrealDbModule } from '@koakh/nestjs-surrealdb';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { configuration } from './config';
@@ -13,14 +13,14 @@ import { UserService } from './user/user.service';
       isGlobal: true,
       load: [configuration],
     }),
-    AuthModule.forRootAsync(AuthModule, {
+    SurrealDbModule.forRootAsync(SurrealDbModule, {
       useFactory: async (configService: ConfigService, userService: UserService) => ({
         secret: configService.get('accessTokenJwtSecret'),
         expiresIn: configService.get('accessTokenExpiresIn'),
         userService,
       }),
       // this is required to else we have error
-      // Nest can't resolve dependencies of the AuthService (AUTH_MODULE_OPTIONS, ?). Please make sure that the argument APP_SERVICE at index [1] is available in the AuthModule context.
+      // Nest can't resolve dependencies of the SurrealDbService (AUTH_MODULE_OPTIONS, ?). Please make sure that the argument APP_SERVICE at index [1] is available in the SurrealDbModule context.
       imports: [AppModule, UserModule],
       inject: [ConfigService, UserService]
       // works but opted to useFactory is the one way to inject services like config service
@@ -35,13 +35,13 @@ import { UserService } from './user/user.service';
       //   },
       // },
       // no need for this module already export's it
-      // exports: [AuthService],
+      // exports: [SurrealDbService],
     }),
   ],
   controllers: [AppController],
   providers: [
     // another trick is that this AppService is required to else we have the mitic error
-    // Nest can't resolve dependencies of the AppController (?, AuthService). Please make sure that the argument AppService at index [0] is available in the AppModule context.
+    // Nest can't resolve dependencies of the AppController (?, SurrealDbService). Please make sure that the argument AppService at index [0] is available in the AppModule context.
     AppService,
     {
       provide: APP_SERVICE,
@@ -57,8 +57,8 @@ import { UserService } from './user/user.service';
     // }
   ],
   // at last so kind of clue, this is what will solve the problem of 
-  // ERROR [ExceptionHandler] Nest can't resolve dependencies of the AuthService (AUTH_MODULE_OPTIONS, ?). Please make sure that the argument APP_SERVICE at index [1] is available in the AuthModule context.
-  // now we can import it with `imports: [AppModule]` into AuthModule, and expose it's providers
+  // ERROR [ExceptionHandler] Nest can't resolve dependencies of the SurrealDbService (AUTH_MODULE_OPTIONS, ?). Please make sure that the argument APP_SERVICE at index [1] is available in the SurrealDbModule context.
+  // now we can import it with `imports: [AppModule]` into SurrealDbModule, and expose it's providers
   // this wat we use it inside it with `@Inject('APP_SERVICE')`
   exports: [
     {
