@@ -4,6 +4,17 @@ dynamic modules poc project, used in marathon of learn how to use nestjs dynamic
 
 notes for app and app-lib
 
+UPDATE: 2022-09-08 19:39:08 this is the more recente package that have `AuthModule.forRootAsync` with injected `configService: ConfigService, userService: UserService` from `app.module`
+
+```ts
+AuthModule.forRootAsync(AuthModule, {
+  useFactory: async (configService: ConfigService, userService: UserService) => ({
+    secret: configService.get('accessTokenJwtSecret'),
+    expiresIn: configService.get('accessTokenExpiresIn'),
+    userService,
+  }),
+```
+
 ## Start Development Environment
 
 ```shell
@@ -13,6 +24,7 @@ $ npm run pkg:app-lib:dev
 # term#2
 $ npm run pkg:app:debug
 ```
+
 ## Test Consumer App and Package
 
 ```shell

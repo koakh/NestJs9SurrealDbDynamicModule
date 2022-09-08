@@ -56,7 +56,7 @@ import { UserService } from './user/user.service';
     //   // useValue: 'VALUE_FROM_USER_SERVICE'
     // }
   ],
-  // at last so kind of clue, this is waht will solve the problem of 
+  // at last so kind of clue, this is what will solve the problem of 
   // ERROR [ExceptionHandler] Nest can't resolve dependencies of the AuthService (AUTH_MODULE_OPTIONS, ?). Please make sure that the argument APP_SERVICE at index [1] is available in the AuthModule context.
   // now we can import it with `imports: [AppModule]` into AuthModule, and expose it's providers
   // this wat we use it inside it with `@Inject('APP_SERVICE')`

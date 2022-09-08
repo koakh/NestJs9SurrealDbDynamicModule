@@ -33,7 +33,7 @@ export class AppController {
 
   // use passed config from consumerApp
   @Get('config')
-  config(): AuthModuleOptions {
+  getConfig(): AuthModuleOptions {
     return this.authService.getConfig();
   }
 
@@ -46,7 +46,7 @@ export class AppController {
 
   // use app-lib > calling userService
   @Get('userservice')
-  async userFindOneByField(): Promise<User> {
-    return await this.authService.userFindOneByField();
+  async getUserFindOneByField(): Promise<User> {
+    return await this.authService.getUserFindOneByField();
   }
 }

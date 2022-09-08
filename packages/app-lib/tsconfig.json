@@ -10,7 +10,11 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "baseUrl": "./",
-    "noLib": false
+    "noLib": false,
+    "typeRoots": [
+      "node_modules/@types",
+      "src/typings"
+    ]
   },
   "include": ["src/**/*.ts", "src/auth/decorators/current-user.decorator.ts_DELETE"],
   "exclude": ["node_modules"]

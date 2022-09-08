@@ -51,14 +51,14 @@ REFRESH_TOKEN_SKIP_INCREMENT_VERSION=false
 
 ```shell
 # clone client.http
-wget https://raw.githubusercontent.com/koakh/NestJsPackageJwtAuthentication/main/client.http
+wget https://raw.githubusercontent.com/koakh/NestJsPlayWithDynamicModulesWithAppAndAppLib/main/client.http
 ```
 
 > Note: required the awesome [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
 
 now test all requests
 
-or test with a simple curl 
+or test with a simple curl
 
 ```shell
 $ curl --request POST \

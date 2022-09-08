@@ -11,6 +11,10 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "src/typings"
+    ]
   }
 }

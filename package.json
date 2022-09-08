@@ -2,28 +2,19 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^4.0.0",
-    "lerna-update-wizard": "^0.17.8",
-    "npm-check": "^5.9.2"
+    "lerna": "^5.5.0",
+    "lerna-update-wizard": "^1.1.2",
+    "npm-check": "^6.0.1"
   },
   "scripts": {
     "lerna:install": "lerna bootstrap",
+    "lerna:clean": "lerna clean",
     "lerna:build": "lerna run build",
     "lerna:test": "lerna exec npm run test",
     "pkg:app:debug": "npx lerna run start:debug --scope app --stream",
-    "pkg:app-lib:dev": "npx lerna run dev --scope app-lib --stream",
-
-    "pkg:graphql:upgrade": "npx lerna run upgrade -- --packages backend-nestjs",
-    "pkg:graphql:npm-check": "npx lerna run npm-check --scope @koakh/koakh-nestjs-graphql-starter --stream",
-    "pkg:graphql:build": "npx lerna run build --scope @koakh/koakh-nestjs-graphql-starter --stream",
-    "pkg:graphql:start": "npx lerna run start --scope @koakh/koakh-nestjs-graphql-starter --stream",
-    "pkg:graphql:dev": "npx lerna run start:dev --scope @koakh/koakh-nestjs-graphql-starter --stream",
-    "pkg:graphql:debug": "npx lerna run start:debug --scope @koakh/koakh-nestjs-graphql-starter --stream",
-    "pkg:graphql:docker:build": "npx lerna run docker:build --scope @koakh/koakh-nestjs-graphql-starter --stream",
-    "pkg:graphql:docker:push": "npx lerna run docker:push --scope @koakh/koakh-nestjs-graphql-starter --stream",
-    "pkg:react:start": "npx lerna run start --scope @koakh/koakh-nestjs-react-starter --stream"
+    "pkg:app-lib:dev": "npx lerna run dev --scope app-lib --stream"
   },
   "dependencies": {
-    "npm-check-updates": "^11.8.3"
+    "npm-check-updates": "^16.1.0"
   }
 }

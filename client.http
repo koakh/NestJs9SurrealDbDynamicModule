@@ -1,0 +1,71 @@
+@host = localhost
+@port = 3000
+@uriBase = http://{{host}}:{{port}}
+@uri = {{uriBase}}
+@contentType = application/json
+
+@userLoginUsername = admin
+@userLoginPassword = 12345678
+@userIdAdmin = efeed3eb-c0a2-4b3e-816f-2a42ca8451b3
+@userJohnDoe = 520c2eb5-e83b-4ef5-a343-85756bcce149
+@authToken = {{authLogIn.response.body.$.accessToken}}
+
+// local appModule
+
+### getHello
+// @name getHello
+GET {{uri}} HTTP/1.1
+Content-Type: {{contentType}}
+
+// appLib
+
+### addUser
+// @name addUser
+POST {{uri}}/adduser HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "username": "admin"
+}
+
+### addToken
+// @name addToken
+
+POST {{uri}}/increment HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+  "username": "admin"
+}
+
+### getConfig
+// @name getConfig
+
+GET {{uri}}/config HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+}
+
+
+### getHelloAppModule
+// @name getHelloAppModule
+
+GET {{uri}}/appservice HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+}
+
+### getUserFindOneByField
+// @name getUserFindOneByField
+
+GET {{uri}}/userservice HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+}

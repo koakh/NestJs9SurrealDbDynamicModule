@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   // this is from consumer app AppModule/UserService
-  userFindOneByField(): Promise<User> {
+  getUserFindOneByField(): Promise<User> {
     return this.userService.findOneByField('username', 'admin', adminCurrentUser);
   }
 }
