@@ -16,18 +16,6 @@ export class AppController {
     return { message: this.appService.getHello() };
   }
 
-  // use app-lib
-  @Post('adduser')
-  addUser(@Body() { username }: AddUserDto): { username: string, tokenVersion: number } {
-    return this.SurrealDbService.addUser(username, 1);
-  }
-
-  // use app-lib
-  @Post('increment')
-  addToken(@Body() { username }: IncrementUserDto): { username: string, tokenVersion: number } {
-    return this.SurrealDbService.incrementTokenVersion(username);
-  }
-
   // use passed config from consumerApp
   @Get('config')
   getConfig(): SurrealDbModuleOptions {

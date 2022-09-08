@@ -1,7 +1,10 @@
 import { UserServiceAbstract } from "./surrealdb.abstracts";
 
 export interface SurrealDbModuleOptions {
-  secret: string;
-  expiresIn: string;
-  userService: UserServiceAbstract;
+  url: string;
+  namespace: string;
+  database: string;
+  user: string;
+  pass: string;
+  userService?: UserServiceAbstract;
 }
