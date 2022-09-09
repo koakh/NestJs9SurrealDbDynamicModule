@@ -5,6 +5,8 @@ import { SurrealDbModuleOptions } from './surrealdb.interfaces';
 import { createNestSurrealDbModuleProviders } from './surrealdb.providers';
 import { SurrealDbService } from './surrealdb.service';
 
+// required @Global() to override errors of 
+// ERROR [ExceptionHandler] Nest can't resolve dependencies of the DbService (?). Please make sure that the argument SurrealDbService at index [0] is available in the DbModule context.
 @Global()
 @Module({
   providers: [

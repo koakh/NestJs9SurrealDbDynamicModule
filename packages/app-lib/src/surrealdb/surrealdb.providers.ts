@@ -2,6 +2,8 @@ import { APP_SERVICE, SURREALDB_MODULE_OPTIONS, SURREALDB_MODULE_USER_SERVICE } 
 import { SurrealDbModuleOptions } from './surrealdb.interfaces';
 
 export const createNestSurrealDbModuleProviders = [
+  // TODO: this is required, seems that only passed services are required here 
+  // userService and appService
   {
     inject: [SURREALDB_MODULE_OPTIONS],
     provide: SURREALDB_MODULE_USER_SERVICE,
@@ -9,11 +11,12 @@ export const createNestSurrealDbModuleProviders = [
       return SurrealDbModuleOptions.userService;
     },
   },
-  {
-    inject: [SURREALDB_MODULE_OPTIONS],
-    provide: SURREALDB_MODULE_OPTIONS,
-    useFactory: async (SurrealDbModuleOptions: SurrealDbModuleOptions) => {
-      return SurrealDbModuleOptions;
-    },
-  }
+  // TODO: seems that this is not required
+  // {
+  //   inject: [SURREALDB_MODULE_OPTIONS],
+  //   provide: SURREALDB_MODULE_OPTIONS,
+  //   useFactory: async (SurrealDbModuleOptions: SurrealDbModuleOptions) => {
+  //     return SurrealDbModuleOptions;
+  //   },
+  // }
 ];

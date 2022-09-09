@@ -13,25 +13,6 @@ Content-Type: {{contentType}}
 
 // appLib
 
-### addUser
-// @name addUser
-POST {{uri}}/adduser HTTP/1.1
-Content-Type: {{contentType}}
-
-{
-  "username": "admin"
-}
-
-### addToken
-// @name addToken
-
-POST {{uri}}/increment HTTP/1.1
-Content-Type: {{contentType}}
-
-{
-  "username": "admin"
-}
-
 ### getConfig
 // @name getConfig
 
@@ -40,7 +21,6 @@ Content-Type: {{contentType}}
 
 {
 }
-
 
 ### getHelloAppModule
 // @name getHelloAppModule
@@ -55,6 +35,17 @@ Content-Type: {{contentType}}
 // @name getUserFindOneByField
 
 GET {{uri}}/userservice HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+}
+
+// db
+
+### getUserFindOneByFieldInsideDb
+// @name getUserFindOneByFieldInsideDb
+
+GET {{uri}}/db/userservice HTTP/1.1
 Content-Type: {{contentType}}
 
 {
