@@ -9,6 +9,8 @@ import { DbService } from './db/db.service';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
 
+// TODO: this will enable @Inject(APP_SERVICE) on 
+// @Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
