@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  nestjs-surrealdb-rest-demo:
+    hostname: nestjs-surrealdb-rest-demo
+    container_name: nestjs-surrealdb-rest-demo
+    restart: unless-stopped
+    build:
+      context: ./packages/app
+      dockerfile: Dockerfile
+    depends_on:
+      - surrealdb
+    ports:
+      - 3000:3000
+    environment:
+      SURREALDB_URL: "http://surrealdb:8000/rpc"
+      SURREALDB_NAMESPACE: "test"
+      SURREALDB_DATABASE: "test"
+      SURREALDB_USER: "root"
+      SURREALDB_PASS: "root"
+    command: "node dist/main.js"
+
+  surrealdb:
+    hostname: surrealdb
+    container_name: surrealdb
+    restart: unless-stopped
+    image: surrealdb/surrealdb:1.0.0-beta.7
+    # file:mydb
+    command: "start --user root --pass root"
+    # environment:
+    #   SURREAL_ROOT_USER: root
+    #   SURREAL_ROOT_PASS: root
+    # uncomment to expose surrealdb port
+    ports:
+      - 8000:8000

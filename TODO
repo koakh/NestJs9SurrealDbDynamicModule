@@ -8,6 +8,7 @@ Global:
   ☐ add to readme
     ☐ npm run pkg:app-lib:dev
     ☐ npm run pkg:app:debug
+  ☐ docker image
 
 
 Mapped {/, GET} route
