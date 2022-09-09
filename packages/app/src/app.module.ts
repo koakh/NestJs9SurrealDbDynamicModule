@@ -1,15 +1,15 @@
-import { SurrealDbModuleOptions, APP_SERVICE, SurrealDbModule, SurrealDbService, SURREALDB_MODULE_OPTIONS } from '@koakh/nestjs-surrealdb';
-import { Global, Module } from '@nestjs/common';
+import { APP_SERVICE, SurrealDbModule } from '@koakh/nestjs-surrealdb';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { configuration } from './config';
 import { DbModule } from './db/db.module';
-import { DbService } from './db/db.service';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
 
-// TODO: this will enable @Inject(APP_SERVICE) on 
+// TODO: implement on shutdown close connection to surrealdb
+// this will enable @Inject(APP_SERVICE) on DbService
 // @Global()
 @Module({
   imports: [

@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 @Controller()
 export class AppController {
   constructor(
-    // TODO: this is required else can't find dependency, is defined with TOKEN SYMBOL
+    // this is required else can't find dependency, is defined with TOKEN SYMBOL
     @Inject(APP_SERVICE)
     private readonly appService: AppService,
     private readonly surrealDbService: SurrealDbService,

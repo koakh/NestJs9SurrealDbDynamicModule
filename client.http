@@ -2,9 +2,13 @@
 @port = 3000
 @uriBase = http://{{host}}:{{port}}
 @uri = {{uriBase}}
+@uriDb = {{uriBase}}/db
+@uriSurrealDb = {{uriBase}}/surrealdb
 @contentType = application/json
 
 @thing = person:uv1o55sjes0tdpa31ool
+@thingTobie = person:tobie
+@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjI3NjE5MTUsIm5iZiI6MTY2Mjc2MTkxNSwiZXhwIjoxNjYzOTcxNTE1LCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOjB3aGdnZHdna205d2w2aDY4emxjIn0.-bLrZge6Xqm6xTG5Zdp08Suvyrn-vOMJDu12m9kduDhRt7rrW0V2n_4mQYk8ey6UTxtOAktHNpPNzDyZkq3qKg
 
 // local appModule
 
@@ -13,7 +17,7 @@
 GET {{uri}} HTTP/1.1
 Content-Type: {{contentType}}
 
-// appLib
+### appLib
 
 ### getConfig
 // @name getConfig
@@ -35,6 +39,7 @@ Content-Type: {{contentType}}
 
 ### getUserFindOneByField
 // @name getUserFindOneByField
+// userService outside DbModule
 
 GET {{uri}}/userservice HTTP/1.1
 Content-Type: {{contentType}}
@@ -42,10 +47,11 @@ Content-Type: {{contentType}}
 {
 }
 
-// db
+### dbModule
 
-### getUserFindOneByFieldInsideDb
-// @name getUserFindOneByFieldInsideDb
+### getUserFindOneByFieldInsideDbModule
+// @name getUserFindOneByFieldInsideDbModule
+// userService injectd in DbModule
 
 GET {{uri}}/db/userservice HTTP/1.1
 Content-Type: {{contentType}}
@@ -53,8 +59,251 @@ Content-Type: {{contentType}}
 {
 }
 
+### getSelectDbModule
+// @name getSelectDbModule
+
+GET {{uriDb}}/{{thing}}
+Content-Type: application/json
+
+###  surrealDbModule: surrealDb proxy methods
+
+### postConnect
+// @name postConnect
+
+POST {{uriSurrealDb}}/connect
+Content-Type: application/json
+
+{
+  "url": "http://127.0.0.1:8000/rpc"
+}
+
+### postClose
+// @name postClose
+
+POST {{uriSurrealDb}}/close
+Content-Type: application/json
+
+{
+}
+
+### postUse
+// @name postUse
+
+POST {{uriSurrealDb}}/use
+Content-Type: application/json
+
+{
+  "ns": "test",
+  "db": "test"
+}
+
+### postSignup
+// @name postSignup
+
+POST {{uriSurrealDb}}/signup
+Content-Type: application/json
+
+{
+  "ns": "test",
+  "db": "test",
+  // We want to signup to the 'allusers' scope defined above
+  "sc": "allusers",
+  // We can add any variable here to use in the SIGNUP clause
+  "email": "tobie@surrealdb.com",
+  // We can add any variable here to use in the SIGNUP clause
+  "pass": "some password",
+  // We can add any variable here to use in the SIGNUP clause
+  "marketing": true,
+  // We can add any variable here to use in the SIGNUP clause
+  "tags": ["rust", "golang", "javascript"]
+}
+
+### postSignin
+// @name postSignin
+
+POST {{uriSurrealDb}}/signin
+Content-Type: application/json
+
+{
+  "ns": "test",
+  "db": "test",
+  // We want to signup to the 'allusers' scope defined above
+  "sc": "allusers",
+  // We can add any variable here to use in the SIGNUP clause
+  "email": "tobie@surrealdb.com",
+  // We can add any variable here to use in the SIGNUP clause
+  "pass": "some password"
+}
+
+### postInvalidate
+// @name postInvalidate
+
+POST {{uriSurrealDb}}/invalidate
+Content-Type: application/json
+
+{
+}
+
+### postAuthenticate
+// @name postAuthenticate
+// TODO: how authenticate?
+
+POST {{uriSurrealDb}}/authenticate
+Content-Type: application/json
+
+{
+  "token": "{{token}}"
+}
+
+### postLet
+// @name postLet
+
+POST {{uriSurrealDb}}/let
+Content-Type: application/json
+
+{
+  "key": "name",
+  "value": {
+    "name": {
+      "first": "Tobie",
+      "last": "Morgan Hitchcock"
+    }
+  }
+}
+
+### postQuery
+// @name postQuery
+
+POST {{uriSurrealDb}}/query
+Content-Type: application/json
+
+{
+  "sql": "SELECT id, string::concat(name.first, ' ', name.last) AS name, age FROM $id;",
+  "vars": {
+    "id": "{{thing}}"
+  }
+  // "sql": "SELECT * FROM $auth"
+  // "sql": "SELECT * FROM $session"
+  // "sql": "SELECT * FROM $scope"
+}
+
 ### getSelect
 // @name getSelect
 
-GET {{uri}}/db/{{thing}}
+GET {{uriSurrealDb}}/select/{{thing}}
 Content-Type: application/json
+
+### postCreate
+// @name postCreate
+
+POST {{uriSurrealDb}}/create/{{thing}}
+Content-Type: application/json
+
+{
+  "title": "Founder & CEO",
+  "name": {
+    "first": "Tobie",
+    "last": "Morgan Hitchcock"
+  },
+  "marketing": true,
+  "age": 28,
+  "html":"123"
+}
+
+### putUpdate
+// @name putUpdate
+// replace current record with payload data
+
+PUT {{uriSurrealDb}}/update/{{thing}}
+Content-Type: application/json
+
+{
+  "name": {
+    "first": "Mário",
+    "last": "Monteiro"
+  },
+  "age": 50,
+  "country": "Portugal"
+}
+
+### patchChange
+// @name patchChange
+// patches thing, update only sent properties leaving all others untoutched
+
+PATCH {{uriSurrealDb}}/change/{{thing}}
+Content-Type: application/json
+
+{
+  "name": {
+    "first": "Tobie changed...",
+    "last": "Morgan Hitchcock changed..."
+  }
+}
+
+### patchModify
+// @name patchModify
+// modify replaces properties of record
+
+PATCH {{uriSurrealDb}}/modify/{{thing}}
+Content-Type: application/json
+
+{
+  "name": {
+    "fullName": "Tobie Morgan Hitchcock"
+  }
+}
+
+### deleteDelete
+// @name deleteDelete
+
+DELETE {{uriSurrealDb}}/delete/{{thing}}
+Content-Type: application/json
+
+### postSync
+// @name postSync
+// TODO: sync, live, and kill aren't fully implemented yet
+
+POST {{uriSurrealDb}}/sync
+Content-Type: application/json
+
+{
+}
+
+### postPing
+// @name postPing
+// ping is used internally. It doesn't need to be called from any client code
+
+POST {{uriSurrealDb}}/ping
+Content-Type: application/json
+
+{
+}
+
+### postInfo
+// @name postInfo
+
+POST {{uriSurrealDb}}/info
+Content-Type: application/json
+
+{
+}
+
+### postLive
+// @name postLive
+// TODO: sync, live, and kill aren't fully implemented yet
+
+POST {{uriSurrealDb}}/live
+Content-Type: application/json
+
+{
+}
+
+### postKill
+// @name postKill
+// TODO: sync, live, and kill aren't fully implemented yet
+
+POST {{uriSurrealDb}}/kill
+Content-Type: application/json
+
+{
+}

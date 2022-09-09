@@ -1,6 +1,8 @@
 // https://github.com/surrealdb/surrealdb.js/blob/main/src/index.js
 // https://github.com/surrealdb/www.surrealdb.com/blob/main/app/templates/docs/integration/libraries/nodejs.hbs
 
+import { SignUpInResponseDto } from "../dto/signup-in-response.dto";
+
 export interface Signup {
   ns?: string;
   db?: string;
@@ -45,13 +47,13 @@ export interface SurrealDb {
    * signs this connection up to a specific authentication scope
    * @param vars Variables used in a signup query.
    */
-  signup: (vars: Signup) => any;
+  signup: (vars: Signup) => string;
 
   /**
    * signs this connection in to a specific authentication scope
    * @param vars Variables used in a signin query.
    */
-  signin: (vars: Signin) => any;
+  signin: (vars: Signin) => string;
 
   /**
    * invalidates the authentication for the current connection

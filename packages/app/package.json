@@ -1,8 +1,9 @@
 {
-  "name": "app",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "name": "@koakh/nestjs-surrealdb-rest-demo",
+  "version": "0.1.0",
+  "description": "SurrealDb NestJs wrapper driver - Consumer app",
+  "author": "Mário Monteiro <marioammonteiro@gmail.com>",
+  "readmeFilename": "README.md",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

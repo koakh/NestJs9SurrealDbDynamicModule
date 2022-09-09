@@ -1,5 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import * as Surreal from 'surrealdb.js';
+import { SignUpInResponseDto as SignUpInResponseDto } from "./dto/signup-in-response.dto";
 import { SurrealDbResponseDto } from "./dto/surrealdb-response.dto";
 import { Signin, Signup, SurrealDb } from "./interfaces";
 import { AppServiceAbstract, UserServiceAbstract } from "./surrealdb.abstracts";
@@ -27,17 +28,20 @@ export class SurrealDbService {
     return this.options;
   }
 
+  // TODO: remove
   // AppServiceAbstract: this is from consumer app AppModule/AppService
   getHelloAppModule(): { message: string } {
     return { message: `${this.appService.getHello()} (called in SurrealDbService.etHelloAppModule())` };
   }
 
+  // TODO: remove
   // UserServiceAbstract: this is from consumer app AppModule/UserService
   getUserFindOneByField(): Promise<User> {
     return this.userService.findOneByField('username', 'admin', adminCurrentUser);
   }
 
-  // SurrealDb Proxy
+  // initSurrealDb
+
   private async initSurrealDb() {
     // init surrealDb instance
     this.db = new Surreal(this.options.url);
@@ -49,6 +53,17 @@ export class SurrealDbService {
     // select a specific namespace / database
     await this.db.use(this.options.namespace, this.options.database);
   }
+
+  // helper methods
+
+  async thingExists(thing: string): Promise<void> {
+    if (!await this.db.select(thing)) {
+      // mimic surrealdb response
+      throw new Error(`Record not found: ${thing}`);
+    }
+  }
+
+  // surrealDb Proxy methods
 
   /**
    * Connects to a local or remote database endpoint
@@ -85,16 +100,16 @@ export class SurrealDbService {
    * signs this connection up to a specific authentication scope
    * @param vars Variables used in a signup query.
    */
-  async signup(vars: Signup): Promise<any> {
-    return this.db.signup(vars);
+  async signup(vars: Signup): Promise<SignUpInResponseDto> {
+    return { accessToken: await this.db.signup(vars) };
   }
 
   /**
    * signs this connection in to a specific authentication scope
    * @param vars Variables used in a signin query.
    */
-  async signin(vars: Signin): Promise<any> {
-    return this.db.signin(vars);
+  async signin(vars: Signin): Promise<SignUpInResponseDto> {
+    return { accessToken: await this.db.signin(vars) };
   }
 
   /**
@@ -153,6 +168,7 @@ export class SurrealDbService {
    * @param data The document / record data to update.
    */
   async update(thing: string, data: any): Promise<SurrealDbResponseDto> {
+    await this.thingExists(thing);
     return this.db.update(thing, data);
   }
 
@@ -162,6 +178,7 @@ export class SurrealDbService {
    * @param data The document / record data to change.
    */
   async change(thing: string, data: any): Promise<SurrealDbResponseDto> {
+    await this.thingExists(thing);
     return this.db.change(thing, data);
   }
 
@@ -171,6 +188,7 @@ export class SurrealDbService {
    * @param data The document / record data to change.
    */
   async modify(thing: string, data: any): Promise<SurrealDbResponseDto> {
+    await this.thingExists(thing);
     return this.db.modify(thing, data);
   }
 
@@ -180,6 +198,7 @@ export class SurrealDbService {
    * @returns 
    */
   async delete(thing: string): Promise<SurrealDbResponseDto> {
+    await this.thingExists(thing);
     return this.db.delete(thing);
   }
 
