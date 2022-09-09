@@ -1,6 +1,5 @@
 import { SurrealDbService } from '@koakh/nestjs-surrealdb';
-import { Logger } from '@nestjs/common';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NewRecipeInput } from './dto/new-recipe.input';
 import { RecipesArgs } from './dto/recipes.args';
@@ -9,15 +8,15 @@ import { Recipe } from './models/recipe.model';
 @Injectable()
 export class RecipesService {
   constructor(
-    // private readonly db: SurrealDbService,
+    private readonly db: SurrealDbService,
     private readonly configService: ConfigService,
   ) {
     Logger.log(this.configService.get('SURREALDB_URL'), RecipesService.name);
   }
 
   async create(data: NewRecipeInput): Promise<Recipe> {
-    // const thing = this.db.select('person:uv1o55sjes0tdpa31ool');    
-    // Logger.log(thing, RecipesService.name);    
+    // const thing = this.db.select('person:uv1o55sjes0tdpa31ool');
+    // Logger.log(thing, RecipesService.name);
     return {
       ...data,
       id: new Date().getTime().toString(),

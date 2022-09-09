@@ -1,11 +1,14 @@
-import { SurrealDbService } from '@koakh/nestjs-surrealdb';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly surrealDbService: SurrealDbService) { }
+  // constructor(
+  //   // TODO: if enabled stops at
+  //   // [InstanceLoader] GraphQLModule dependencies initialized +0ms
+  //   private readonly surrealDbService: SurrealDbService,
+  // ) { }
 
-  async getSelect(thing: string): Promise<any> {
-    return this.surrealDbService.select(thing);
-  }
+  // async getSelect(thing: string): Promise<any> {
+  //   return this.surrealDbService.select(thing);
+  // }
 }

@@ -5,8 +5,8 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('/:thing')
-  select(@Param('thing') thing: string): any {
-    return this.appService.getSelect(thing);
-  }
+  // @Get('/:thing')
+  // select(@Param('thing') thing: string): any {
+  //   return this.appService.getSelect(thing);
+  // }
 }
