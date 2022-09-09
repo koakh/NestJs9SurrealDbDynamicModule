@@ -31,3 +31,4 @@ coverage/
 .eslintcache
 .env
 .bak
+.oldnestjs9wayproject
