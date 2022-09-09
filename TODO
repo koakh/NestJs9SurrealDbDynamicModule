@@ -1,2 +1,37 @@
 Global:
-  ☐ remove bcrypt, jwt references
+  ✔ remove bcrypt, jwt references @done(22-09-09 23:36)
+  ✔ appModule add globalError Handling @done(22-09-09 23:36)
+  ✔ add all surrealdb methods from old project @done(22-09-09 23:36)
+  ☐ replace old project repo with this
+  ☐ cleanup packages/app/README.md
+  ☐ cleanup packages/app-lib/README.md
+  ☐ add to readme
+    ☐ npm run pkg:app-lib:dev
+    ☐ npm run pkg:app:debug
+
+
+Mapped {/, GET} route
+Mapped {/config, GET} route
+Mapped {/appservice, GET} route
+Mapped {/userservice, GET} route
+
+Mapped {/surrealdb/connect, POST} route
+Mapped {/surrealdb/close, POST} route
+Mapped {/surrealdb/use, POST} route
+Mapped {/surrealdb/signup, POST} route
+Mapped {/surrealdb/signin, POST} route
+Mapped {/surrealdb/invalidate, POST} route
+Mapped {/surrealdb/authenticate, POST} route
+Mapped {/surrealdb/let, POST} route
+Mapped {/surrealdb/query, POST} route
+Mapped {/surrealdb/:thing, GET} route
+Mapped {/surrealdb, POST} route
+Mapped {/surrealdb/:thing, PUT} route
+Mapped {/surrealdb/modify/:thing, PATCH} route
+Mapped {/surrealdb/:thing, PATCH} route
+Mapped {/surrealdb/:thing, DELETE} route
+Mapped {/surrealdb/sync, POST} route
+Mapped {/surrealdb/ping, POST} route
+Mapped {/surrealdb/info, POST} route
+Mapped {/surrealdb/live, POST} route
+Mapped {/surrealdb/kill, POST} route
