@@ -13,7 +13,8 @@
     "lerna:test": "lerna exec npm run test",
     "pkg:app-lib:dev": "npx lerna run dev --scope @koakh/nestjs-surrealdb --stream",
     "pkg:app-lib:build": "npx lerna run build --scope @koakh/nestjs-surrealdb --stream",
-    "pkg:app:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-rest-demo --stream"
+    "pkg:app:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-rest-demo --stream",
+    "pkg:app-gql:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-graphql-demo --stream"
   },
   "dependencies": {
     "npm-check-updates": "^16.1.0"

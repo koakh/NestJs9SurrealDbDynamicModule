@@ -46,7 +46,7 @@ export class SurrealDbService {
     // init surrealDb instance
     this.db = new Surreal(this.options.url);
     // signIn as a namespace, database, or root user
-    await this.db.signin({
+    this.db.signin({
       user: this.options.user,
       pass: this.options.pass,
     });

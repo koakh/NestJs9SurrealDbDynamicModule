@@ -1,6 +1,7 @@
 import { EnvironmentVariables } from '../interfaces';
 
 export const configuration = (): EnvironmentVariables => ({
+  graphqlAutoSchemaFile: process.env.GRAPHQL_AUTO_SCHEMA_FILE || './schema.gql',
   surrealDbUrl: process.env.SURREALDB_URL || 'http://127.0.0.1:8000/rpc',
   surrealDbNamespace: process.env.SURREALDB_NAMESPACE || 'test',
   surrealDbDatabase: process.env.SURREALDB_DATABASE || 'test',
