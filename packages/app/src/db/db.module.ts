@@ -4,6 +4,7 @@ import { DbController } from './db.controller';
 import { DbService } from './db.service';
 
 @Module({
+  // don't bring here global SurrealDbModule again
   // imports: [SurrealDbModule],
   providers: [DbService],
   controllers: [DbController]
