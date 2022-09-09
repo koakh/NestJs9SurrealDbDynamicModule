@@ -15,8 +15,8 @@ export class RecipesService {
   }
 
   async create(data: NewRecipeInput): Promise<Recipe> {
-    // const thing = this.db.select('person:uv1o55sjes0tdpa31ool');
-    // Logger.log(thing, RecipesService.name);
+    const thing = await this.db.select('person:uv1o55sjes0tdpa31ool');
+    Logger.log(JSON.stringify(thing, undefined, 2), RecipesService.name);
     return {
       ...data,
       id: new Date().getTime().toString(),
