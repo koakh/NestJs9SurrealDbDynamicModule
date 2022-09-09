@@ -12,12 +12,12 @@ export class SurrealDbService {
   private db: SurrealDb;
 
   constructor(
-    @Inject(APP_SERVICE)
-    private readonly appService: AppServiceAbstract,
     @Inject(SURREALDB_MODULE_OPTIONS)
     private readonly options: SurrealDbModuleOptions,
     @Inject(SURREALDB_MODULE_USER_SERVICE)
     private readonly userService: UserServiceAbstract,
+    @Inject(APP_SERVICE)
+    private readonly appService: AppServiceAbstract,
   ) {
     this.initSurrealDb();
   }

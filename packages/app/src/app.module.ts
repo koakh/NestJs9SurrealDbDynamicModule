@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { SurrealDbModuleOptions, APP_SERVICE, SurrealDbModule, SurrealDbService, SURREALDB_MODULE_OPTIONS } from '@koakh/nestjs-surrealdb';
+import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_SERVICE, SurrealDbModule } from '@koakh/nestjs-surrealdb';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { configuration } from './config';
+import { DbModule } from './db/db.module';
+import { DbService } from './db/db.service';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
 
@@ -26,16 +28,18 @@ import { UserService } from './user/user.service';
       // this is required to else we have error
       // Nest can't resolve dependencies of the SurrealDbService (AUTH_MODULE_OPTIONS, ?). Please make sure that the argument APP_SERVICE at index [1] is available in the SurrealDbModule context.
       imports: [AppModule, UserModule],
-      inject: [ConfigService, UserService]
+      inject: [ConfigService, UserService],
       // no need for this export, module already export's it
       // exports: [SurrealDbService],
     }),
+    DbModule,
   ],
-  controllers: [AppController],
+  controllers: [
+    AppController
+  ],
   providers: [
     // another trick is that this AppService is required to else we have the classic error
     // Nest can't resolve dependencies of the AppController (?, SurrealDbService). Please make sure that the argument AppService at index [0] is available in the AppModule context.
-    AppService,
     {
       provide: APP_SERVICE,
       useClass: AppService,
