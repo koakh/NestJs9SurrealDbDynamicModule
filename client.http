@@ -4,6 +4,8 @@
 @uri = {{uriBase}}
 @contentType = application/json
 
+@thing = person:uv1o55sjes0tdpa31ool
+
 // local appModule
 
 ### getHello
@@ -50,3 +52,9 @@ Content-Type: {{contentType}}
 
 {
 }
+
+### getSelect
+// @name getSelect
+
+GET {{uri}}/db/{{thing}}
+Content-Type: application/json
