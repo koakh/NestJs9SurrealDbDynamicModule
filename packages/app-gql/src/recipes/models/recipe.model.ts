@@ -11,8 +11,9 @@ export class Recipe {
   @Field({ nullable: true })
   description?: string;
 
-  @Field()
-  creationDate: Date;
+  @Field({ nullable: true })
+  // creationDate: Date;
+  creationDate: string;
 
   @Field(type => [String])
   ingredients: string[];

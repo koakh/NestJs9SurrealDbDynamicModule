@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NewRecipeInput } from './dto/new-recipe.input';
 import { RecipesArgs } from './dto/recipes.args';
-import { Recipe } from './models/recipe.model';
+import { Recipe } from './models';
 
 @Injectable()
 export class RecipesService {
@@ -15,13 +15,17 @@ export class RecipesService {
   }
 
   async create(data: NewRecipeInput): Promise<Recipe> {
-    const thing = await this.db.select('person:uv1o55sjes0tdpa31ool');
-    Logger.log(JSON.stringify(thing, undefined, 2), RecipesService.name);
-    return {
+    const thing = (await this.db.create(Recipe.name.toLowerCase(), {
       ...data,
-      id: new Date().getTime().toString(),
       creationDate: new Date(),
-    } as Recipe;
+    })) as Recipe;
+    return thing;
+    // Logger.log(JSON.stringify(thing, undefined, 2), RecipesService.name);
+    // return {
+    //   ...data,
+    //   id: new Date().getTime().toString(),
+    //   creationDate: new Date(),
+    // } as Recipe;
   }
 
   async findOneById(id: string): Promise<Recipe> {

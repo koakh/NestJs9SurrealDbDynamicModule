@@ -8,12 +8,9 @@ directive @upper on FIELD_DEFINITION
 type Recipe {
   id: ID!
   description: String
-  creationDate: Date!
+  creationDate: String
   ingredients: [String!]!
 }
-
-"""Date custom scalar type"""
-scalar Date
 
 type Query {
   recipe(id: String!): Recipe!
