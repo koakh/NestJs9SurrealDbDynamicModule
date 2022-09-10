@@ -8,7 +8,7 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
-import { configuration } from './config';
+import { configuration } from './common/config';
 import { RecipesModule } from './recipes/recipes.module';
 
 @Module({
@@ -47,6 +47,18 @@ import { RecipesModule } from './recipes/recipes.module';
               locations: [DirectiveLocation.FIELD_DEFINITION],
             }),
           ],
+        },
+        formatError: (err) => {
+          // Don't give the specific errors to the client.
+          if (err.message) {
+            return new Error(err.message);
+          }
+          // if (err.message.startsWith('Database Error: ')) {
+          //   return new Error('Internal server error');
+          // }
+          // Otherwise return the original error. The error can also
+          // be manipulated in other ways, as long as it's returned.
+          return err;
         },
       }),
     }),

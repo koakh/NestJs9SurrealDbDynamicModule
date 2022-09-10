@@ -21,3 +21,13 @@ AFTER SOM MANY HOURS the start solving is using `@Global` on `SurrealDbModule`
     SurrealDbService,
     ...createNestSurrealDbModuleProviders,
 ```
+
+## Problems
+
+### Graphql Error Handling
+
+- [GraphQL doesn&#39;t work well with `BaseExceptionFilter` · Issue #5958 · nestjs/nest](https://github.com/nestjs/nest/issues/5958)
+- [GraphQL doesn&#39;t work well with `BaseExceptionFilter` · Issue #5958 · nestjs/nest](https://github.com/nestjs/nest/issues/5958)
+- [Documentation | NestJS - A progressive Node.js framework](https://docs.nestjs.com/graphql/other-features)
+- [Error handling](https://www.apollographql.com/docs/apollo-server/data/errors/)
+- [https://towardsdev.com/nestjs-graphql-things-you-should-know-about-before-starting-a-project-7178690b90e0](https://towardsdev.com/nestjs-graphql-things-you-should-know-about-before-starting-a-project-7178690b90e0)

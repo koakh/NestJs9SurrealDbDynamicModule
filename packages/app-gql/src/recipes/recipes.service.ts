@@ -8,28 +8,33 @@ import { Recipe } from './models';
 @Injectable()
 export class RecipesService {
   constructor(
-    private readonly db: SurrealDbService,
+    private readonly surrealDb: SurrealDbService,
     private readonly configService: ConfigService,
   ) {
-    Logger.log(this.configService.get('SURREALDB_URL'), RecipesService.name);
+    // TODO:
+    // Logger.log(this.configService.get('SURREALDB_URL'), RecipesService.name);
   }
 
   async create(data: NewRecipeInput): Promise<Recipe> {
-    const thing = (await this.db.create(Recipe.name.toLowerCase(), {
+    return (await this.surrealDb.create(Recipe.name.toLowerCase(), {
       ...data,
       creationDate: new Date(),
     })) as Recipe;
-    return thing;
-    // Logger.log(JSON.stringify(thing, undefined, 2), RecipesService.name);
-    // return {
-    //   ...data,
-    //   id: new Date().getTime().toString(),
-    //   creationDate: new Date(),
-    // } as Recipe;
   }
 
-  async findOneById(id: string): Promise<Recipe> {
-    return {} as any;
+  // TODO: fails if don't pass id
+  async findOneById(id: string): Promise<Recipe[] | null> {
+    if (id.split(':').length === 1) {
+      throw new Error('must pass entity:id');
+    }
+
+    const thing = await this.surrealDb.select(id);
+
+    // // if (thing && Array.isArray(thing) && thing.length > 1) {
+    // //   throw new Error('must pass entity:id');
+    // // }
+    return thing as unknown as Recipe[];
+    // return (await this.db.select(id)) as unknown as Recipe;
   }
 
   async findAll(recipesArgs: RecipesArgs): Promise<Recipe[]> {

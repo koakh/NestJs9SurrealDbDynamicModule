@@ -9,6 +9,7 @@ Global:
     ☐ npm run pkg:app-lib:dev
     ☐ npm run pkg:app:debug
     ☐ npm run pkg:app-gql:debug
+      ☐ note that it have all rest endpoints
   ☐ docker images
     ☐ rest
     ☐ graphql

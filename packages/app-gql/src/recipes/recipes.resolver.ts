@@ -12,8 +12,8 @@ const pubSub = new PubSub();
 export class RecipesResolver {
   constructor(private readonly recipesService: RecipesService) {}
 
-  @Query(returns => Recipe)
-  async recipe(@Args('id') id: string): Promise<Recipe> {
+  @Query(returns => [Recipe])
+  async recipe(@Args('id') id: string): Promise<Recipe[]> {
     const recipe = await this.recipesService.findOneById(id);
     if (!recipe) {
       throw new NotFoundException(id);
