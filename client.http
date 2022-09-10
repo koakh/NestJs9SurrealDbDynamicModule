@@ -190,7 +190,7 @@ Content-Type: application/json
 ### getSelect
 // @name getSelect
 
-GET {{uriSurrealDb}}/select/{{thing}}
+GET {{uriSurrealDb}}/select/{{thing}}-
 Content-Type: application/json
 
 ### postCreate
