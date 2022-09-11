@@ -56,10 +56,16 @@ export class SurrealDbService {
 
   // helper methods
 
+  /**
+   * check if thing exists if passed id with entity, else does nothing
+   * @param thing 
+   */
   async thingExists(thing: string): Promise<void> {
-    if (!await this.db.select(thing)) {
-      // mimic surrealdb response
-      throw new Error(`Record not found: ${thing}`);
+    if (thing.split(':').length === 2) {
+      if (!await this.db.select(thing)) {
+        // mimic surrealdb response
+        throw new Error(`Record not found: ${thing}`);
+      }
     }
   }
 
@@ -199,7 +205,8 @@ export class SurrealDbService {
    */
   async delete(thing: string): Promise<SurrealDbResponseDto> {
     await this.thingExists(thing);
-    return this.db.delete(thing);
+    const data = await this.db.delete(thing);
+    return data;
   }
 
   /**

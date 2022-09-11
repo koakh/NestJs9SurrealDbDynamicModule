@@ -5,13 +5,16 @@ export class Recipe {
   @Field(() => ID)
   id: string;
 
+  @Field()
   @Directive('@upper')
+  guid: string;
+
+  @Field()
   title: string;
 
   @Field({ nullable: true })
   description?: string;
 
-  // @Field()
   @Field(() => Date)
   creationDate: Date;
 

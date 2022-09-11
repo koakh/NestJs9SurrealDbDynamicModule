@@ -1,19 +1,13 @@
 import { SurrealDbService } from '@koakh/nestjs-surrealdb';
-import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
+import { UpdateRecipeInput } from './dto';
 import { NewRecipeInput } from './dto/new-recipe.input';
 import { RecipesArgs } from './dto/recipes.args';
 import { Recipe } from './models';
 
 @Injectable()
 export class RecipesService {
-  constructor(
-    private readonly surrealDb: SurrealDbService,
-    private readonly configService: ConfigService,
-  ) {
-    // TODO:
-    // Logger.log(this.configService.get('SURREALDB_URL'), RecipesService.name);
-  }
+  constructor(private readonly surrealDb: SurrealDbService) {}
 
   async create(data: NewRecipeInput): Promise<Recipe> {
     return (await this.surrealDb.create(Recipe.name.toLowerCase(), {
@@ -22,26 +16,30 @@ export class RecipesService {
     })) as Recipe;
   }
 
-  // TODO: fails if don't pass id
-  async findOneById(id: string): Promise<Recipe[] | null> {
-    if (id.split(':').length === 1) {
-      throw new Error('must pass entity:id');
-    }
-
-    const thing = await this.surrealDb.select(id);
-
-    // // if (thing && Array.isArray(thing) && thing.length > 1) {
-    // //   throw new Error('must pass entity:id');
-    // // }
-    return thing as unknown as Recipe[];
-    // return (await this.db.select(id)) as unknown as Recipe;
+  async update(id: string, data: UpdateRecipeInput): Promise<Recipe> {
+    return (await this.surrealDb.change(id, data)) as any as Recipe;
   }
 
-  async findAll(recipesArgs: RecipesArgs): Promise<Recipe[]> {
-    return [] as Recipe[];
+  async findOneById(id: string): Promise<Recipe[] | null> {
+    const data = await this.surrealDb.select(id);
+    // should not get here if we pass above validation
+    if (data && Array.isArray(data) && data.length > 1) {
+      throw new Error('found more ');
+    }
+    return data as unknown as Recipe[];
+  }
+
+  async findAll({ skip, take }: RecipesArgs): Promise<Recipe[]> {
+    // TODO: add surrealDb helper method with this sql in constants
+    // const query = 'SELECT * FROM type::table($table) START $start LIMIT $limit';
+    const query = 'SELECT * FROM type::table($table) LIMIT 3 START 0';
+    const vars = { table: Recipe.name.toLowerCase(), start: skip, limit: take };
+    const data = await this.surrealDb.query(query, vars);
+    return data[0].result;
   }
 
   async remove(id: string): Promise<boolean> {
+    await this.surrealDb.delete(id);
     return true;
   }
 }
