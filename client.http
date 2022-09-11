@@ -4,6 +4,7 @@
 @uri = {{uriBase}}
 @uriDb = {{uriBase}}/db
 @uriSurrealDb = {{uriBase}}/surrealdb
+@uriGql = {{uriBase}}/graphql
 @contentType = application/json
 
 @thing = person:uv1o55sjes0tdpa31ool
@@ -306,4 +307,145 @@ POST {{uriSurrealDb}}/kill
 Content-Type: application/json
 
 {
+}
+
+### graphQl
+
+@requestType = GraphQL
+@random = {{$randomInt 1000 9999}}
+
+### mutation: addRecipe
+// @name addRecipe
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+mutation addRecipe($newRecipeData: NewRecipeInput!) {
+	addRecipe(newRecipeData: $newRecipeData) {
+    id
+    guid
+    title
+    description
+    ingredients
+    creationDate
+	}
+}
+
+{
+	"newRecipeData": {
+    "guid": "{{$guid}}",
+    "title": "Recipe #{{random}}",
+    "description": "some description #{{random}}",
+    "ingredients": ["bananas", "apples", "lemons", "pears"]
+  }
+}
+
+### mutation: updateRecipe
+// @name updateRecipe
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+mutation updateRecipe($id: String!, $updateRecipeData: UpdateRecipeInput!) {
+	updateRecipe(id: $id, updateRecipeData: $updateRecipeData) {
+    id
+    guid
+    title
+    description
+    ingredients
+    creationDate
+	}
+}
+
+{
+  "id": "recipe:b4u7yvwuajndii1kjy9v",
+	"updateRecipeData": {
+    "title": "Recipe #{{random}}-MOD",
+    "description": "some description #{{random}}-MOD",
+    "ingredients": ["bananas", "apples", "lemons", "pears", "mod"]
+  }
+}
+
+### query: recipe
+// @name recipe
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+query recipe($id: String!){
+  recipe(id: $id ){
+    id
+    guid
+    title
+    description
+    ingredients
+    creationDate
+  }
+}
+
+{
+	"id": "recipe:q6s9n59z3v1mhdlvz7ec"
+}
+
+### query: recipes
+// @name recipes
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+query recipes($skip: Int, $take: Int){
+  recipes(skip: $skip, take: $take){
+    id
+    guid
+    title
+    description
+    ingredients
+    creationDate
+  }
+}
+
+{
+	"skip": 0,
+  "take": 2
+}
+
+### mutation: removeRecipe
+// @name removeRecipe
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+mutation removeRecipe($id: String!){
+  removeRecipe(id: $id )
+}
+
+{
+  "id": "recipe:588u51q20r1aj2zcagap"
+}
+
+### subscription: recipeAdded
+// @name recipeAdded
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+subscription recipeAdded{
+  recipeAdded{
+    id
+    guid
+    title
+    description
+    ingredients
+    creationDate
+  }
 }
