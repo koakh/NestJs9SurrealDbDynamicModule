@@ -10,6 +10,7 @@ import { AppService } from './app.service';
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 import { configuration } from './common/config';
 import { RecipesModule } from './recipes/recipes.module';
+import { RestaurantsModule } from './restaurants/restaurants.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { RecipesModule } from './recipes/recipes.module';
         },
       }),
     }),
+    RestaurantsModule,
   ],
   controllers: [AppController],
   providers: [

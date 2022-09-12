@@ -3,12 +3,12 @@ import { Max, Min } from 'class-validator';
 
 // TODO: baseClass
 @ArgsType()
-export class RecipesArgs {
-  @Field(() => Int)
+export class RestaurantsArgs {
+  @Field(type => Int)
   @Min(0)
   skip = 0;
 
-  @Field(() => Int)
+  @Field(type => Int)
   // TODO: class-validator put in use with new ValidationPipe()
   @Min(1)
   @Max(50)

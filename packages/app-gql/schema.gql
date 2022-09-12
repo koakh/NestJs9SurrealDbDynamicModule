@@ -17,18 +17,32 @@ type Recipe {
 """Date custom scalar type"""
 scalar Date
 
+type Restaurant {
+  id: ID!
+  guid: String!
+  name: String!
+  description: String
+  creationDate: Date!
+  recipes: [Recipe!]!
+}
+
 type Query {
-  recipe(id: String!): [Recipe!]!
+  recipe(id: String!): Recipe!
   recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
+  restaurant(id: String!): Restaurant!
+  restaurants(skip: Int = 0, take: Int = 25): [Restaurant!]!
 }
 
 type Mutation {
-  addRecipe(newRecipeData: NewRecipeInput!): Recipe!
-  updateRecipe(id: String!, updateRecipeData: UpdateRecipeInput!): Recipe!
+  createRecipe(createRecipeInput: CreateRecipeInput!): Recipe!
+  updateRecipe(id: String!, updateRecipeInput: UpdateRecipeInput!): Recipe!
   removeRecipe(id: String!): Boolean!
+  createRestaurant(createRestaurantInput: CreateRestaurantInput!): Restaurant!
+  updateRestaurant(id: String!, updateRestaurantInput: UpdateRestaurantInput!): Restaurant!
+  removeRestaurant(id: String!): Boolean!
 }
 
-input NewRecipeInput {
+input CreateRecipeInput {
   guid: String!
   title: String!
   description: String
@@ -39,6 +53,20 @@ input UpdateRecipeInput {
   title: String!
   description: String
   ingredients: [String!]!
+}
+
+input CreateRestaurantInput {
+  """Example field (placeholder)"""
+  guid: String!
+  name: String!
+  description: String
+}
+
+input UpdateRestaurantInput {
+  """Example field (placeholder)"""
+  guid: String
+  name: String!
+  description: String
 }
 
 type Subscription {

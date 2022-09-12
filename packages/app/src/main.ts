@@ -1,15 +1,14 @@
-import { Logger, ValidationError, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './filters';
-import { UserInputError } from 'apollo-server-errors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const AppHttpAdapter = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(AppHttpAdapter));
-  // middleware
-  // app.useGlobalPipes(new ValidationPipe());
+  // middleware  
+  app.useGlobalPipes(new ValidationPipe());
   // https://github.com/nestjs/graphql/issues/1053
   // app.useGlobalPipes(
   //   new ValidationPipe({

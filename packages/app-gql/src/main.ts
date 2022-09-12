@@ -14,8 +14,10 @@ async function bootstrap() {
   // get app instances
   const AppHttpAdapter = app.get(HttpAdapterHost);
   const configService = app.get(ConfigService);
-  // middleware
+  // middleware filters
   app.useGlobalFilters(new AllExceptionsFilter(AppHttpAdapter));
+  // TODO: middleware pipes
+  // app.useGlobalPipes(new ValidationPipe());
   // start server
   await app.listen(3000);
   Logger.log(`Application is running on: ${await app.getUrl()}`, context);
