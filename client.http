@@ -399,8 +399,8 @@ Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
 // Authorization: Bearer {{authToken}}
 
-query recipes($skip: Int, $take: Int){
-  recipes(skip: $skip, take: $take){
+query recipes($skip: Int, $take: Int) {
+  recipes(skip: $skip, take: $take) {
     id
     guid
     title
