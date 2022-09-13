@@ -326,7 +326,7 @@ X-REQUEST-TYPE: {{requestType}}
 mutation createRecipe($createRecipeInput: CreateRecipeInput!) {
 	createRecipe(createRecipeInput: $createRecipeInput) {
     id
-    guid
+    uuid
     title
     description
     ingredients
@@ -336,7 +336,7 @@ mutation createRecipe($createRecipeInput: CreateRecipeInput!) {
 
 {
 	"createRecipeInput": {
-    "guid": "{{$guid}}",
+    "uuid": "{{$guid}}",
     "title": "Recipe #{{random}}",
     "description": "some description #{{random}}",
     "ingredients": ["bananas", "apples", "lemons", "pears"]
@@ -354,7 +354,7 @@ X-REQUEST-TYPE: {{requestType}}
 mutation updateRecipe($id: String!, $updateRecipeInput: UpdateRecipeInput!) {
 	updateRecipe(id: $id, updateRecipeInput: $updateRecipeInput) {
     id
-    guid
+    uuid
     title
     description
     ingredients
@@ -363,7 +363,7 @@ mutation updateRecipe($id: String!, $updateRecipeInput: UpdateRecipeInput!) {
 }
 
 {
-  "id": "recipe:4gewokes3t7tmpph04hu",
+  "id": "recipe:q73h8n8s233xu90ai7oy",
 	"updateRecipeInput": {
     "title": "Recipe #{{random}}-MOD",
     "description": "some description #{{random}}-MOD",
@@ -382,7 +382,7 @@ X-REQUEST-TYPE: {{requestType}}
 query recipe($id: String!){
   recipe(id: $id ){
     id
-    guid
+    uuid
     title
     description
     ingredients
@@ -405,7 +405,7 @@ X-REQUEST-TYPE: {{requestType}}
 query recipes($skip: Int, $take: Int) {
   recipes(skip: $skip, take: $take) {
     id
-    guid
+    uuid
     title
     description
     ingredients
@@ -445,7 +445,7 @@ X-REQUEST-TYPE: {{requestType}}
 subscription recipeAdded{
   recipeAdded{
     id
-    guid
+    uuid
     title
     description
     ingredients
@@ -465,22 +465,23 @@ X-REQUEST-TYPE: {{requestType}}
 mutation createRestaurant($createRestaurantInput: CreateRestaurantInput!) {
 	createRestaurant(createRestaurantInput: $createRestaurantInput) {
     id
-    guid
+    uuid
     name
     description
-    # TODO:
-    # recipes {
-    #   title
-    # }
+    email
+    recipes {
+      title
+    }
     creationDate
 	}
 }
 
 {
 	"createRestaurantInput": {
-    "guid": "{{$guid}}",
+    "uuid": "{{$guid}}",
     "name": "Restaurant #{{random}}",
-    "description": "some description #{{random}}"
+    "description": "some description #{{random}}",
+    "email": "fake@email.com"
     // TODO:
     // "recipes": ["bananas", "apples", "lemons", "pears"]
   }
@@ -497,7 +498,7 @@ X-REQUEST-TYPE: {{requestType}}
 mutation updateRestaurant($id: String!, $updateRestaurantInput: UpdateRestaurantInput!) {
 	updateRestaurant(id: $id, updateRestaurantInput: $updateRestaurantInput) {
     id
-    guid
+    uuid
     name
     description
     # recipes {
@@ -508,7 +509,7 @@ mutation updateRestaurant($id: String!, $updateRestaurantInput: UpdateRestaurant
 }
 
 {
-  "id": "restaurant:4itxrl7jdtaapraoxn2t",
+  "id": "restaurant:5ydf1i6ji62qttzmqfxu",
 	"updateRestaurantInput": {
     "name": "Restaurant #{{random}}-MOD",
     "description": "some description #{{random}}-MOD"
@@ -528,7 +529,7 @@ X-REQUEST-TYPE: {{requestType}}
 query restaurant($id: String!){
   restaurant(id: $id ){
     id
-    guid
+    uuid
     name
     description
     # recipes {
@@ -553,7 +554,7 @@ X-REQUEST-TYPE: {{requestType}}
 query restaurants($skip: Int, $take: Int) {
   restaurants(skip: $skip, take: $take) {
     id
-    guid
+    uuid
     name
     description
     # recipes {
@@ -581,7 +582,7 @@ mutation removeRestaurant($id: String!){
 }
 
 {
-  "id": "restaurant:0zxajmnrmimkqb7x2yjt"
+  "id": "restaurant:0a3wm5jrdx88nub9piu6"
 }
 
 ### subscription: restaurantAdded
@@ -595,7 +596,7 @@ X-REQUEST-TYPE: {{requestType}}
 subscription restaurantAdded{
   restaurantAdded{
     id
-    guid
+    uuid
     name
     description
     # recipes {
