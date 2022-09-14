@@ -9,6 +9,8 @@
 
 @thing = person:uv1o55sjes0tdpa31ool
 @thingTobie = person:tobie
+@thingRestaurant = restaurant:a01
+@thingRecipe = recipe:a01
 @token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjI3NjE5MTUsIm5iZiI6MTY2Mjc2MTkxNSwiZXhwIjoxNjYzOTcxNTE1LCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOjB3aGdnZHdna205d2w2aDY4emxjIn0.-bLrZge6Xqm6xTG5Zdp08Suvyrn-vOMJDu12m9kduDhRt7rrW0V2n_4mQYk8ey6UTxtOAktHNpPNzDyZkq3qKg
 
 // local appModule
@@ -314,6 +316,161 @@ Content-Type: application/json
 @requestType = GraphQL
 @random = {{$randomInt 1000 9999}}
 
+## restaurants
+
+### mutation: createRestaurant
+// @name createRestaurant
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+mutation createRestaurant($createRestaurantInput: CreateRestaurantInput!) {
+	createRestaurant(createRestaurantInput: $createRestaurantInput) {
+    id
+    uuid
+    name
+    description
+    email
+    recipes {
+      title
+    }
+    creationDate
+	}
+}
+
+{
+	"createRestaurantInput": {
+    "id": "{{thingRestaurant}}",
+    "uuid": "{{$guid}}",
+    "name": "Restaurant #{{random}}",
+    "description": "some description #{{random}}",
+    "email": "fake@email.com"
+    // TODO:
+    // "recipes": ["bananas", "apples", "lemons", "pears"]
+  }
+}
+
+### mutation: updateRestaurant
+// @name updateRestaurant
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+mutation updateRestaurant($id: String!, $updateRestaurantInput: UpdateRestaurantInput!) {
+	updateRestaurant(id: $id, updateRestaurantInput: $updateRestaurantInput) {
+    id
+    uuid
+    name
+    description
+    recipes {
+      title
+    }
+    creationDate
+	}
+}
+
+{
+  "id": "{{thingRestaurant}}",
+	"updateRestaurantInput": {
+    "name": "Restaurant #{{random}}-MOD",
+    "description": "some description #{{random}}-MOD"
+    // TODO:
+    // "ingredients": ["bananas", "apples", "lemons", "pears", "mod"]
+  }
+}
+
+### query: restaurant
+// @name restaurant
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+query restaurant($id: String!){
+  restaurant(id: $id ){
+    id
+    uuid
+    name
+    description
+    recipes {
+      id
+      title
+    }
+    creationDate
+  }
+}
+
+{
+	"id": "{{thingRestaurant}}"
+}
+
+### query: restaurants
+// @name restaurants
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+query restaurants($skip: Int, $take: Int) {
+  restaurants(skip: $skip, take: $take) {
+    id
+    uuid
+    name
+    description
+    recipes {
+      title
+    }
+    creationDate
+  }
+}
+
+{
+	"skip": 0,
+  "take": 10
+}
+
+### mutation: removeRestaurant
+// @name removeRestaurant
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+mutation removeRestaurant($id: String!){
+  removeRestaurant(id: $id )
+}
+
+{
+  "id": "{{thingRestaurant}}"
+}
+
+### subscription: restaurantAdded
+// @name restaurantAdded
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+subscription restaurantAdded{
+  restaurantAdded{
+    id
+    uuid
+    name
+    description
+    # recipes {
+    #   title
+    # }
+    creationDate
+  }
+}
+
 ### recipes
 
 ### mutation: createRecipe
@@ -330,12 +487,22 @@ mutation createRecipe($createRecipeInput: CreateRecipeInput!) {
     title
     description
     ingredients
+    restaurant{
+      id
+      name
+      recipes {
+        id
+        title
+      }
+    }
     creationDate
 	}
 }
 
 {
 	"createRecipeInput": {
+    // "id": "{{thingRecipe}}",
+    "restaurant": "{{thingRestaurant}}",
     "uuid": "{{$guid}}",
     "title": "Recipe #{{random}}",
     "description": "some description #{{random}}",
@@ -363,7 +530,7 @@ mutation updateRecipe($id: String!, $updateRecipeInput: UpdateRecipeInput!) {
 }
 
 {
-  "id": "recipe:q73h8n8s233xu90ai7oy",
+  "id": "{{thingRecipe}}",
 	"updateRecipeInput": {
     "title": "Recipe #{{random}}-MOD",
     "description": "some description #{{random}}-MOD",
@@ -386,12 +553,16 @@ query recipe($id: String!){
     title
     description
     ingredients
+    restaurant {
+      id
+      name
+    }
     creationDate
   }
 }
 
 {
-	"id": "recipe:1jnl0amqyb1ur5lv8rot"
+	"id": "{{thingRecipe}}"
 }
 
 ### query: recipes
@@ -409,6 +580,10 @@ query recipes($skip: Int, $take: Int) {
     title
     description
     ingredients
+    restaurant {
+      id
+      name
+    }
     creationDate
   }
 }
@@ -431,7 +606,7 @@ mutation removeRecipe($id: String!){
 }
 
 {
-  "id": "recipe:1jnl0amqyb1ur5lv8rot"
+  "id": "recipe:86gxekrv03kee2d1f54d"
 }
 
 ### subscription: recipeAdded
@@ -449,159 +624,6 @@ subscription recipeAdded{
     title
     description
     ingredients
-    creationDate
-  }
-}
-
-## restaurants
-
-### mutation: createRestaurant
-// @name createRestaurant
-POST {{uriGql}} HTTP/1.1
-Content-Type: {{contentType}}
-X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
-
-mutation createRestaurant($createRestaurantInput: CreateRestaurantInput!) {
-	createRestaurant(createRestaurantInput: $createRestaurantInput) {
-    id
-    uuid
-    name
-    description
-    email
-    recipes {
-      title
-    }
-    creationDate
-	}
-}
-
-{
-	"createRestaurantInput": {
-    "uuid": "{{$guid}}",
-    "name": "Restaurant #{{random}}",
-    "description": "some description #{{random}}",
-    "email": "fake@email.com"
-    // TODO:
-    // "recipes": ["bananas", "apples", "lemons", "pears"]
-  }
-}
-
-### mutation: updateRestaurant
-// @name updateRestaurant
-
-POST {{uriGql}} HTTP/1.1
-Content-Type: {{contentType}}
-X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
-
-mutation updateRestaurant($id: String!, $updateRestaurantInput: UpdateRestaurantInput!) {
-	updateRestaurant(id: $id, updateRestaurantInput: $updateRestaurantInput) {
-    id
-    uuid
-    name
-    description
-    # recipes {
-    #   title
-    # }
-    creationDate
-	}
-}
-
-{
-  "id": "restaurant:5ydf1i6ji62qttzmqfxu",
-	"updateRestaurantInput": {
-    "name": "Restaurant #{{random}}-MOD",
-    "description": "some description #{{random}}-MOD"
-    // TODO:
-    // "ingredients": ["bananas", "apples", "lemons", "pears", "mod"]
-  }
-}
-
-### query: restaurant
-// @name restaurant
-
-POST {{uriGql}} HTTP/1.1
-Content-Type: {{contentType}}
-X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
-
-query restaurant($id: String!){
-  restaurant(id: $id ){
-    id
-    uuid
-    name
-    description
-    # recipes {
-    #   title
-    # }
-    creationDate
-  }
-}
-
-{
-	"id": "restaurant:0zxajmnrmimkqb7x2yjt"
-}
-
-### query: restaurants
-// @name restaurants
-
-POST {{uriGql}} HTTP/1.1
-Content-Type: {{contentType}}
-X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
-
-query restaurants($skip: Int, $take: Int) {
-  restaurants(skip: $skip, take: $take) {
-    id
-    uuid
-    name
-    description
-    # recipes {
-    #   title
-    # }
-    creationDate
-  }
-}
-
-{
-	"skip": 0,
-  "take": 10
-}
-
-### mutation: removeRestaurant
-// @name removeRestaurant
-
-POST {{uriGql}} HTTP/1.1
-Content-Type: {{contentType}}
-X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
-
-mutation removeRestaurant($id: String!){
-  removeRestaurant(id: $id )
-}
-
-{
-  "id": "restaurant:0a3wm5jrdx88nub9piu6"
-}
-
-### subscription: restaurantAdded
-// @name restaurantAdded
-
-POST {{uriGql}} HTTP/1.1
-Content-Type: {{contentType}}
-X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
-
-subscription restaurantAdded{
-  restaurantAdded{
-    id
-    uuid
-    name
-    description
-    # recipes {
-    #   title
-    # }
     creationDate
   }
 }
