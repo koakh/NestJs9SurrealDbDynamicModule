@@ -6,8 +6,11 @@ import { AllExceptionsFilter } from './filters';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const AppHttpAdapter = app.get(HttpAdapterHost);
+  // TODO:
+  // const configService = app.get<ConfigService>(ConfigService);
+  // const httpsServerPort = configService.get<string>('httpsServerPort');
   app.useGlobalFilters(new AllExceptionsFilter(AppHttpAdapter));
-  // middleware  
+  // middleware
   app.useGlobalPipes(new ValidationPipe());
   // https://github.com/nestjs/graphql/issues/1053
   // app.useGlobalPipes(

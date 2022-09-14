@@ -8,7 +8,7 @@ export class Restaurant {
 
   @Field()
   @Directive('@upper')
-  guid: string;
+  uuid: string;
 
   @Field()
   name: string;
@@ -16,9 +16,12 @@ export class Restaurant {
   @Field({ nullable: true })
   description?: string;
 
+  @Field({ nullable: true })
+  email: string;
+
   @Field(() => Date)
   creationDate: Date;
 
-  @Field(() => [Recipe])
+  @Field(() => [Recipe], { nullable: true })
   recipes: Recipe[];
 }

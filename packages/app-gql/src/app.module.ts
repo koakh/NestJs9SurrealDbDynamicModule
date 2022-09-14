@@ -7,8 +7,8 @@ import { DirectiveLocation, GraphQLDirective } from 'graphql';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 import { configuration } from './common/config';
+import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 import { RecipesModule } from './recipes/recipes.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 
@@ -49,14 +49,17 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
             }),
           ],
         },
+        // if defined will be always true, or always false, ignoring NODE_ENV
+        // debug: false,
         formatError: (err) => {
+          // TODO:
           // Don't give the specific errors to the client.
-          if (err.message) {
-            return new Error(err.message);
-          }
           // if (err.message.startsWith('Database Error: ')) {
           //   return new Error('Internal server error');
           // }
+          if (err.extensions.code === 'INTERNAL_SERVER_ERROR') {
+            return new Error(err.message);
+          }
           // Otherwise return the original error. The error can also
           // be manipulated in other ways, as long as it's returned.
           return err;
@@ -86,4 +89,4 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }

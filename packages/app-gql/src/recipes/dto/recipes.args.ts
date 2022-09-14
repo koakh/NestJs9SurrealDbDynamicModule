@@ -4,13 +4,15 @@ import { Max, Min } from 'class-validator';
 // TODO: baseClass
 @ArgsType()
 export class RecipesArgs {
-  @Field(() => Int)
-  @Min(0)
-  skip = 0;
+  @Field(() => String, { nullable: true })
+  filter?;
 
-  @Field(() => Int)
-  // TODO: class-validator put in use with new ValidationPipe()
+  @Field(() => Int, { nullable: true })
+  @Min(0)
+  skip? = 0;
+
+  @Field(() => Int, { nullable: true })
   @Min(1)
   @Max(50)
-  take = 25;
+  take? = 25;
 }

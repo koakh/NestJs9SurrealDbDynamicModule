@@ -1,19 +1,37 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsOptional, Length, MaxLength } from 'class-validator';
+import {
+  IsDefined,
+  IsEmail,
+  IsOptional,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
 
 @InputType()
 export class CreateRestaurantInput {
-  @Field({ description: 'Example field (placeholder)' })
-  @MaxLength(36)
-  guid: string;
+  @IsOptional()
+  @Field({
+    description: 'Optional id, if omitted surrealdb generates one',
+    nullable: true,
+  })
+  id: string;
 
-  @Field()
+  @IsUUID()
+  @Field({ description: 'Example field (placeholder)' })
+  uuid: string;
+
+  @IsDefined()
   @MaxLength(30)
+  @Field()
   name: string;
 
+  @IsEmail()
   @Field({ nullable: true })
+  email: string;
+
   @IsOptional()
-  @Length(30, 255)
+  @MaxLength(255)
+  @Field({ nullable: true })
   description?: string;
 
   // TODO: how to add recipes here

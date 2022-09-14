@@ -1,4 +1,5 @@
 import { Directive, Field, ID, ObjectType } from '@nestjs/graphql';
+import { Restaurant } from '../../restaurants/entities';
 
 @ObjectType({ description: 'recipe ' })
 export class Recipe {
@@ -7,7 +8,7 @@ export class Recipe {
 
   @Field()
   @Directive('@upper')
-  guid: string;
+  uuid: string;
 
   @Field()
   title: string;
@@ -20,4 +21,7 @@ export class Recipe {
 
   @Field(() => [String])
   ingredients: string[];
+
+  @Field(() => Restaurant)
+  restaurant: Restaurant;
 }

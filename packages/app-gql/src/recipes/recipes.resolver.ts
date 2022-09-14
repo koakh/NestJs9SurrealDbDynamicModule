@@ -1,5 +1,6 @@
-import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { RestaurantsService } from 'src/restaurants/restaurants.service';
 import { CreateRecipeInput } from './dto/create-recipe.input';
 import { RecipesArgs } from './dto/recipes.args';
 import { UpdateRecipeInput } from './dto/update-recipe.input';
@@ -10,7 +11,10 @@ const pubSub = new PubSub();
 
 @Resolver(() => Recipe)
 export class RecipesResolver {
-  constructor(private readonly recipesService: RecipesService) { }
+  constructor(
+    private readonly recipesService: RecipesService,
+    private readonly restaurantsService: RestaurantsService,
+  ) { }
 
   @Mutation(() => Recipe)
   async createRecipe(@Args('createRecipeInput') createRecipeInput: CreateRecipeInput) {
@@ -25,8 +29,8 @@ export class RecipesResolver {
   }
 
   @Query(() => [Recipe], { name: 'recipes' })
-  async findAll(@Args() recipesArgs: RecipesArgs) {
-    return this.recipesService.findAll(recipesArgs);
+  async findMany(@Args() recipesArgs: RecipesArgs) {
+    return this.recipesService.findMany(recipesArgs);
   }
 
   @Mutation(() => Recipe)
@@ -58,5 +62,12 @@ export class RecipesResolver {
   @Subscription(() => String)
   recipeDeleted() {
     return pubSub.asyncIterator('recipeDeleted');
+  }
+
+  @ResolveField()
+  async restaurant(@Parent() recipe: Recipe) {
+    const { restaurant } = recipe;
+    // hack must cast it to string, because Recipe.restaurant is a id string, not a Restaurant object
+    return this.restaurantsService.findOne(restaurant as unknown as string);
   }
 }

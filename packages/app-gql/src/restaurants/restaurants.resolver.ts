@@ -1,16 +1,20 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { RestaurantsService } from './restaurants.service';
-import { Restaurant } from './entities/restaurant.entity';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { PubSub } from 'graphql-subscriptions';
+import { RecipesService } from '../recipes/recipes.service';
+import { RestaurantsArgs } from './dto';
 import { CreateRestaurantInput } from './dto/create-restaurant.input';
 import { UpdateRestaurantInput } from './dto/update-restaurant.input';
-import { RestaurantsArgs } from './dto';
-import { PubSub } from 'graphql-subscriptions';
+import { Restaurant } from './entities/restaurant.entity';
+import { RestaurantsService } from './restaurants.service';
 
 const pubSub = new PubSub();
 
 @Resolver(() => Restaurant)
 export class RestaurantsResolver {
-  constructor(private readonly restaurantsService: RestaurantsService) { }
+  constructor(
+    private readonly restaurantsService: RestaurantsService,
+    private readonly recipesService: RecipesService,
+  ) { }
 
   @Mutation(() => Restaurant)
   async createRestaurant(
@@ -27,8 +31,8 @@ export class RestaurantsResolver {
   }
 
   @Query(() => [Restaurant], { name: 'restaurants' })
-  async findAll(@Args() restaurantsArgs: RestaurantsArgs) {
-    return this.restaurantsService.findAll(restaurantsArgs);
+  async findMany(@Args() restaurantsArgs: RestaurantsArgs) {
+    return this.restaurantsService.findMany(restaurantsArgs);
   }
 
   @Mutation(() => Restaurant)
@@ -45,5 +49,13 @@ export class RestaurantsResolver {
   async removeRestaurant(@Args('id') id: string) {
     pubSub.publish('restaurantDeleted', { restaurantDeleted: id });
     return this.restaurantsService.remove(id);
+  }
+
+  @ResolveField()
+  async recipes(@Parent() restaurant: Restaurant) {
+    const { id } = restaurant;
+    return this.recipesService.findMany({
+      filter: `restaurant=${id}`,
+    });
   }
 }

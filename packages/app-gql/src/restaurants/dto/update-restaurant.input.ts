@@ -1,5 +1,5 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql';
-import { IsOptional, Length, MaxLength } from 'class-validator';
+import { IsOptional, MaxLength } from 'class-validator';
 import { CreateRestaurantInput } from './create-restaurant.input';
 
 @InputType()
@@ -10,7 +10,7 @@ export class UpdateRestaurantInput extends PartialType(CreateRestaurantInput) {
 
   @Field({ nullable: true })
   @IsOptional()
-  @Length(30, 255)
+  @MaxLength(255)
   description?: string;
 
   // TODO:

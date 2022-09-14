@@ -1,13 +1,12 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
+import { RestaurantsModule } from 'src/restaurants/restaurants.module';
+import { RestaurantsService } from 'src/restaurants/restaurants.service';
 import { DateScalar } from '../common/scalars';
 import { RecipesResolver } from './recipes.resolver';
 import { RecipesService } from './recipes.service';
 
 @Module({
-  imports: [
-    // don't bring here global SurrealDbModule again, surreal is imported in appModules forRoot and is @Global to
-    // SurrealDbModule,
-  ],
-  providers: [RecipesResolver, RecipesService, DateScalar],
+  imports: [forwardRef(() => RestaurantsModule)],
+  providers: [RecipesResolver, RecipesService, DateScalar, RestaurantsService],
 })
 export class RecipesModule { }

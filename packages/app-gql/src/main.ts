@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -16,8 +16,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   // middleware filters
   app.useGlobalFilters(new AllExceptionsFilter(AppHttpAdapter));
-  // TODO: middleware pipes
-  // app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe());
   // start server
   await app.listen(3000);
   Logger.log(`Application is running on: ${await app.getUrl()}`, context);

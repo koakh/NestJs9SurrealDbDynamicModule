@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsOptional, Length, MaxLength } from 'class-validator';
+import { IsOptional, MaxLength } from 'class-validator';
 
 @InputType()
 export class UpdateRecipeInput {
@@ -9,7 +9,7 @@ export class UpdateRecipeInput {
 
   @Field({ nullable: true })
   @IsOptional()
-  @Length(30, 255)
+  @MaxLength(255)
   description?: string;
 
   @Field(() => [String])
