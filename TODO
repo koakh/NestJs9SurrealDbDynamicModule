@@ -16,6 +16,10 @@ Global:
   ☐ change to override default EnvironmentVariables
     try using default variables
 
+  GraphQL App:
+    ☐ @low try to use graph to relate restaurants and recipes, two way links vs record restaurant id on recipe
+      this way works because Restaurant can get recipes, and recipes and FETCH parent Restaurant to
+
 
 Mapped {/, GET} route
 Mapped {/config, GET} route

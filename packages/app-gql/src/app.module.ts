@@ -35,10 +35,7 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        autoSchemaFile: join(
-          process.cwd(),
-          configService.get<string>('GRAPHQL_AUTO_SCHEMA_FILE'),
-        ),
+        autoSchemaFile: join(process.cwd(), configService.get<string>('GRAPHQL_AUTO_SCHEMA_FILE')),
         installSubscriptionHandlers: true,
         transformSchema: (schema) => upperDirectiveTransformer(schema, 'upper'),
         buildSchemaOptions: {

@@ -333,9 +333,15 @@ mutation createRestaurant($createRestaurantInput: CreateRestaurantInput!) {
     description
     email
     recipes {
+      id
       title
+      description
+      ingredients
+      createdAt
+      updatedAt
     }
-    creationDate
+    createdAt
+    updatedAt
 	}
 }
 
@@ -366,9 +372,15 @@ mutation updateRestaurant($id: String!, $updateRestaurantInput: UpdateRestaurant
     name
     description
     recipes {
+      id
       title
+      description
+      ingredients
+      createdAt
+      updatedAt
     }
-    creationDate
+    createdAt
+    updatedAt
 	}
 }
 
@@ -399,8 +411,13 @@ query restaurant($id: String!){
     recipes {
       id
       title
+      description
+      ingredients
+      createdAt
+      updatedAt
     }
-    creationDate
+    createdAt
+    updatedAt
   }
 }
 
@@ -423,9 +440,15 @@ query restaurants($skip: Int, $take: Int) {
     name
     description
     recipes {
+      id
       title
+      description
+      ingredients
+      createdAt
+      updatedAt
     }
-    creationDate
+    createdAt
+    updatedAt
   }
 }
 
@@ -464,10 +487,16 @@ subscription restaurantAdded{
     uuid
     name
     description
-    # recipes {
-    #   title
-    # }
-    creationDate
+    recipes {
+      id
+      title
+      description
+      ingredients
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
   }
 }
 
@@ -493,15 +522,20 @@ mutation createRecipe($createRecipeInput: CreateRecipeInput!) {
       recipes {
         id
         title
+        description
+        ingredients
+        createdAt
+        updatedAt
       }
     }
-    creationDate
+    createdAt
+    updatedAt
 	}
 }
 
 {
 	"createRecipeInput": {
-    // "id": "{{thingRecipe}}",
+    "id": "{{thingRecipe}}",
     "restaurant": "{{thingRestaurant}}",
     "uuid": "{{$guid}}",
     "title": "Recipe #{{random}}",
@@ -525,7 +559,8 @@ mutation updateRecipe($id: String!, $updateRecipeInput: UpdateRecipeInput!) {
     title
     description
     ingredients
-    creationDate
+    createdAt
+    updatedAt
 	}
 }
 
@@ -557,7 +592,8 @@ query recipe($id: String!){
       id
       name
     }
-    creationDate
+    createdAt
+    updatedAt
   }
 }
 
@@ -584,7 +620,8 @@ query recipes($skip: Int, $take: Int) {
       id
       name
     }
-    creationDate
+    createdAt
+    updatedAt
   }
 }
 
@@ -624,6 +661,7 @@ subscription recipeAdded{
     title
     description
     ingredients
-    creationDate
+    createdAt
+    updatedAt
   }
 }

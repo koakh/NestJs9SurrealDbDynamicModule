@@ -1,18 +1,8 @@
-import { ArgsType, Field, Int } from '@nestjs/graphql';
-import { Max, Min } from 'class-validator';
+import { ArgsType, Field } from '@nestjs/graphql';
+import { PaginationArgs } from '../../common/dto';
 
-// TODO: baseClass
 @ArgsType()
-export class RestaurantsArgs {
+export class RestaurantsArgs extends PaginationArgs {
   @Field(() => String, { nullable: true })
-  filter?;
-
-  @Field(() => Int)
-  @Min(0)
-  skip? = 0;
-
-  @Field(() => Int)
-  @Min(1)
-  @Max(50)
-  take? = 25;
+  filter?: string;
 }

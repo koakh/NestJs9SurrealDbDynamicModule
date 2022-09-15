@@ -1,11 +1,9 @@
-import { Directive, Field, ID, ObjectType } from '@nestjs/graphql';
+import { Directive, Field, ObjectType } from '@nestjs/graphql';
+import { BaseEntity } from '../../common/entities';
 import { Restaurant } from '../../restaurants/entities';
 
 @ObjectType({ description: 'recipe ' })
-export class Recipe {
-  @Field(() => ID)
-  id: string;
-
+export class Recipe extends BaseEntity {
   @Field()
   @Directive('@upper')
   uuid: string;
@@ -15,9 +13,6 @@ export class Recipe {
 
   @Field({ nullable: true })
   description?: string;
-
-  @Field(() => Date)
-  creationDate: Date;
 
   @Field(() => [String])
   ingredients: string[];

@@ -4,17 +4,14 @@ import { RestaurantsService } from 'src/restaurants/restaurants.service';
 import { CreateRecipeInput } from './dto/create-recipe.input';
 import { RecipesArgs } from './dto/recipes.args';
 import { UpdateRecipeInput } from './dto/update-recipe.input';
-import { Recipe } from './entities/recipe.model';
+import { Recipe } from './entities/recipe.entity';
 import { RecipesService } from './recipes.service';
 
 const pubSub = new PubSub();
 
 @Resolver(() => Recipe)
 export class RecipesResolver {
-  constructor(
-    private readonly recipesService: RecipesService,
-    private readonly restaurantsService: RestaurantsService,
-  ) { }
+  constructor(private readonly recipesService: RecipesService, private readonly restaurantsService: RestaurantsService) {}
 
   @Mutation(() => Recipe)
   async createRecipe(@Args('createRecipeInput') createRecipeInput: CreateRecipeInput) {
@@ -34,10 +31,7 @@ export class RecipesResolver {
   }
 
   @Mutation(() => Recipe)
-  async updateRecipe(
-    @Args('id') id: string,
-    @Args('updateRecipeInput') updateRecipeInput: UpdateRecipeInput,
-  ) {
+  async updateRecipe(@Args('id') id: string, @Args('updateRecipeInput') updateRecipeInput: UpdateRecipeInput) {
     const recipe = await this.recipesService.update(id, updateRecipeInput);
     pubSub.publish('recipeUpdated', { recipeAdded: recipe });
     return recipe;

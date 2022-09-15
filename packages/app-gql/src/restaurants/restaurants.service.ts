@@ -1,10 +1,6 @@
 import { SurrealDbService } from '@koakh/nestjs-surrealdb';
 import { Injectable } from '@nestjs/common';
-import {
-  CreateRestaurantInput,
-  RestaurantsArgs,
-  UpdateRestaurantInput
-} from './dto';
+import { CreateRestaurantInput, RestaurantsArgs, UpdateRestaurantInput } from './dto';
 import { Restaurant } from './entities/restaurant.entity';
 
 @Injectable()
@@ -15,16 +11,13 @@ export class RestaurantsService {
     const id = data?.id ? data.id : Restaurant.name.toLowerCase();
     return (await this.surrealDb.create(id, {
       ...data,
-      creationDate: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     })) as Restaurant;
   }
 
   // TODO: almost equal just use generics here or a base class
-  async findMany({
-    filter,
-    skip,
-    take,
-  }: RestaurantsArgs): Promise<Restaurant[]> {
+  async findMany({ filter, skip, take }: RestaurantsArgs): Promise<Restaurant[]> {
     // TODO: add surrealDb helper method with this sql in constants
     const where = filter ? ` WHERE ${filter}` : '';
     const limit = take != undefined ? ` LIMIT ${take}` : '';
@@ -49,13 +42,11 @@ export class RestaurantsService {
     if (data && Array.isArray(data) && data.length > 1) {
       throw new Error('found more than one record');
     }
-    return data && Array.isArray(data) && data.length === 1
-      ? (data[0] as unknown as Restaurant[])
-      : [];
+    return data && Array.isArray(data) && data.length === 1 ? (data[0] as unknown as Restaurant[]) : [];
   }
 
   async update(id: string, data: UpdateRestaurantInput): Promise<Restaurant> {
-    return (await this.surrealDb.change(id, data)) as any as Restaurant;
+    return (await this.surrealDb.change(id, { ...data, updatedAt: new Date() })) as any as Restaurant;
   }
 
   async remove(id: string): Promise<boolean> {

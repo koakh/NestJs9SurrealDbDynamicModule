@@ -11,15 +11,10 @@ const pubSub = new PubSub();
 
 @Resolver(() => Restaurant)
 export class RestaurantsResolver {
-  constructor(
-    private readonly restaurantsService: RestaurantsService,
-    private readonly recipesService: RecipesService,
-  ) { }
+  constructor(private readonly restaurantsService: RestaurantsService, private readonly recipesService: RecipesService) {}
 
   @Mutation(() => Restaurant)
-  async createRestaurant(
-    @Args('createRestaurantInput') createRestaurantInput: CreateRestaurantInput,
-  ) {
+  async createRestaurant(@Args('createRestaurantInput') createRestaurantInput: CreateRestaurantInput) {
     const restaurant = await this.restaurantsService.create(createRestaurantInput);
     pubSub.publish('restaurantAdded', { restaurantAdded: restaurant });
     return restaurant;
@@ -36,10 +31,7 @@ export class RestaurantsResolver {
   }
 
   @Mutation(() => Restaurant)
-  async updateRestaurant(
-    @Args('id') id: string,
-    @Args('updateRestaurantInput') updateRestaurantInput: UpdateRestaurantInput,
-  ) {
+  async updateRestaurant(@Args('id') id: string, @Args('updateRestaurantInput') updateRestaurantInput: UpdateRestaurantInput) {
     const restaurant = await this.restaurantsService.update(id, updateRestaurantInput);
     pubSub.publish('restaurantUpdated', { restaurantAdded: restaurant });
     return restaurant;

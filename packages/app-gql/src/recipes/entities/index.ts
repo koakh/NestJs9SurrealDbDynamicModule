@@ -1,1 +1,1 @@
-export * from './recipe.model';
+export * from './recipe.entity';

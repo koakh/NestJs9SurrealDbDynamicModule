@@ -14,7 +14,8 @@ export class RecipesService {
     const id = data?.id ? data.id : Recipe.name.toLowerCase();
     return (await this.surrealDb.create(id, {
       ...data,
-      creationDate: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     })) as Recipe;
   }
 
@@ -43,7 +44,7 @@ export class RecipesService {
   }
 
   async update(id: string, data: UpdateRecipeInput): Promise<Recipe> {
-    return (await this.surrealDb.change(id, data)) as any as Recipe;
+    return (await this.surrealDb.change(id, { ...data, updatedAt: new Date() })) as any as Recipe;
   }
 
   async remove(id: string): Promise<boolean> {
