@@ -1,15 +1,11 @@
 import { SurrealDbService } from '@koakh/nestjs-surrealdb';
 import { Injectable, Type } from '@nestjs/common';
-import { CreateRestaurantInput, UpdateRestaurantInput } from '../../restaurants/dto';
+import { BaseCreateEntityInput, BaseUpdateEntityInput } from '../dto';
 import { BaseFindAllArgs } from '../dto/base-find-all.args';
 import { BaseEntity } from '../entities';
 
-// T EntityType ex Recipe
-// K CreateEntityInput ex CreateRecipeInput
-// V EntityArgs ex RecipesArgs
-// Z UpdateEntityInput ex UpdateRecipeInput
 @Injectable()
-export abstract class BaseService<T extends Type<BaseEntity>, K extends CreateRestaurantInput, V extends BaseFindAllArgs, Z extends UpdateRestaurantInput> {
+export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFindAllArgs, V extends BaseCreateEntityInput, Z extends BaseUpdateEntityInput> {
   protected readonly surrealDb: SurrealDbService;
   protected entityName: T;
 
