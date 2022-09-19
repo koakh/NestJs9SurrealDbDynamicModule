@@ -1,8 +1,8 @@
 import { SurrealDbService } from '@koakh/nestjs-surrealdb';
 import { Injectable } from '@nestjs/common';
+import { BaseFindAllArgs } from '../common/dto/base-find-all.args';
 import { UpdateRecipeInput } from './dto';
 import { CreateRecipeInput } from './dto/create-recipe.input';
-import { RecipesArgs } from './dto/recipes.args';
 import { Recipe } from './entities';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class RecipesService {
   }
 
   // TODO: almost equal just use generics here or a base class
-  async findMany({ filter, skip, take }: RecipesArgs): Promise<Recipe[]> {
+  async findMany({ filter, skip, take }: BaseFindAllArgs): Promise<Recipe[]> {
     // TODO: add surrealDb helper method with this sql in constants
     const where = filter ? ` WHERE ${filter} ` : '';
     const limit = take != undefined ? ` LIMIT ${take}` : '';

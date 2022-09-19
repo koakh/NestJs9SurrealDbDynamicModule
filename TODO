@@ -17,6 +17,7 @@ Global:
     try using default variables
 
   GraphQL App:
+    ☐ add base classes and abstract classes ex resolvers and common services
     ☐ @low try to use graph to relate restaurants and recipes, two way links vs record restaurant id on recipe
       this way works because Restaurant can get recipes, and recipes and FETCH parent Restaurant to
 

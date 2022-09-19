@@ -1,8 +1,8 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { BaseFindAllArgs } from '../common/dto/base-find-all.args';
 import { RestaurantsService } from 'src/restaurants/restaurants.service';
 import { CreateRecipeInput } from './dto/create-recipe.input';
-import { RecipesArgs } from './dto/recipes.args';
 import { UpdateRecipeInput } from './dto/update-recipe.input';
 import { Recipe } from './entities/recipe.entity';
 import { RecipesService } from './recipes.service';
@@ -26,8 +26,8 @@ export class RecipesResolver {
   }
 
   @Query(() => [Recipe], { name: 'recipes' })
-  async findMany(@Args() recipesArgs: RecipesArgs) {
-    return this.recipesService.findMany(recipesArgs);
+  async findMany(@Args() args: BaseFindAllArgs) {
+    return this.recipesService.findMany(args);
   }
 
   @Mutation(() => Recipe)

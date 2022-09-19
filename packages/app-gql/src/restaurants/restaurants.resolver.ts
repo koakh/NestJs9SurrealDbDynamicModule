@@ -1,7 +1,7 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
+import { BaseFindAllArgs } from '../common/dto/base-find-all.args';
 import { RecipesService } from '../recipes/recipes.service';
-import { RestaurantsArgs } from './dto';
 import { CreateRestaurantInput } from './dto/create-restaurant.input';
 import { UpdateRestaurantInput } from './dto/update-restaurant.input';
 import { Restaurant } from './entities/restaurant.entity';
@@ -10,8 +10,11 @@ import { RestaurantsService } from './restaurants.service';
 const pubSub = new PubSub();
 
 @Resolver(() => Restaurant)
-export class RestaurantsResolver {
-  constructor(private readonly restaurantsService: RestaurantsService, private readonly recipesService: RecipesService) {}
+// export class RestaurantsResolver
+export class RestaurantsResolver /*extends BaseResolver(Restaurant, RepositoryService<Restaurant>)*/ {
+  constructor(private readonly restaurantsService: RestaurantsService, private readonly recipesService: RecipesService) {
+    /*super();*/
+  }
 
   @Mutation(() => Restaurant)
   async createRestaurant(@Args('createRestaurantInput') createRestaurantInput: CreateRestaurantInput) {
@@ -26,8 +29,8 @@ export class RestaurantsResolver {
   }
 
   @Query(() => [Restaurant], { name: 'restaurants' })
-  async findMany(@Args() restaurantsArgs: RestaurantsArgs) {
-    return this.restaurantsService.findMany(restaurantsArgs);
+  async findMany(@Args() args: BaseFindAllArgs) {
+    return this.restaurantsService.findMany(args);
   }
 
   @Mutation(() => Restaurant)
