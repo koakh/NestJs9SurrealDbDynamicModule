@@ -1,9 +1,9 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsOptional, MaxLength } from 'class-validator';
-import { CreateRestaurantInput } from './create-restaurant.input';
+import { BaseUpdateEntityInput } from '../../common/dto/base-update-entity.input';
 
 @InputType()
-export class UpdateRestaurantInput extends PartialType(CreateRestaurantInput) {
+export class UpdateRestaurantInput extends BaseUpdateEntityInput {
   @Field()
   @MaxLength(30)
   name: string;
@@ -12,8 +12,4 @@ export class UpdateRestaurantInput extends PartialType(CreateRestaurantInput) {
   @IsOptional()
   @MaxLength(255)
   description?: string;
-
-  // TODO:
-  // @Field(() => [Recipe])
-  // recipes: Recipe[];
 }

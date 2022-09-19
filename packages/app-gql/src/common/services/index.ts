@@ -1,1 +1,1 @@
-export * from './entity-abstract.service';
+export * from './base.service';

@@ -1,20 +1,32 @@
 import { SurrealDbService } from '@koakh/nestjs-surrealdb';
+import { Injectable, Type } from '@nestjs/common';
+import { CreateRestaurantInput } from '../../restaurants/dto';
+import { BaseFindAllArgs } from '../dto/base-find-all.args';
+import { BaseUpdateEntityInput } from '../dto/base-update-entity.input';
+import { BaseEntity } from '../entities';
 
 // T EntityType ex Recipe
 // K CreateEntityInput ex CreateRecipeInput
 // V EntityArgs ex RecipesArgs
 // Z UpdateEntityInput ex UpdateRecipeInput
-export abstract class EntityService<T, K, V, Z> {
-  constructor(private readonly surrealDb: SurrealDbService) { }
+@Injectable()
+export abstract class BaseService<T extends Type<BaseEntity>, K extends CreateRestaurantInput, V extends BaseFindAllArgs, Z extends BaseUpdateEntityInput> {
+  // constructor(protected readonly surrealDb: SurrealDbService, @Optional() classRef: T) {}
+  // TODO: it will uses child service and works, there is no need to pass in constructor
+  protected readonly surrealDb: SurrealDbService;
+  protected symbol: T;
 
-  // async create(data: K): Promise<T> {
-  //   // await this.surrealDb.thingExists(data.restaurant);
-  //   const id = data?.id ? data.id : Recipe.name.toLowerCase();
-  //   return (await this.surrealDb.create(id, {
-  //     ...data,
-  //     creationDate: new Date(),
-  //   })) as Recipe;
-  // }
+  // constructor(surrealDb: SurrealDbService, classRef: T) {}
+
+  async create(data: K): Promise<T> {
+    // await this.surrealDb.thingExists(data.restaurant);
+    const id = data?.id ? data.id : this.symbol.name.toLowerCase();
+    return (await this.surrealDb.create(id, {
+      ...data,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })) as T;
+  }
 
   // // TODO: almost equal just use generics here or a base class
   // async findMany({ filter, skip, take }: V): Promise<T[]> {

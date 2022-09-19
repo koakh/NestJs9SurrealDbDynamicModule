@@ -76,13 +76,7 @@ input CreateRestaurantInput {
 }
 
 input UpdateRestaurantInput {
-  """Optional id, if omitted surrealdb generates one"""
-  id: String
-
-  """Example field (placeholder)"""
-  uuid: String
   name: String!
-  email: String
   description: String
 }
 

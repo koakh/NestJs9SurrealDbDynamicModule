@@ -1,22 +1,26 @@
 import { SurrealDbService } from '@koakh/nestjs-surrealdb';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Type } from '@nestjs/common';
 import { BaseFindAllArgs } from '../common/dto/base-find-all.args';
+import { BaseService } from '../common/services';
+import { UpdateRecipeInput } from '../recipes/dto';
 import { CreateRestaurantInput, UpdateRestaurantInput } from './dto';
 import { Restaurant } from './entities/restaurant.entity';
 
 @Injectable()
-export class RestaurantsService /*extends RepositoryService<Type<Restaurant>>*/ {
-  constructor(private readonly surrealDb: SurrealDbService) {
-    /*super(surrealDb);*/
+export class RestaurantsService extends BaseService<Type<Restaurant>, CreateRestaurantInput, BaseFindAllArgs, UpdateRecipeInput> {
+  constructor(protected readonly surrealDb: SurrealDbService) {
+    super();
+    this.symbol = Restaurant;
   }
 
-  async create(data: CreateRestaurantInput) {
-    const id = data?.id ? data.id : Restaurant.name.toLowerCase();
-    return (await this.surrealDb.create(id, {
-      ...data,
-      createdAt: new Date(),
-    })) as Restaurant;
-  }
+  // TODO: already in BaseService and Working
+  // async create(data: CreateRestaurantInput) {
+  //   const id = data?.id ? data.id : Restaurant.name.toLowerCase();
+  //   return (await this.surrealDb.create(id, {
+  //     ...data,
+  //     createdAt: new Date(),
+  //   })) as Restaurant;
+  // }
 
   // TODO: almost equal just use generics here or a base class
   async findMany({ filter, skip, take }: BaseFindAllArgs): Promise<Restaurant[]> {

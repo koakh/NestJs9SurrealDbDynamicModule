@@ -1,20 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
-import {
-  IsDefined,
-  IsEmail,
-  IsOptional,
-  IsUUID,
-  MaxLength,
-} from 'class-validator';
+import { IsDefined, IsEmail, IsOptional, IsUUID, MaxLength } from 'class-validator';
+import { BaseCreateEntityInput } from '../../common/dto/base-create-entity.input';
 
 @InputType()
-export class CreateRestaurantInput {
-  @IsOptional()
-  @Field({
-    description: 'Optional id, if omitted surrealdb generates one',
-    nullable: true,
-  })
-  id: string;
+export class CreateRestaurantInput extends BaseCreateEntityInput {
+  // @IsOptional()
+  // @Field({
+  //   description: 'Optional id, if omitted surrealdb generates one',
+  //   nullable: true,
+  // })
+  // id: string;
 
   @IsUUID()
   @Field({ description: 'Example field (placeholder)' })
