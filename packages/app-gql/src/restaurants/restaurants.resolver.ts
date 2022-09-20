@@ -32,20 +32,4 @@ export class RestaurantsResolver extends BaseResolver(Restaurant) {
       filter: `restaurant=${id}`,
     });
   }
-
-  // @Query(() => Restaurant, { name: 'findOneRestaurant' })
-  // async findOne(@Args('id') id: string) {
-  //   return this.restaurantsService.findOne(id);
-  // }
-
-  // @Query(() => [Restaurant], { name: 'findManyRestaurants' })
-  // async findMany(@Args() args: BaseFindAllArgs) {
-  //   return this.restaurantsService.findMany(args);
-  // }
-
-  // @Mutation(() => Boolean)
-  // async removeRestaurant(@Args('id') id: string) {
-  //   this.pubSub.publish('restaurantDeleted', { restaurantDeleted: id });
-  //   return this.restaurantsService.remove(id);
-  // }
 }

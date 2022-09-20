@@ -32,35 +32,4 @@ export class RecipesResolver extends BaseResolver(Recipe) {
     // hack must cast it to string, because Recipe.restaurant is a id string, not a Restaurant object
     return this.restaurantsService.findOne(restaurant as unknown as string);
   }
-
-  // @Query(() => Recipe, { name: 'findOneRecipe' })
-  // async findOne(@Args('id') id: string) {
-  //   return this.recipesService.findOne(id);
-  // }
-
-  // @Query(() => [Recipe], { name: 'findManyRecipes' })
-  // async findMany(@Args() args: BaseFindAllArgs) {
-  //   return this.recipesService.findMany(args);
-  // }
-
-  // @Mutation(() => Boolean)
-  // async removeRecipe(@Args('id') id: string) {
-  //   pubSub.publish('recipeDeleted', { recipeDeleted: id });
-  //   return this.recipesService.remove(id);
-  // }
-
-  // @Subscription(() => Recipe)
-  // recipeAdded() {
-  //   return this.pubSub.asyncIterator('recipeAdded');
-  // }
-
-  // @Subscription(() => Recipe)
-  // recipeUpdated() {
-  //   return this.pubSub.asyncIterator('recipeUpdated');
-  // }
-
-  // @Subscription(() => String)
-  // recipeDeleted() {
-  //   return this.pubSub.asyncIterator('recipeDeleted');
-  // }
 }
