@@ -9,8 +9,8 @@
 
 @thing = person:uv1o55sjes0tdpa31ool
 @thingTobie = person:tobie
-@thingRestaurant = restaurant:a01
-@thingRecipe = recipe:a01
+@thingRestaurant = restaurant:a07
+@thingRecipe = recipe:a07
 @token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjI3NjE5MTUsIm5iZiI6MTY2Mjc2MTkxNSwiZXhwIjoxNjYzOTcxNTE1LCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOjB3aGdnZHdna205d2w2aDY4emxjIn0.-bLrZge6Xqm6xTG5Zdp08Suvyrn-vOMJDu12m9kduDhRt7rrW0V2n_4mQYk8ey6UTxtOAktHNpPNzDyZkq3qKg
 
 // local appModule
@@ -394,16 +394,16 @@ mutation updateRestaurant($id: String!, $updateRestaurantInput: UpdateRestaurant
   }
 }
 
-### query: restaurant
-// @name restaurant
+### query: findOneRestaurant
+// @name findOneRestaurant
 
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
 // Authorization: Bearer {{authToken}}
 
-query restaurant($id: String!){
-  restaurant(id: $id ){
+query findOneRestaurant($id: String!){
+  findOneRestaurant(id: $id ){
     id
     uuid
     name
@@ -425,16 +425,16 @@ query restaurant($id: String!){
 	"id": "{{thingRestaurant}}"
 }
 
-### query: restaurants
-// @name restaurants
+### query: findManyRestaurants
+// @name findManyRestaurants
 
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
 // Authorization: Bearer {{authToken}}
 
-query restaurants($skip: Int, $take: Int) {
-  restaurants(skip: $skip, take: $take) {
+query findManyRestaurants($skip: Int, $take: Int) {
+  findManyRestaurants(skip: $skip, take: $take) {
     id
     uuid
     name
@@ -573,16 +573,16 @@ mutation updateRecipe($id: String!, $updateRecipeInput: UpdateRecipeInput!) {
   }
 }
 
-### query: recipe
-// @name recipe
+### query: findOneRecipe
+// @name findOneRecipe
 
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
 // Authorization: Bearer {{authToken}}
 
-query recipe($id: String!){
-  recipe(id: $id ){
+query findOneRecipe($id: String!){
+  findOneRecipe(id: $id ){
     id
     uuid
     title
@@ -601,16 +601,16 @@ query recipe($id: String!){
 	"id": "{{thingRecipe}}"
 }
 
-### query: recipes
-// @name recipes
+### query: findManyRecipes
+// @name findManyRecipes
 
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
 // Authorization: Bearer {{authToken}}
 
-query recipes($skip: Int, $take: Int) {
-  recipes(skip: $skip, take: $take) {
+query findManyRecipes($skip: Int, $take: Int) {
+  findManyRecipes(skip: $skip, take: $take) {
     id
     uuid
     title

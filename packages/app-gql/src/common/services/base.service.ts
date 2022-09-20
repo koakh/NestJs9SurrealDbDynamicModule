@@ -6,10 +6,14 @@ import { BaseEntity } from '../entities';
 
 @Injectable()
 export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFindAllArgs, V extends BaseCreateEntityInput, Z extends BaseUpdateEntityInput> {
-  protected readonly surrealDb: SurrealDbService;
+  protected surrealDb: SurrealDbService;
   protected entityName: T;
 
-  async create(data: K): Promise<T> {
+  constructor(surrealDb: SurrealDbService) {
+    this.surrealDb = surrealDb;
+  }
+
+  async create(data: V): Promise<T> {
     // await this.surrealDb.thingExists(data.restaurant);
     const id = data?.id ? data.id : this.entityName.name.toLowerCase();
     return (await this.surrealDb.create(id, {
@@ -19,7 +23,7 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
     })) as T;
   }
 
-  async findMany({ filter, skip, take }: V): Promise<T[]> {
+  async findMany({ filter, skip, take }: K): Promise<T[]> {
     const where = filter ? ` WHERE ${filter} ` : '';
     const limit = take != undefined ? ` LIMIT ${take}` : '';
     const start = skip != undefined ? ` START ${skip}` : '';

@@ -31,19 +31,19 @@ type Restaurant {
 }
 
 type Query {
-  recipe(id: String!): Recipe!
-  recipes(skip: Int = 0, take: Int = 25, filter: String): [Recipe!]!
-  restaurant(id: String!): Restaurant!
-  restaurants(skip: Int = 0, take: Int = 25, filter: String): [Restaurant!]!
+  findOneRecipe(id: String!): [Recipe!]!
+  findManyRecipes(skip: Int = 0, take: Int = 25, filter: String): [Recipe!]!
+  findOneRestaurant(id: String!): [Restaurant!]!
+  findManyRestaurants(skip: Int = 0, take: Int = 25, filter: String): [Restaurant!]!
 }
 
 type Mutation {
+  removeRecipe(id: String!): Boolean!
   createRecipe(createRecipeInput: CreateRecipeInput!): Recipe!
   updateRecipe(id: String!, updateRecipeInput: UpdateRecipeInput!): Recipe!
-  removeRecipe(id: String!): Boolean!
+  removeRestaurant(id: String!): Boolean!
   createRestaurant(createRestaurantInput: CreateRestaurantInput!): Restaurant!
   updateRestaurant(id: String!, updateRestaurantInput: UpdateRestaurantInput!): Restaurant!
-  removeRestaurant(id: String!): Boolean!
 }
 
 input CreateRecipeInput {
@@ -81,7 +81,10 @@ input UpdateRestaurantInput {
 }
 
 type Subscription {
-  recipeAdded: Recipe!
-  recipeUpdated: Recipe!
+  recipeAdded: [Recipe!]!
+  recipeUpdated: [Recipe!]!
   recipeDeleted: String!
+  restaurantAdded: [Restaurant!]!
+  restaurantUpdated: [Restaurant!]!
+  restaurantDeleted: String!
 }

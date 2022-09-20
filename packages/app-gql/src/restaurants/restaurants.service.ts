@@ -8,7 +8,7 @@ import { Restaurant } from './entities/restaurant.entity';
 @Injectable()
 export class RestaurantsService extends BaseService<Type<Restaurant>, BaseFindAllArgs, CreateRestaurantInput, UpdateRestaurantInput> {
   constructor(protected readonly surrealDb: SurrealDbService) {
-    super();
+    super(surrealDb);
     this.entityName = Restaurant;
   }
 }

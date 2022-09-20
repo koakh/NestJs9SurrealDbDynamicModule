@@ -9,7 +9,7 @@ import { Recipe } from './entities';
 @Injectable()
 export class RecipesService extends BaseService<Type<Recipe>, BaseFindAllArgs, CreateRecipeInput, UpdateRecipeInput> {
   constructor(protected readonly surrealDb: SurrealDbService) {
-    super();
+    super(surrealDb);
     this.entityName = Recipe;
   }
 }
