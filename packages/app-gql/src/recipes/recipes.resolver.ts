@@ -1,13 +1,10 @@
 import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { PubSub } from 'graphql-subscriptions';
 import { RestaurantsService } from 'src/restaurants/restaurants.service';
 import { BaseResolver } from '../common/resolvers';
 import { CreateRecipeInput } from './dto/create-recipe.input';
 import { UpdateRecipeInput } from './dto/update-recipe.input';
 import { Recipe } from './entities/recipe.entity';
 import { RecipesService } from './recipes.service';
-
-const pubSub = new PubSub();
 
 @Resolver(() => Recipe)
 export class RecipesResolver extends BaseResolver(Recipe) {
@@ -18,14 +15,14 @@ export class RecipesResolver extends BaseResolver(Recipe) {
   @Mutation(() => Recipe)
   async createRecipe(@Args('createRecipeInput') createRecipeInput: CreateRecipeInput) {
     const recipe = await this.recipesService.create(createRecipeInput);
-    pubSub.publish('recipeAdded', { recipeAdded: recipe });
+    this.pubSub.publish('recipeAdded', { recipeAdded: recipe });
     return recipe;
   }
 
   @Mutation(() => Recipe)
   async updateRecipe(@Args('id') id: string, @Args('updateRecipeInput') updateRecipeInput: UpdateRecipeInput) {
     const recipe = await this.recipesService.update(id, updateRecipeInput);
-    pubSub.publish('recipeUpdated', { recipeAdded: recipe });
+    this.pubSub.publish('recipeUpdated', { recipeAdded: recipe });
     return recipe;
   }
 
@@ -54,16 +51,16 @@ export class RecipesResolver extends BaseResolver(Recipe) {
 
   // @Subscription(() => Recipe)
   // recipeAdded() {
-  //   return pubSub.asyncIterator('recipeAdded');
+  //   return this.pubSub.asyncIterator('recipeAdded');
   // }
 
   // @Subscription(() => Recipe)
   // recipeUpdated() {
-  //   return pubSub.asyncIterator('recipeUpdated');
+  //   return this.pubSub.asyncIterator('recipeUpdated');
   // }
 
   // @Subscription(() => String)
   // recipeDeleted() {
-  //   return pubSub.asyncIterator('recipeDeleted');
+  //   return this.pubSub.asyncIterator('recipeDeleted');
   // }
 }

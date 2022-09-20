@@ -5,8 +5,6 @@ import { BaseCreateEntityInput, BaseFindAllArgs, BaseUpdateEntityInput } from '.
 import { BaseEntity } from '../entities';
 import { BaseService } from '../services';
 
-const pubSub = new PubSub();
-
 // TODO: to complex to pass @InputTypes like CreateRestaurantInput with generics
 // try to use generic types of concrete CreateRestaurantInput, UpdateRestaurantInput, CreateRecipeInput, UpdateRecipeInput
 
@@ -18,6 +16,8 @@ export function BaseResolver<T extends Type<BaseEntity> /*, S extends BaseServic
   // shouldn't be generated for this class. Note, you can set this property for other types as well to suppress SDL generation.
   @Resolver({ isAbstract: true })
   abstract class BaseResolverHost {
+    protected pubSub = new PubSub();
+
     constructor(private readonly serviceRef: BaseService<Type<BaseEntity>, BaseFindAllArgs, BaseCreateEntityInput, BaseUpdateEntityInput>) { }
 
     // TODO: hard to pass generic type CreateRestaurantInput, CreateRecipeInput etc
@@ -28,7 +28,7 @@ export function BaseResolver<T extends Type<BaseEntity> /*, S extends BaseServic
     //   return restaurant;
     // }
 
-    @Query(() => [classRef], { name: `findOne${classRef.name}` })
+    @Query(() => classRef, { name: `findOne${classRef.name}` })
     async findOne(@Args('id') id: string) {
       return this.serviceRef.findOne(id);
     }
@@ -40,24 +40,24 @@ export function BaseResolver<T extends Type<BaseEntity> /*, S extends BaseServic
     }
 
     @Mutation(() => Boolean, { name: `remove${classRef.name}` })
-    async remove(@Args('id') id: string) {
-      pubSub.publish(`${classRef.name.toLowerCase()}Deleted`, { [`${classRef.name.toLowerCase()}Deleted`]: id });
+    async removeEntity(@Args('id') id: string) {
+      this.pubSub.publish(`${classRef.name.toLowerCase()}Deleted`, { [`${classRef.name.toLowerCase()}Deleted`]: id });
       return this.serviceRef.remove(id);
     }
 
-    @Subscription(() => [classRef], { name: `${classRef.name.toLowerCase()}Added` })
+    @Subscription(() => classRef, { name: `${classRef.name.toLowerCase()}Added` })
     entityAdded() {
-      return pubSub.asyncIterator(`${classRef.name.toLowerCase()}Added`);
+      return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Added`);
     }
 
-    @Subscription(() => [classRef], { name: `${classRef.name.toLowerCase()}Updated` })
+    @Subscription(() => classRef, { name: `${classRef.name.toLowerCase()}Updated` })
     entityUpdated() {
-      return pubSub.asyncIterator(`${classRef.name.toLowerCase()}Updated`);
+      return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Updated`);
     }
 
     @Subscription(() => String, { name: `${classRef.name.toLowerCase()}Deleted` })
     entityDeleted() {
-      return pubSub.asyncIterator(`${classRef.name.toLowerCase()}Deleted`);
+      return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Deleted`);
     }
   }
   return BaseResolverHost;

@@ -31,9 +31,9 @@ type Restaurant {
 }
 
 type Query {
-  findOneRecipe(id: String!): [Recipe!]!
+  findOneRecipe(id: String!): Recipe!
   findManyRecipes(skip: Int = 0, take: Int = 25, filter: String): [Recipe!]!
-  findOneRestaurant(id: String!): [Restaurant!]!
+  findOneRestaurant(id: String!): Restaurant!
   findManyRestaurants(skip: Int = 0, take: Int = 25, filter: String): [Restaurant!]!
 }
 
@@ -81,10 +81,10 @@ input UpdateRestaurantInput {
 }
 
 type Subscription {
-  recipeAdded: [Recipe!]!
-  recipeUpdated: [Recipe!]!
+  recipeAdded: Recipe!
+  recipeUpdated: Recipe!
   recipeDeleted: String!
-  restaurantAdded: [Restaurant!]!
-  restaurantUpdated: [Restaurant!]!
+  restaurantAdded: Restaurant!
+  restaurantUpdated: Restaurant!
   restaurantDeleted: String!
 }
