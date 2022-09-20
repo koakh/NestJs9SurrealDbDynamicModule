@@ -4,13 +4,6 @@ import { BaseCreateEntityInput } from '../../common/dto/base-create-entity.input
 
 @InputType()
 export class CreateRecipeInput extends BaseCreateEntityInput {
-  // @IsOptional()
-  // @Field({
-  //   description: 'Optional id, if omitted surrealdb generates one',
-  //   nullable: true,
-  // })
-  // id: string;
-
   @IsUUID()
   @Field({ description: 'Example field (placeholder)' })
   uuid: string;

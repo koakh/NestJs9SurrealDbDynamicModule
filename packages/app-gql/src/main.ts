@@ -7,9 +7,6 @@ import { AllExceptionsFilter } from './common/filters';
 
 async function bootstrap() {
   const context = 'NestApplication';
-  // const app = await NestFactory.create(AppModule);
-  // await app.listen(3000);
-  // used to use AllExceptionsFilter
   const app = await NestFactory.create(AppModule);
   // get app instances
   const AppHttpAdapter = app.get(HttpAdapterHost);
