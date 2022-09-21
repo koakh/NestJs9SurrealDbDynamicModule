@@ -51,3 +51,132 @@ if ((ctx as any).contextType === 'graphql') {
 }    
 ```
 
+## How to use Generic @InputType() in BaseResolver
+
+Hi, I followed [GraphQL Class Inheritance](https://docs.nestjs.com/graphql/resolvers#class-inheritance) and implemented a `BaseResolver`,
+and everything works well, I can extended it and have all the resolvers working, all `@Query`, `@Mutation` and `@Subscription` that don't need specfic `@InputType()` generics, like `create` and `update` in `@Mutation`'s, for ex 
+
+```ts
+@InputType()
+export class CreateRecipeInput extends BaseCreateEntityInput {
+...
+@InputType()
+export class UpdateRecipeInput extends BaseUpdateEntityInput {
+```
+
+the problem is that I can't figure out the right way to pass the generic concrete type (`CreateRecipeInput`, `UpdateRecipeInput`) in `function BaseResolver`, 
+I try hard and try everything I can't remember
+
+my implementation with a non working `createEntity` because it uses specific `@InputType()` class
+
+```ts
+export function BaseResolver<T extends Type<BaseEntity>>(classRef: T): any {
+  @Resolver({ isAbstract: true })
+  abstract class BaseResolverHost {
+    protected pubSub = new PubSub();
+
+    constructor(private readonly serviceRef: BaseService<Type<BaseEntity>, BaseFindAllArgs, BaseCreateEntityInput, BaseUpdateEntityInput>) { }
+
+    // BOF DON'T WORK because I Can't pass the specfic @InputType() in generic function BaseResolver
+    @Mutation(() => [classRef], { name: `create${classRef.name}` })
+    async createEntity(@Args(`create${classRef.name}Input`) createEntityInput: K) {
+      const entity = await this.serviceRef.create(createEntityInput);
+      pubSub.publish(`${classRef.name.toLowerCase()}Added`, { entityAdded: entity });
+      return entity;
+    }
+    // EOF DON'T WORK because I Can't pass the specfic @InputType() in generic function BaseResolver
+
+    @Query(() => classRef, { name: `findOne${classRef.name}` })
+    async findOne(@Args('id') id: string) {
+      return this.serviceRef.findOne(id);
+    }
+
+    @Query(() => [classRef], { name: `findMany${classRef.name}s` })
+    async findMany(@Args() args: BaseFindAllArgs): Promise<any[]> {
+      return this.serviceRef.findMany(args);
+    }
+
+    @Mutation(() => Boolean, { name: `remove${classRef.name}` })
+    async removeEntity(@Args('id') id: string) {
+      this.pubSub.publish(`${classRef.name.toLowerCase()}Deleted`, { [`${classRef.name.toLowerCase()}Deleted`]: id });
+      return this.serviceRef.remove(id);
+    }
+
+    @Subscription(() => classRef, { name: `${classRef.name.toLowerCase()}Added` })
+    entityAdded() {
+      return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Added`);
+    }
+
+    @Subscription(() => classRef, { name: `${classRef.name.toLowerCase()}Updated` })
+    entityUpdated() {
+      return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Updated`);
+    }
+
+    @Subscription(() => String, { name: `${classRef.name.toLowerCase()}Deleted` })
+    entityDeleted() {
+      return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Deleted`);
+    }
+  }
+  return BaseResolverHost;
+}
+```
+
+the question is how can I pass the generic concrete types 
+`@InputType() CreateRecipeInput` and `@InputType() UpdateRecipeInput` into `function BaseResolver`?
+
+what I really want to do is have a BaseResolver that implement the full "crud" for it's extended classes. the only that changes is the Dto `@InputType`, I think is awesome if we can do it, because this way we don't DRY same thing in every resolvers again and again
+
+thanks
+
+if I use for ex `K extends BaseCreateEntityInput` with `createEntityInput: K` it gives me the error
+`Error: Undefined type error. Make sure you are providing an explicit type for the "create" (parameter at index [0]) of the "BaseResolverHost" class.`
+on boot
+
+```ts
+export function BaseResolver<T extends Type<BaseEntity>, K extends BaseCreateEntityInput>(classRef: T): any {
+  @Resolver({ isAbstract: true })
+  abstract class BaseResolverHost {
+    ...
+    @Mutation(() => [classRef], { name: `create${classRef.name}` })
+    async createEntity(@Args(`create${classRef.name}Input`) createEntityInput: K) {
+```
+
+with and without implicit generic `BaseResolver<Type<Restaurant>, CreateRecipeInput>` in `extends BaseResolver`
+
+```ts
+@Resolver(() => Restaurant)
+export class RestaurantsResolver extends BaseResolver<Type<Restaurant>, CreateRestaurantInput>(Restaurant) {
+```
+
+if I change `createEntityInput: K` with `createEntityInput: CreateRestaurantInput` obvious it works, but useless
+
+> Nice Post WITH THE SOLUTION [[Startup MVP recipes #6] GraphQL Resolver inheritance and a CRUD base resolver with generics - James Zhang](https://jczhang.com/2022/07/29/startup-mvp-recipes-6-graphql-resolver-inheritance-and-a-crud-base-resolver-with-generics/)
+
+the trick is using `CreateClassRefInput: Type<K>` with PascalCase because its a Type, and next use the `, { type: () => CreateClassRefInput }) createClassRefInput: K` and `this.serviceRef.create(createClassRefInput)` and it starts to work as expected, awesome, pure magic
+
+```ts
+export function BaseResolver<T extends Type<BaseEntity>, K extends BaseCreateEntityInput>(classRef: T, CreateClassRefInput: Type<K>): any {
+  @Resolver({ isAbstract: true })
+  abstract class BaseResolverHost {
+    protected pubSub = new PubSub();
+
+    constructor(private readonly serviceRef: BaseService<Type<BaseEntity>, BaseFindAllArgs, BaseCreateEntityInput, BaseUpdateEntityInput>) { }
+
+    @Mutation(() => [classRef], { name: `create${classRef.name}` })
+    async createEntity(@Args(`create${classRef.name}Input`, { type: () => CreateClassRefInput }) createClassRefInput: K) {
+      const entity = await this.serviceRef.create(createClassRefInput);
+      this.pubSub.publish(`${classRef.name.toLowerCase()}Added`, { entityAdded: entity });
+      return entity;
+    }
+```
+
+and in subclass we use `BaseResolver<Type<Restaurant>, CreateRestaurantInput>(Restaurant, CreateRestaurantInput)`, or let TS infer its generic type with `BaseResolver(Restaurant, CreateRestaurantInput)`
+
+```ts
+@Resolver(() => Restaurant)
+export class RestaurantsResolver extends BaseResolver(Restaurant, CreateRestaurantInput) {
+  // we omit implicit <Type<Restaurant>, CreateRestaurantInput>, and let TS infer it :)
+  constructor(private readonly restaurantsService: RestaurantsService, private readonly recipesService: RecipesService) {
+    super(restaurantsService);
+  }
+```

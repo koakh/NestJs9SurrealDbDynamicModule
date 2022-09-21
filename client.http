@@ -9,8 +9,8 @@
 
 @thing = person:uv1o55sjes0tdpa31ool
 @thingTobie = person:tobie
-@thingRestaurant = restaurant:a11
-@thingRecipe = recipe:a07
+@thingRestaurant = restaurant:a12
+@thingRecipe = recipe:a12
 @token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjI3NjE5MTUsIm5iZiI6MTY2Mjc2MTkxNSwiZXhwIjoxNjYzOTcxNTE1LCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOjB3aGdnZHdna205d2w2aDY4emxjIn0.-bLrZge6Xqm6xTG5Zdp08Suvyrn-vOMJDu12m9kduDhRt7rrW0V2n_4mQYk8ey6UTxtOAktHNpPNzDyZkq3qKg
 
 // local appModule
@@ -484,20 +484,35 @@ X-REQUEST-TYPE: {{requestType}}
 subscription restaurantAdded{
   restaurantAdded{
     id
-    uuid
     name
-    description
-    recipes {
-      id
-      title
-      description
-      ingredients
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
   }
+}
+
+### subscription: restaurantUpdated
+// @name restaurantUpdated
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+subscription restaurantUpdated{
+  restaurantUpdated{
+    id
+    name
+  }
+}
+
+### subscription: restaurantDeleted
+// @name restaurantDeleted
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+subscription restaurantDeleted{
+  restaurantDeleted
 }
 
 ### recipes
@@ -657,11 +672,33 @@ X-REQUEST-TYPE: {{requestType}}
 subscription recipeAdded{
   recipeAdded{
     id
-    uuid
-    title
-    description
-    ingredients
-    createdAt
-    updatedAt
+    name
   }
+}
+
+### subscription: recipeUpdated
+// @name recipeUpdated
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+subscription recipeUpdated{
+  recipeUpdated{
+    id
+    name
+  }
+}
+
+### subscription: recipeDeleted
+// @name recipeDeleted
+
+POST {{uriGql}} HTTP/1.1
+Content-Type: {{contentType}}
+X-REQUEST-TYPE: {{requestType}}
+// Authorization: Bearer {{authToken}}
+
+subscription recipeDeleted{
+  recipeDeleted
 }

@@ -5,13 +5,10 @@ import { BaseCreateEntityInput, BaseFindAllArgs, BaseUpdateEntityInput } from '.
 import { BaseEntity } from '../entities';
 import { BaseService } from '../services';
 
-// TODO: to complex to pass @InputTypes like CreateRestaurantInput with generics
-// try to use generic types of concrete CreateRestaurantInput, UpdateRestaurantInput, CreateRecipeInput, UpdateRecipeInput
-
 // an explicit return type (any above) is required: otherwise TypeScript complains
 // about the usage of a private class definition.
 // recommended: define an interface instead of using any.
-export function BaseResolver<T extends Type<BaseEntity> /*, S extends BaseService<Type<BaseEntity>, BaseFindAllArgs, BaseCreateEntityInput, BaseUpdateEntityInput>*/>(classRef: T /*, serviceRef: S*/): any {
+export function BaseResolver<T extends Type<BaseEntity>, K extends BaseCreateEntityInput, V extends BaseUpdateEntityInput>(classRef: T, CreateClassRefInput: Type<K>, UpdateClassRefInput: Type<V>): any {
   // the isAbstract: true property indicates that SDL (Schema Definition Language statements)
   // shouldn't be generated for this class. Note, you can set this property for other types as well to suppress SDL generation.
   @Resolver({ isAbstract: true })
@@ -20,13 +17,19 @@ export function BaseResolver<T extends Type<BaseEntity> /*, S extends BaseServic
 
     constructor(private readonly serviceRef: BaseService<Type<BaseEntity>, BaseFindAllArgs, BaseCreateEntityInput, BaseUpdateEntityInput>) { }
 
-    // TODO: hard to pass generic type CreateRestaurantInput, CreateRecipeInput etc
-    // @Mutation(() => [classRef], { name: `create${classRef.name}` })
-    // async create(@Args(`create${classRef.name}Input`) createEntityInput: typeof create) {
-    //   const restaurant = await this.serviceRef.create(createEntityInput);
-    //   pubSub.publish(`${classRef.name.toLowerCase()}Added`, { restaurantAdded: restaurant });
-    //   return restaurant;
-    // }
+    @Mutation(() => classRef, { name: `create${classRef.name}` })
+    async createEntity(@Args(`create${classRef.name}Input`, { type: () => CreateClassRefInput }) createClassRefInput: K) {
+      const entity = await this.serviceRef.create(createClassRefInput);
+      this.pubSub.publish(`${classRef.name.toLowerCase()}Added`, { [`${classRef.name.toLowerCase()}Added`]: entity });
+      return entity;
+    }
+
+    @Mutation(() => classRef)
+    async updateRestaurant(@Args('id') id: string, @Args('updateRestaurantInput', { type: () => UpdateClassRefInput }) updateClassRefInput: K) {
+      const entity = await this.serviceRef.update(id, updateClassRefInput);
+      this.pubSub.publish(`${classRef.name.toLowerCase()}Updated`, { [`${classRef.name.toLowerCase()}Updated`]: entity });
+      return entity;
+    }
 
     @Query(() => classRef, { name: `findOne${classRef.name}` })
     async findOne(@Args('id') id: string) {
@@ -60,5 +63,6 @@ export function BaseResolver<T extends Type<BaseEntity> /*, S extends BaseServic
       return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Deleted`);
     }
   }
+
   return BaseResolverHost;
 }

@@ -38,12 +38,11 @@ type Query {
 }
 
 type Mutation {
-  removeRecipe(id: String!): Boolean!
   createRecipe(createRecipeInput: CreateRecipeInput!): Recipe!
-  updateRecipe(id: String!, updateRecipeInput: UpdateRecipeInput!): Recipe!
-  removeRestaurant(id: String!): Boolean!
-  createRestaurant(createRestaurantInput: CreateRestaurantInput!): Restaurant!
   updateRestaurant(id: String!, updateRestaurantInput: UpdateRestaurantInput!): Restaurant!
+  removeRecipe(id: String!): Boolean!
+  createRestaurant(createRestaurantInput: CreateRestaurantInput!): Restaurant!
+  removeRestaurant(id: String!): Boolean!
 }
 
 input CreateRecipeInput {
@@ -58,10 +57,9 @@ input CreateRecipeInput {
   restaurant: String!
 }
 
-input UpdateRecipeInput {
-  title: String!
+input UpdateRestaurantInput {
+  name: String!
   description: String
-  ingredients: [String!]!
 }
 
 input CreateRestaurantInput {
@@ -72,11 +70,6 @@ input CreateRestaurantInput {
   uuid: String!
   name: String!
   email: String
-  description: String
-}
-
-input UpdateRestaurantInput {
-  name: String!
   description: String
 }
 

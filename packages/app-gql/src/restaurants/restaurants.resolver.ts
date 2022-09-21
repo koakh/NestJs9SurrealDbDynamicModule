@@ -1,4 +1,4 @@
-import { Args, Mutation, Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { BaseResolver } from '../common/resolvers';
 import { RecipesService } from '../recipes/recipes.service';
 import { CreateRestaurantInput, UpdateRestaurantInput } from './dto';
@@ -6,23 +6,10 @@ import { Restaurant } from './entities/restaurant.entity';
 import { RestaurantsService } from './restaurants.service';
 
 @Resolver(() => Restaurant)
-export class RestaurantsResolver extends BaseResolver(Restaurant) {
+export class RestaurantsResolver extends BaseResolver(Restaurant, CreateRestaurantInput, UpdateRestaurantInput) {
+  // we omit implicit <Type<Restaurant>, CreateRestaurantInput>, and let TS infer it :)
   constructor(private readonly restaurantsService: RestaurantsService, private readonly recipesService: RecipesService) {
     super(restaurantsService);
-  }
-
-  @Mutation(() => Restaurant)
-  async createRestaurant(@Args('createRestaurantInput') createRestaurantInput: CreateRestaurantInput) {
-    const restaurant = await this.restaurantsService.create(createRestaurantInput);
-    this.pubSub.publish('restaurantAdded', { restaurantAdded: restaurant });
-    return restaurant;
-  }
-
-  @Mutation(() => Restaurant)
-  async updateRestaurant(@Args('id') id: string, @Args('updateRestaurantInput') updateRestaurantInput: UpdateRestaurantInput) {
-    const restaurant = await this.restaurantsService.update(id, updateRestaurantInput);
-    this.pubSub.publish('restaurantUpdated', { restaurantAdded: restaurant });
-    return restaurant;
   }
 
   @ResolveField()
