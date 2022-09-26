@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import * as Surreal from 'surrealdb.js';
+import Surreal from 'surrealdb.js';
 import { SignUpInResponseDto as SignUpInResponseDto } from "./dto/signup-in-response.dto";
 import { SurrealDbResponseDto } from "./dto/surrealdb-response.dto";
 import { Signin, Signup, SurrealDb } from "./interfaces";
@@ -107,7 +107,7 @@ export class SurrealDbService {
    * @param vars Variables used in a signup query.
    */
   async signup(vars: Signup): Promise<SignUpInResponseDto> {
-    return { accessToken: await this.db.signup(vars) };
+    return { accessToken: this.db.signup(vars) };
   }
 
   /**
@@ -115,7 +115,7 @@ export class SurrealDbService {
    * @param vars Variables used in a signin query.
    */
   async signin(vars: Signin): Promise<SignUpInResponseDto> {
-    return { accessToken: await this.db.signin(vars) };
+    return { accessToken: this.db.signin(vars) };
   }
 
   /**

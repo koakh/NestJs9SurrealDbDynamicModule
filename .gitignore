@@ -32,3 +32,5 @@ coverage/
 .env
 .bak
 .oldnestjs9wayproject
+surrealdb.js
+

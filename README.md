@@ -6,6 +6,33 @@ notes for app and app-lib
 
 UPDATE: 2022-09-08 19:39:08 this is the more recente package that have `AuthModule.forRootAsync` with injected `configService: ConfigService, userService: UserService` from `app.module`
 
+## Install PreRequisites
+
+```shell
+$ cd ~/Development/@SurrealDB/NestJs9SurrealDbDynamicModule
+
+$ git clone https://github.com/surrealdb/surrealdb.js.git
+$ cd surrealdb.js
+$ npm i -G rollup
+$ npm run build
+
+$ cd packages/app-lib
+$ npm i ../../surrealdb.js/
+```
+
+check `packages/app-lib/package.json` fro `"surrealdb.js": "file:../../surrealdb.js"`
+
+## 
+
+TODO: get from old project readme
+
+- workspace structure
+  - projects
+  - how to run projects
+- simple minimal tutorial rest and graphql how to use dynamic module
+
+TODO: why this is here
+
 ```ts
 AuthModule.forRootAsync(AuthModule, {
   useFactory: async (configService: ConfigService, userService: UserService) => ({
@@ -19,13 +46,15 @@ AuthModule.forRootAsync(AuthModule, {
 
 ```shell
 $ lerna bootstrap
-# term#1
+# term#1 : to develop dynamic module
 $ npm run pkg:app-lib:dev
-# term#2
+# term#2 : to test rest demo
 $ npm run pkg:app:debug
+# term#3 : to test graphql demo
+$ npm run pkg:app-gql:debug
 ```
 
-## Test Consumer App and Package
+## Test Consumer Rest App and Package
 
 ```shell
 $ curl localhost:3000 | jq
@@ -61,3 +90,6 @@ $ curl localhost:3000/userservice | jq
   "message": "Hello World from AppModule::AppService!"
 }
 ```
+
+## Test Consumer GraphQL App and Package
+

@@ -3,6 +3,7 @@ Global:
   ☐ create a new github repo with this, and after finish project delete the old one
     https://github.com/koakh/NestJs9SurrealDbDynamicModule
     ☐ get readme and notes from old project
+  ☐ use latest surrealdb.js package
   ✔ remove bcrypt, jwt references @done(22-09-09 23:36)
   ✔ appModule add globalError Handling @done(22-09-09 23:36)
   ✔ add all surrealdb methods from old project @done(22-09-09 23:36)

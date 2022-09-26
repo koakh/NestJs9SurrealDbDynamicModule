@@ -5,8 +5,7 @@ import { BaseCreateEntityInput, BaseFindAllArgs, BaseUpdateEntityInput } from '.
 import { BaseEntity } from '../entities';
 import { BaseService } from '../services';
 
-// an explicit return type (any above) is required: otherwise TypeScript complains
-// about the usage of a private class definition.
+// an explicit return type (any above) is required: otherwise TypeScript complains about the usage of a private class definition.
 // recommended: define an interface instead of using any.
 export function BaseResolver<T extends Type<BaseEntity>, K extends BaseCreateEntityInput, V extends BaseUpdateEntityInput>(classRef: T, CreateClassRefInput: Type<K>, UpdateClassRefInput: Type<V>): any {
   // the isAbstract: true property indicates that SDL (Schema Definition Language statements)

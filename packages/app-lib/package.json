@@ -44,7 +44,7 @@
     "@nestjs/config": "^2.2.0",
     "babel-core": "^6.26.3",
     "class-validator": "^0.13.2",
-    "surrealdb.js": "^0.3.1"
+    "surrealdb.js": "^0.5.0"
   },
   "devDependencies": {
     "@nestjs/common": "^9.0.11",
