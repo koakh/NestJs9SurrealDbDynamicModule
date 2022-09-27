@@ -1,4 +1,5 @@
 export interface EnvironmentVariables {
+  graphqlServerPort: string;
   graphqlAutoSchemaFile: string;
   surrealDbUrl: string;
   surrealDbNamespace: string;

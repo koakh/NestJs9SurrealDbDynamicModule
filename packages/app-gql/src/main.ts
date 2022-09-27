@@ -15,8 +15,8 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter(AppHttpAdapter));
   app.useGlobalPipes(new ValidationPipe());
   // start server
-  await app.listen(3000);
+  await app.listen(configService.get('graphqlServerPort'));
   Logger.log(`Application is running on: ${await app.getUrl()}`, context);
-  Logger.log(`using surrealDb host: ${configService.get('SURREALDB_URL')}`, context);
+  Logger.log(`using surrealDb host: ${configService.get('surrealDbUrl')}`, context);
 }
 bootstrap();

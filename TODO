@@ -1,4 +1,5 @@
 Global:
+  ☐ @critical finish and publish nestjs package with new ts types
   ☐ @critical add baseService entity stuff to nestjs package, like base service, base resolver etc, leave only dto and entity outside
   ☐ create a new github repo with this, and after finish project delete the old one
     https://github.com/koakh/NestJs9SurrealDbDynamicModule

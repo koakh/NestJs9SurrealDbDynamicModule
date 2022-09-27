@@ -5,7 +5,7 @@ import { AllExceptionsFilter } from './filters';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const AppHttpAdapter = app.get(HttpAdapterHost);
+  const AppHttpAdapter = app.get(HttpAdapterHost);  
   // TODO:
   // const configService = app.get<ConfigService>(ConfigService);
   // const httpsServerPort = configService.get<string>('httpsServerPort');

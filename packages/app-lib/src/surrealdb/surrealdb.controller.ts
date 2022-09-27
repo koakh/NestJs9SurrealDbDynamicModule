@@ -27,12 +27,24 @@ export class SurrealDbController {
 
   @Post('/signup')
   signup(@Body() signupDto: SignupDto): Promise<SignUpInResponseDto> {
-    return this.surrealDbService.signup(signupDto);
+    return this.surrealDbService.signup({
+      NS: signupDto.ns,
+      DB: signupDto.db,
+      SC: signupDto.sc,
+      user: signupDto.user,
+      pass: signupDto.pass,
+    });
   }
 
   @Post('/signin')
   signin(@Body() signinDto: SigninDto): Promise<SignUpInResponseDto> {
-    return this.surrealDbService.signin(signinDto);
+    return this.surrealDbService.signin({
+        NS: signinDto.ns,
+        DB: signinDto.db,
+        SC: signinDto.sc,
+        user: signinDto.user,
+        pass: signinDto.pass,
+    });
   }
 
   @Post('/invalidate')
@@ -46,7 +58,7 @@ export class SurrealDbController {
   }
 
   @Post('/let')
-  let(@Body() { key, val }: LetDto): Promise<void> {
+  let(@Body() { key, val }: LetDto): Promise<string> {
     return this.surrealDbService.let(key, val);
   }
 

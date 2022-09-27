@@ -1,5 +1,11 @@
 # NOTES
 
+- [NOTES](#notes)
+  - [Problems](#problems)
+    - [Graphql Error Handling](#graphql-error-handling)
+  - [How to use Generic @InputType() in BaseResolver](#how-to-use-generic-inputtype-in-baseresolver)
+  - [Resolve N+1 Problem](#resolve-n1-problem)
+
 - NestJS 9 SurrealDb dynamic moduled using 'old way' with `@golevelup/nestjs-modules`
 based on [301 Moved Permanently](https://github.com/koakh/NestJsPlayWithDynamicModulesWithAppAndAppLib.git)
 
@@ -179,4 +185,25 @@ export class RestaurantsResolver extends BaseResolver(Restaurant, CreateRestaura
   constructor(private readonly restaurantsService: RestaurantsService, private readonly recipesService: RecipesService) {
     super(restaurantsService);
   }
+```
+
+## Resolve N+1 Problem
+
+- [How to use GraphQL Dataloaders in NestJS](https://eoin.ai/how-to-use-graphql-dataloaders-in-nestjs)
+
+create a restaurant and 5 recipes, all with same restaurant, create 1+5 request, 1 for recipes, and the other 5 to resolve the same restaurant
+
+```
+[2022-09-26 22:36:56] DEBUG surrealdb::dbs Executing: SELECT * FROM type::table($table) LIMIT 10 START 0
+[2022-09-26 22:36:56] DEBUG surrealdb::dbs Executing: SELECT * FROM $what
+[2022-09-26 22:36:56] DEBUG surrealdb::dbs Executing: SELECT * FROM $what
+[2022-09-26 22:36:56] DEBUG surrealdb::dbs Executing: SELECT * FROM $what
+[2022-09-26 22:36:56] DEBUG surrealdb::dbs Executing: SELECT * FROM $what
+[2022-09-26 22:36:56] DEBUG surrealdb::dbs Executing: SELECT * FROM $what
+```
+
+```shell
+$ cd packages/app-gql
+# require force to work with nestjs 9
+$ npm install @tracworx/nestjs-dataloader --force
 ```

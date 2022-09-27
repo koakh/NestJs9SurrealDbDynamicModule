@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
-import Surreal from 'surrealdb.js';
-import { SignUpInResponseDto as SignUpInResponseDto } from "./dto/signup-in-response.dto";
+import Surreal, { Auth, Patch } from 'surrealdb.js';
+import Live from "surrealdb.js/types/classes/live";
+import { SignUpInResponseDto } from "./dto/signup-in-response.dto";
 import { SurrealDbResponseDto } from "./dto/surrealdb-response.dto";
-import { Signin, Signup, SurrealDb } from "./interfaces";
 import { AppServiceAbstract, UserServiceAbstract } from "./surrealdb.abstracts";
 import { adminCurrentUser, APP_SERVICE, SURREALDB_MODULE_OPTIONS, SURREALDB_MODULE_USER_SERVICE } from './surrealdb.constants';
 import { SurrealDbModuleOptions } from './surrealdb.interfaces';
@@ -10,7 +10,7 @@ import { SurrealDbUser as User } from './types';
 
 @Injectable()
 export class SurrealDbService {
-  private db: SurrealDb;
+  private db: Surreal;
 
   constructor(
     @Inject(SURREALDB_MODULE_OPTIONS)
@@ -50,6 +50,7 @@ export class SurrealDbService {
       user: this.options.user,
       pass: this.options.pass,
     });
+    // TODO: remove
     // select a specific namespace / database
     await this.db.use(this.options.namespace, this.options.database);
   }
@@ -75,21 +76,21 @@ export class SurrealDbService {
    * Connects to a local or remote database endpoint
    * @param url The url of the database endpoint to connect to.
    */
-  async connect(url: string): Promise<any> {
+  async connect(url: string): Promise<void> {
     return this.db.connect(url);
   }
 
   /**
    * waits for the connection to the database to succeed
    */
-  async wait(): Promise<any> {
+  async wait(): Promise<void> {
     return this.db.wait();
   }
 
   /**
  * closes the persistent connection to the database
  */
-  async close(): Promise<any> {
+  close(): void {
     return this.db.close();
   }
 
@@ -98,7 +99,7 @@ export class SurrealDbService {
    * @param ns Switches to a specific namespace.
    * @param db Switches to a specific database.
    */
-  async use(ns?: string, db?: string): Promise<any> {
+  async use(ns?: string, db?: string): Promise<void> {
     return this.db.use(ns || this.options.namespace, db || this.options.database);
   }
 
@@ -106,22 +107,22 @@ export class SurrealDbService {
    * signs this connection up to a specific authentication scope
    * @param vars Variables used in a signup query.
    */
-  async signup(vars: Signup): Promise<SignUpInResponseDto> {
-    return { accessToken: this.db.signup(vars) };
+  async signup(vars: Auth): Promise<SignUpInResponseDto> {
+    return { accessToken: await this.db.signup(vars) };
   }
 
   /**
    * signs this connection in to a specific authentication scope
    * @param vars Variables used in a signin query.
    */
-  async signin(vars: Signin): Promise<SignUpInResponseDto> {
-    return { accessToken: this.db.signin(vars) };
+  async signin(vars: Auth): Promise<SignUpInResponseDto> {
+    return { accessToken: await this.db.signin(vars) };
   }
 
   /**
    * invalidates the authentication for the current connection
    */
-  async invalidate(): Promise<any> {
+  async invalidate(): Promise<void> {
     return this.db.invalidate();
   }
 
@@ -129,7 +130,7 @@ export class SurrealDbService {
    * authenticates the current connection with a JWT token
    * @param token The JWT authentication token.
    */
-  async authenticate(token: string): Promise<any> {
+  async authenticate(token: string): Promise<void> {
     return this.db.authenticate(token);
   }
 
@@ -138,7 +139,7 @@ export class SurrealDbService {
    * @param key Specifies the name of the variable.
    * @param val Assigns the value to the variable name.
    */
-  async let(key: string, val: any): Promise<any> {
+  async let(key: string, val: any): Promise<string> {
     return this.db.let(key, val);
   }
 
@@ -147,7 +148,7 @@ export class SurrealDbService {
    * @param thing The table name or the specific record id to create.
    * @param vars Assigns variables which can be used in the query.
    */
-  async query(sql: string, vars?: any): Promise<SurrealDbResponseDto> {
+  async query(sql: string, vars?: Record<string, unknown>): Promise<SurrealDbResponseDto> {
     return this.db.query(sql, vars);
   }
 
@@ -155,7 +156,7 @@ export class SurrealDbService {
    * selects all records in a table, or a specific record
    * @param thing The table name or a record id to select.
    */
-  async select(thing: string): Promise<SurrealDbResponseDto> {
+  async select(thing: string): Promise<SurrealDbResponseDto | unknown> {
     return this.db.select(thing);
   }
 
@@ -193,7 +194,7 @@ export class SurrealDbService {
    * @param thing The table name or the specific record id to change.
    * @param data The document / record data to change.
    */
-  async modify(thing: string, data: any): Promise<SurrealDbResponseDto> {
+  async modify(thing: string, data?: Patch[]): Promise<SurrealDbResponseDto> {
     await this.thingExists(thing);
     return this.db.modify(thing, data);
   }
@@ -203,10 +204,9 @@ export class SurrealDbService {
    * @param data arbitrary data
    * @returns 
    */
-  async delete(thing: string): Promise<SurrealDbResponseDto> {
+  async delete(thing: string): Promise<void> {
     await this.thingExists(thing);
-    const data = await this.db.delete(thing);
-    return data;
+    await this.db.delete(thing);
   }
 
   /**
@@ -214,7 +214,7 @@ export class SurrealDbService {
    * @param query
    * @param vars
    */
-  async sync(query: string, vars: any): Promise<any> {
+  async sync(query: string, vars: any): Promise<Live> {
     return this.db.sync(query, vars);
   }
 
@@ -236,7 +236,7 @@ export class SurrealDbService {
  * live
  * @param table
  */
-  async live(table: string): Promise<any> {
+  async live(table: string): Promise<string> {
     return this.db.live(table);
   }
 
@@ -244,7 +244,7 @@ export class SurrealDbService {
  * kill
  * @param query
  */
-  async kill(query: string): Promise<any> {
+  async kill(query: string): Promise<void> {
     return this.db.kill(query);
   }
 

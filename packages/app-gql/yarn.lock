@@ -845,7 +845,7 @@
     "@nestjs/config" "^2.2.0"
     "babel-core" "^6.26.3"
     "class-validator" "^0.13.2"
-    "surrealdb.js" "^0.3.1"
+    "surrealdb.js" "^0.5.0"
 
 "@nestjs/apollo@^10.1.0":
   "integrity" "sha512-yfnh049lHBaF8647JQQwL5zJnpl/vhjlnoaCUWRpZK4Tw+s9pzzKScKHmPTRBvTCFANbNTl2t/NzQM32jfqpIw=="
@@ -884,7 +884,7 @@
     "webpack" "5.74.0"
     "webpack-node-externals" "3.0.0"
 
-"@nestjs/common@^7.0.0 || ^8.0.0 || ^9.0.0", "@nestjs/common@^7.0.8 || ^8.0.0 || ^9.0.0", "@nestjs/common@^8.2.3 || ^9.0.0", "@nestjs/common@^9.0.0", "@nestjs/common@9.0.1":
+"@nestjs/common@^7.0.0 || ^8.0.0 || ^9.0.0", "@nestjs/common@^7.0.8 || ^8.0.0 || ^9.0.0", "@nestjs/common@^8.0.0", "@nestjs/common@^8.2.3 || ^9.0.0", "@nestjs/common@^9.0.0", "@nestjs/common@9.0.1":
   "integrity" "sha512-w0PSRP+M4vy4XThdkaF6ya1mEbWiMDCAd1beEoeGGnFXnsiRpNj7mb58Lp8SrnfwrExiiCnrKR4ei96StpeW/Q=="
   "resolved" "https://registry.npmjs.org/@nestjs/common/-/common-9.0.1.tgz"
   "version" "9.0.1"
@@ -903,7 +903,7 @@
     "lodash" "4.17.21"
     "uuid" "8.3.2"
 
-"@nestjs/core@^8.2.3 || ^9.0.0", "@nestjs/core@^9.0.0", "@nestjs/core@9.0.1":
+"@nestjs/core@^8.0.0", "@nestjs/core@^8.2.3 || ^9.0.0", "@nestjs/core@^9.0.0", "@nestjs/core@9.0.1":
   "integrity" "sha512-gdrjQhqPN588pmlwzRWA0NsLhWiACUX4Me2Y1BI9Jm5dzmWMgde/zUfFmkvUKiONqKQoZagcCzFtWSWuYjTENQ=="
   "resolved" "https://registry.npmjs.org/@nestjs/core/-/core-9.0.1.tgz"
   "version" "9.0.1"
@@ -916,7 +916,7 @@
     "tslib" "2.4.0"
     "uuid" "8.3.2"
 
-"@nestjs/graphql@^10.0.0", "@nestjs/graphql@^10.1.1":
+"@nestjs/graphql@^10.0.0", "@nestjs/graphql@^10.1.1", "@nestjs/graphql@^8.0.0 || ^9.0.0 || ^10.0.0":
   "integrity" "sha512-j7f3TSH8whFbUeO0xLZ7iw40N7gVrsyB+qnTjInNoJ3A+gs7SiYobszxia9LaeBLs0X/We+uCA9kofeXYI+jnw=="
   "resolved" "https://registry.npmjs.org/@nestjs/graphql/-/graphql-10.1.1.tgz"
   "version" "10.1.1"
@@ -1071,6 +1071,15 @@
   "version" "9.1.2"
   dependencies:
     "@sinonjs/commons" "^1.7.0"
+
+"@tracworx/nestjs-dataloader@^1.1.1":
+  "integrity" "sha512-udBn7hXlq97amEhzv/fbmT6LVr4uR+AZELoMpQfpNO3QndRPeOLbN2LERoC0ow/el7hH7DD73m7ENTm+0i0y3A=="
+  "resolved" "https://registry.npmjs.org/@tracworx/nestjs-dataloader/-/nestjs-dataloader-1.1.1.tgz"
+  "version" "1.1.1"
+  dependencies:
+    "dataloader" "^2.0.0"
+    "rxjs" "^7.2.0"
+    "tslib" "^2.3.1"
 
 "@tsconfig/node10@^1.0.7":
   "integrity" "sha512-jNsYVVxU8v5g43Erja32laIDHXeoNvFEpX33OK4d6hljo3jDhCBDhx5dhCCTMWUojscpAagGiRkBKxpdl9fxqA=="
@@ -2336,6 +2345,11 @@
   "resolved" "https://registry.npmjs.org/cssfilter/-/cssfilter-0.0.10.tgz"
   "version" "0.0.10"
 
+"dataloader@^2.0.0":
+  "integrity" "sha512-qTcEYLen3r7ojZNgVUaRggOI+KM7jrKxXeSHhogh/TWxYMeONEMqY+hmkobiYQozsGIyg9OYVzO4ZIfoB4I0pQ=="
+  "resolved" "https://registry.npmjs.org/dataloader/-/dataloader-2.1.0.tgz"
+  "version" "2.1.0"
+
 "debug@^4.1.0", "debug@^4.1.1", "debug@^4.3.2":
   "integrity" "sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz"
@@ -3123,7 +3137,7 @@
   "resolved" "https://registry.npmjs.org/graphql-ws/-/graphql-ws-5.5.5.tgz"
   "version" "5.5.5"
 
-"graphql@^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "graphql@^14.2.1 || ^15.0.0 || ^16.0.0", "graphql@^14.6.0 || ^15.0.0 || ^16.0.0", "graphql@^15.3.0 || ^16.0.0", "graphql@^15.7.2 || ^16.0.0", "graphql@^15.8.0 || ^16.0.0", "graphql@^16.6.0", "graphql@>=0.11 <=16", "graphql@14.x || 15.x || 16.x":
+"graphql@^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0", "graphql@^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "graphql@^14.2.1 || ^15.0.0 || ^16.0.0", "graphql@^14.6.0 || ^15.0.0 || ^16.0.0", "graphql@^15.0.0", "graphql@^15.3.0 || ^16.0.0", "graphql@^15.7.2 || ^16.0.0", "graphql@^15.8.0 || ^16.0.0", "graphql@^16.6.0", "graphql@>=0.11 <=16", "graphql@14.x || 15.x || 16.x":
   "integrity" "sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw=="
   "resolved" "https://registry.npmjs.org/graphql/-/graphql-16.6.0.tgz"
   "version" "16.6.0"
@@ -5190,7 +5204,7 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
 
-"tslib@^2.1.0", "tslib@^2.4.0", "tslib@2.4.0":
+"tslib@^2.1.0", "tslib@^2.3.1", "tslib@^2.4.0", "tslib@2.4.0":
   "integrity" "sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.0.tgz"
   "version" "2.4.0"

@@ -6,5 +6,5 @@ export declare class QueryDto {
 
   @IsOptional()
   @IsString()
-  vars: string;
+  vars: Record<string, unknown>;
 }
