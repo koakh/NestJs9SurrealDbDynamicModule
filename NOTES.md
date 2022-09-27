@@ -4,7 +4,9 @@
   - [Problems](#problems)
     - [Graphql Error Handling](#graphql-error-handling)
   - [How to use Generic @InputType() in BaseResolver](#how-to-use-generic-inputtype-in-baseresolver)
+    - [Solution for DTO's](#solution-for-dtos)
   - [Resolve N+1 Problem](#resolve-n1-problem)
+    - [Fix Error #1: NestJS/GraphQL/DataLoader】Context creation failed: dataloader_1.default is not a constructor](#fix-error-1-nestjsgraphqldataloadercontext-creation-failed-dataloader_1default-is-not-a-constructor)
 
 - NestJS 9 SurrealDb dynamic moduled using 'old way' with `@golevelup/nestjs-modules`
 based on [301 Moved Permanently](https://github.com/koakh/NestJsPlayWithDynamicModulesWithAppAndAppLib.git)
@@ -156,6 +158,8 @@ export class RestaurantsResolver extends BaseResolver<Type<Restaurant>, CreateRe
 
 if I change `createEntityInput: K` with `createEntityInput: CreateRestaurantInput` obvious it works, but useless
 
+### Solution for DTO's
+
 > Nice Post WITH THE SOLUTION [[Startup MVP recipes #6] GraphQL Resolver inheritance and a CRUD base resolver with generics - James Zhang](https://jczhang.com/2022/07/29/startup-mvp-recipes-6-graphql-resolver-inheritance-and-a-crud-base-resolver-with-generics/)
 
 the trick is using `CreateClassRefInput: Type<K>` with PascalCase because its a Type, and next use the `, { type: () => CreateClassRefInput }) createClassRefInput: K` and `this.serviceRef.create(createClassRefInput)` and it starts to work as expected, awesome, pure magic
@@ -190,6 +194,8 @@ export class RestaurantsResolver extends BaseResolver(Restaurant, CreateRestaura
 ## Resolve N+1 Problem
 
 - [How to use GraphQL Dataloaders in NestJS](https://eoin.ai/how-to-use-graphql-dataloaders-in-nestjs)
+- [GitHub - tracworx/nestjs-dataloader: Quick and easy GraphQL dataloaders for NestJS](https://github.com/tracworx/nestjs-dataloader)
+- [How to use DataLoader with NestJS - LogRocket Blog](https://blog.logrocket.com/use-dataloader-nestjs/)
 
 create a restaurant and 5 recipes, all with same restaurant, create 1+5 request, 1 for recipes, and the other 5 to resolve the same restaurant
 
@@ -206,4 +212,12 @@ create a restaurant and 5 recipes, all with same restaurant, create 1+5 request,
 $ cd packages/app-gql
 # require force to work with nestjs 9
 $ npm install @tracworx/nestjs-dataloader --force
+```
+
+### Fix Error #1: NestJS/GraphQL/DataLoader】Context creation failed: dataloader_1.default is not a constructor
+
+```ts
+import * as DataLoader from 'dataloader';
+// instead of
+import DataLoader from 'dataloader';
 ```

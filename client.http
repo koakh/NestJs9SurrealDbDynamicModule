@@ -9,8 +9,8 @@
 
 @thing = person:uv1o55sjes0tdpa31ool
 @thingTobie = person:tobie
-@thingRestaurant = restaurant:a1
-@thingRecipe = recipe:a5
+@thingRestaurant = restaurant:a5
+@thingRecipe = recipe:a9
 @token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjI3NjE5MTUsIm5iZiI6MTY2Mjc2MTkxNSwiZXhwIjoxNjYzOTcxNTE1LCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOjB3aGdnZHdna205d2w2aDY4emxjIn0.-bLrZge6Xqm6xTG5Zdp08Suvyrn-vOMJDu12m9kduDhRt7rrW0V2n_4mQYk8ey6UTxtOAktHNpPNzDyZkq3qKg
 
 // local appModule

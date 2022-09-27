@@ -1,6 +1,8 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Loader } from '@tracworx/nestjs-dataloader';
 import { RestaurantsService } from 'src/restaurants/restaurants.service';
 import { BaseResolver } from '../common/resolvers';
+import { RestaurantDataLoader } from './dataloader';
 import { CreateRecipeInput } from './dto/create-recipe.input';
 import { UpdateRecipeInput } from './dto/update-recipe.input';
 import { Recipe } from './entities/recipe.entity';
@@ -14,9 +16,17 @@ export class RecipesResolver extends BaseResolver(Recipe, CreateRecipeInput, Upd
   }
 
   @ResolveField()
-  async restaurant(@Parent() recipe: Recipe) {
+  async restaurant(@Parent() recipe: Recipe, @Loader(RestaurantDataLoader) restaurantDataLoader) {
     const { restaurant } = recipe;
-    // hack must cast it to string, because Recipe.restaurant is a id string, not a Restaurant object
-    return this.restaurantsService.findOne(restaurant as unknown as string);
+    // batch query using dataloader, optional cast to string
+    return restaurantDataLoader.load(restaurant as unknown as string);
   }
+
+  // resolveField without dataLoader
+  // @ResolveField()
+  // async restaurant(@Parent() recipe: Recipe) {
+  //   const { restaurant } = recipe;
+  //   // hack must cast it to string, because Recipe.restaurant is a id string, not a Restaurant object
+  //   return this.restaurantsService.findOne(restaurant as unknown as string);
+  // }
 }

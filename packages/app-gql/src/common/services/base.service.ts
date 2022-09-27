@@ -13,6 +13,11 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
     this.surrealDb = surrealDb;
   }
 
+  /**
+   * create entity
+   * @param data payload
+   * @returns created entity
+   */
   async create(data: V): Promise<T> {
     // await this.surrealDb.thingExists(data.restaurant);
     const id = data?.id ? data.id : this.entityName.name.toLowerCase();
@@ -23,6 +28,11 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
     })) as T;
   }
 
+  /**
+   * find many entities
+   * @param filter, skip, take
+   * @returns array of entity object
+   */
   async findMany({ filter, skip, take }: K): Promise<T[]> {
     const where = filter ? ` WHERE ${filter} ` : '';
     const limit = take != undefined ? ` LIMIT ${take}` : '';
@@ -35,6 +45,11 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
     return data[0].result;
   }
 
+  /**
+   * find one entity
+   * @param id entity id
+   * @returns array of entity object
+   */
   async findOne(id: string): Promise<T[]> {
     const data = await this.surrealDb.select(id);
     // should not get here if we pass above validation
@@ -44,12 +59,32 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
     return data && Array.isArray(data) && data.length === 1 ? (data[0] as unknown as T[]) : [];
   }
 
+  /**
+   * update entity
+   * @param id entity id
+   * @param data payload
+   * @returns updated object
+   */
   async update(id: string, data: Z): Promise<T> {
     return (await this.surrealDb.change(id, data)) as any as T;
   }
 
+  /**
+   * remove entity
+   * @param id entity id
+   * @returns true or false
+   */
   async remove(id: string): Promise<boolean> {
     await this.surrealDb.delete(id);
     return true;
+  }
+
+  /**
+   * raw query
+   * @param sql
+   */
+  async rawQuery(sql: string): Promise<T[]> {
+    const data = await this.surrealDb.query(sql);
+    return data[0].result;
   }
 }
