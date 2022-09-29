@@ -7,6 +7,7 @@
     - [Solution for DTO's](#solution-for-dtos)
   - [Resolve N+1 Problem](#resolve-n1-problem)
     - [Fix Error #1: NestJS/GraphQL/DataLoader】Context creation failed: dataloader_1.default is not a constructor](#fix-error-1-nestjsgraphqldataloadercontext-creation-failed-dataloader_1default-is-not-a-constructor)
+    - [Fix #2: DataLoader with Arrays ex](#fix-2-dataloader-with-arrays-ex)
 
 - NestJS 9 SurrealDb dynamic moduled using 'old way' with `@golevelup/nestjs-modules`
 based on [301 Moved Permanently](https://github.com/koakh/NestJsPlayWithDynamicModulesWithAppAndAppLib.git)
@@ -220,4 +221,32 @@ $ npm install @tracworx/nestjs-dataloader --force
 import * as DataLoader from 'dataloader';
 // instead of
 import DataLoader from 'dataloader';
+```
+
+### Fix #2: DataLoader with Arrays ex 
+
+- [How do I return an array from a dataloader?](https://stackoverflow.com/questions/56331154/how-do-i-return-an-array-from-a-dataloader)
+
+**Your batch load function should return a Promise with an array**. 
+As the error indicates, the **length of the keys passed to the batch load function must match the length of this result array**. If your Loader is **fetching an array of items for each key**, then the **Promise must resolve to an array of arrays**.
+
+```js
+const backLoadFn = (keys) => {
+  return Promise.all(keys.map(key => {
+    return Model.findAll({ where: { key } })
+  }))
+}
+```
+
+```gql
+query findManyRestaurants($skip: Int, $take: Int) {
+  findManyRestaurants(skip: $skip, take: $take) {
+    id
+    # this is a array
+    recipes {
+      id
+      title
+    }
+  }
+}
 ```

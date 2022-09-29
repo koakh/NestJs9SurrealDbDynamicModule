@@ -1,6 +1,8 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Loader } from '@tracworx/nestjs-dataloader';
 import { BaseResolver } from '../common/resolvers';
 import { RecipesService } from '../recipes/recipes.service';
+import { RecipeDataLoader } from './dataloader';
 import { CreateRestaurantInput, UpdateRestaurantInput } from './dto';
 import { Restaurant } from './entities/restaurant.entity';
 import { RestaurantsService } from './restaurants.service';
@@ -13,10 +15,18 @@ export class RestaurantsResolver extends BaseResolver(Restaurant, CreateRestaura
   }
 
   @ResolveField()
-  async recipes(@Parent() restaurant: Restaurant) {
+  async recipes(@Parent() restaurant: Restaurant, @Loader(RecipeDataLoader) recipeDataLoader) {
     const { id } = restaurant;
-    return this.recipesService.findMany({
-      filter: `restaurant=${id}`,
-    });
+    // batch query using dataloader, optional cast to string
+    return recipeDataLoader.load(id as unknown as string);
   }
+
+  // resolveField without dataLoader
+  // @ResolveField()
+  // async recipes(@Parent() restaurant: Restaurant) {
+  //   const { id } = restaurant;
+  //   return this.recipesService.findMany({
+  //     filter: `restaurant=${id}`,
+  //   });
+  // }
 }
