@@ -28,14 +28,14 @@ export class SurrealDbService {
     return this.options;
   }
 
-  // TODO: remove
-  // AppServiceAbstract: this is from consumer app AppModule/AppService
+  // example
+  // appServiceAbstract: this is from consumer app AppModule/AppService
   getHelloAppModule(): { message: string } {
     return { message: `${this.appService.getHello()} (called in SurrealDbService.etHelloAppModule())` };
   }
 
-  // TODO: remove
-  // UserServiceAbstract: this is from consumer app AppModule/UserService
+  // example
+  // userServiceAbstract: this is from consumer app AppModule/UserService
   getUserFindOneByField(): Promise<User> {
     return this.userService.findOneByField('username', 'admin', adminCurrentUser);
   }
@@ -50,7 +50,6 @@ export class SurrealDbService {
       user: this.options.user,
       pass: this.options.pass,
     });
-    // TODO: remove
     // select a specific namespace / database
     await this.db.use(this.options.namespace, this.options.database);
   }
@@ -247,5 +246,4 @@ export class SurrealDbService {
   async kill(query: string): Promise<void> {
     return this.db.kill(query);
   }
-
 }

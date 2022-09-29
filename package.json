@@ -9,10 +9,15 @@
   "scripts": {
     "lerna:install": "lerna bootstrap",
     "lerna:clean": "lerna clean",
+
     "lerna:build": "lerna run build",
     "lerna:test": "lerna exec npm run test",
+
     "pkg:app-lib:dev": "npx lerna run dev --scope @koakh/nestjs-surrealdb --stream",
     "pkg:app-lib:build": "npx lerna run build --scope @koakh/nestjs-surrealdb --stream",
+    "pkg:app-lib:version:patch": "npx lerna run version:patch --scope @koakh/nestjs-surrealdb --stream",
+    "pkg:app-lib:version:publish": "npx lerna run version:publish --scope @koakh/nestjs-surrealdb --stream",
+    
     "pkg:app:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-rest-demo --stream",
     "pkg:app-gql:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-graphql-demo --stream"
   },

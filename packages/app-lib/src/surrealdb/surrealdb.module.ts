@@ -25,5 +25,4 @@ import { SurrealDbService } from './surrealdb.service';
 export class SurrealDbModule extends createConfigurableDynamicRootModule<
   SurrealDbModule,
   SurrealDbModuleOptions
->(SURREALDB_MODULE_OPTIONS, {}) {
-}
+>(SURREALDB_MODULE_OPTIONS, {}) { }

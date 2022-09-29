@@ -121,5 +121,4 @@ export class SurrealDbController {
   kill(@Param('query') query: string): any {
     return this.surrealDbService.kill(query);
   }
-
 }

@@ -1,6 +1,8 @@
 Global:
-  ☐ @critical finish and publish nestjs package with new ts types
-  ☐ @critical add baseService entity stuff to nestjs package, like base service, base resolver etc, leave only dto and entity outside
+  ✔ @critical finish and publish nestjs package with new ts types @done(22-09-29 22:18)
+  ☐ @critical add baseService entity stuff to nestjs package, like base service,
+    has many things related to graphql like @InputType() dtos, required '@nestjs/graphql' but why not
+    this works with rest and graphql
   ☐ create a new github repo with this, and after finish project delete the old one
     https://github.com/koakh/NestJs9SurrealDbDynamicModule
     ☐ get readme and notes from old project
@@ -27,29 +29,3 @@ Global:
     ☐ @low try to use graph to relate restaurants and recipes, 
       two way links vs record restaurant id on recipe
       this way works because Restaurant can get recipes, and recipes and FETCH parent Restaurant to
-
-Mapped {/, GET} route
-Mapped {/config, GET} route
-Mapped {/appservice, GET} route
-Mapped {/userservice, GET} route
-
-Mapped {/surrealdb/connect, POST} route
-Mapped {/surrealdb/close, POST} route
-Mapped {/surrealdb/use, POST} route
-Mapped {/surrealdb/signup, POST} route
-Mapped {/surrealdb/signin, POST} route
-Mapped {/surrealdb/invalidate, POST} route
-Mapped {/surrealdb/authenticate, POST} route
-Mapped {/surrealdb/let, POST} route
-Mapped {/surrealdb/query, POST} route
-Mapped {/surrealdb/:thing, GET} route
-Mapped {/surrealdb, POST} route
-Mapped {/surrealdb/:thing, PUT} route
-Mapped {/surrealdb/modify/:thing, PATCH} route
-Mapped {/surrealdb/:thing, PATCH} route
-Mapped {/surrealdb/:thing, DELETE} route
-Mapped {/surrealdb/sync, POST} route
-Mapped {/surrealdb/ping, POST} route
-Mapped {/surrealdb/info, POST} route
-Mapped {/surrealdb/live, POST} route
-Mapped {/surrealdb/kill, POST} route
