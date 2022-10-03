@@ -2,10 +2,12 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^5.5.0",
-    "lerna-update-wizard": "^1.1.2",
-    "npm-check": "^6.0.1"
+    "npm-check": "^6.0.1",
+    "npm-check-updates": "^16.1.0"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "lerna:install": "lerna bootstrap",
     "lerna:clean": "lerna clean",
@@ -16,9 +18,9 @@
     "pkg:app-lib:version:patch": "npx lerna run version:patch --scope @koakh/nestjs-surrealdb --stream",
     "pkg:app-lib:version:publish": "npx lerna run version:publish --scope @koakh/nestjs-surrealdb --stream",
     "pkg:app-rst:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-rest-demo --stream",
-    "pkg:app-gql:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-graphql-demo --stream"
-  },
-  "dependencies": {
-    "npm-check-updates": "^16.1.0"
+    "pkg:app-gql:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-graphql-demo --stream",
+    "// add:package": "npx lerna add pkg @koakh/nestjs-surrealdb --scope=@koakh/nestjs-surrealdb-graphql-demo",
+    "yarn:start:app-rst":"yarn --cwd packages/app-gql start:debug",
+    "yarn:start:app-gql":"yarn --cwd packages/app-gql start:debug"
   }
 }

@@ -3,7 +3,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
-import { DataloaderModule } from '@tracworx/nestjs-dataloader';
+import { DataloaderModule } from '@koakh/nestjs-dataloader';
 import { DirectiveLocation, GraphQLDirective } from 'graphql';
 import { join } from 'path';
 import { AppController } from './app.controller';

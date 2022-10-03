@@ -1,4 +1,5 @@
 Global:
+  ☐ try dataloader with same query, ex same recipes in restaurants
   ✔ @critical finish and publish nestjs package with new ts types @done(22-09-29 22:18)
   ☐ @critical add baseService entity stuff to nestjs package, like base service,
     has many things related to graphql like @InputType() dtos, required '@nestjs/graphql' but why not

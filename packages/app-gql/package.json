@@ -20,7 +20,15 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
+  "peerDependencies": {
+    "@nestjs/common": "^9.0.0",
+    "@nestjs/core": "^9.0.0",
+    "@nestjs/graphql": "^9.0.0 || ^10.0.0",
+    "graphql": "^16.6.0",
+    "reflect-metadata": "^0.1.13"
+  },
   "dependencies": {
+    "@koakh/nestjs-dataloader": "file:../dataloader",
     "@koakh/nestjs-surrealdb": "file:../app-lib",
     "@nestjs/apollo": "^10.1.0",
     "@nestjs/common": "^9.1.2",
@@ -28,7 +36,6 @@
     "@nestjs/core": "^9.1.2",
     "@nestjs/graphql": "^10.1.2",
     "@nestjs/platform-express": "^9.0.11",
-    "@tracworx/nestjs-dataloader": "^1.1.1",
     "apollo-server-errors": "^3.3.1",
     "apollo-server-express": "^3.10.2",
     "class-transformer": "^0.5.1",

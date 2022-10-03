@@ -1,6 +1,6 @@
 import { Type } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { DataloaderProvider } from '@tracworx/nestjs-dataloader';
+import { DataloaderProvider } from '@koakh/nestjs-dataloader';
 import * as DataLoader from 'dataloader';
 import { Recipe } from '../../recipes/entities';
 import { RecipesService } from '../../recipes/recipes.service';

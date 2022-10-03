@@ -1,5 +1,5 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { Loader } from '@tracworx/nestjs-dataloader';
+import { Loader } from '@koakh/nestjs-dataloader';
 import { RestaurantsService } from 'src/restaurants/restaurants.service';
 import { BaseResolver } from '../common/resolvers';
 import { RestaurantDataLoader } from './dataloader';
