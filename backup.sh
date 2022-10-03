@@ -12,6 +12,7 @@ touch packages/app-lib/node_modules/$FILE_EXCLUDE
 touch packages/app/node_modules/$FILE_EXCLUDE
 touch packages/app-gql/node_modules/$FILE_EXCLUDE
 touch .oldnestjs9wayproject/$FILE_EXCLUDE
+touch packages_fucked/$FILE_EXCLUDE 
 
 tar -zcvf $FILE \
 	--exclude-tag-all=$FILE_EXCLUDE \
