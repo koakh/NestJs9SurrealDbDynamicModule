@@ -9,18 +9,12 @@
     "packages/*"
   ],
   "scripts": {
-    "lerna:install": "lerna bootstrap",
-    "lerna:clean": "lerna clean",
-    "lerna:build": "lerna run build",
-    "lerna:test": "lerna exec npm run test",
-    "pkg:app-lib:dev": "npx lerna run dev --scope @koakh/nestjs-surrealdb --stream",
-    "pkg:app-lib:build": "npx lerna run build --scope @koakh/nestjs-surrealdb --stream",
-    "pkg:app-lib:version:patch": "npx lerna run version:patch --scope @koakh/nestjs-surrealdb --stream",
-    "pkg:app-lib:version:publish": "npx lerna run version:publish --scope @koakh/nestjs-surrealdb --stream",
-    "pkg:app-rst:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-rest-demo --stream",
-    "pkg:app-gql:debug": "npx lerna run start:debug --scope @koakh/nestjs-surrealdb-graphql-demo --stream",
-    "// add:package": "npx lerna add pkg @koakh/nestjs-surrealdb --scope=@koakh/nestjs-surrealdb-graphql-demo",
-    "yarn:start:app-rst":"yarn --cwd packages/app-gql start:debug",
-    "yarn:start:app-gql":"yarn --cwd packages/app-gql start:debug"
+    "yarn:install": "yarn",
+    "yarn:start:app-lib:dev": "yarn --cwd packages/app-lib dev",
+    "yarn:start:app-lib:build": "yarn --cwd packages/app-lib build",
+    "yarn:start:app-lib:patch": "yarn --cwd packages/app-lib version:patch",
+    "yarn:start:app-lib:publish": "yarn --cwd packages/app-lib version:publish",
+    "yarn:start:app-rst": "yarn --cwd packages/app-gql start:debug",
+    "yarn:start:app-gql": "yarn --cwd packages/app-gql start:debug"
   }
 }

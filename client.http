@@ -448,6 +448,14 @@ query findManyRestaurants($skip: Int, $take: Int) {
       ingredients
       createdAt
       updatedAt
+      # this test dataLoader working using same recipes from restaurants
+      # if we opt to not use it in `async recipes(` we can comprove that we have a lot more queries against surrealdb
+      restaurant {
+        id
+        recipes {
+          id
+        }
+      }
     }
     createdAt
     updatedAt
