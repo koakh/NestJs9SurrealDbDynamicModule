@@ -34,15 +34,4 @@ coverage/
 .oldnestjs9wayproject
 surrealdb.js
 packages_fucked
-packages_removed/exclude.tag
-packages_removed/app-gql/src/common/dto/base-create-entity.input.ts
-packages_removed/app-gql/src/common/dto/base-find-all.args.ts
-packages_removed/app-gql/src/common/dto/base-update-entity.input.ts
-packages_removed/app-gql/src/common/dto/index.ts
-packages_removed/app-gql/src/common/dto/pagination.args.ts
-packages_removed/app-gql/src/common/entities/base-entity.model.ts
-packages_removed/app-gql/src/common/entities/index.ts
-packages_removed/app-gql/src/common/resolvers/base.resolver.ts
-packages_removed/app-gql/src/common/resolvers/index.ts
-packages_removed/app-gql/src/common/services/base.service.ts
-packages_removed/app-gql/src/common/services/index.ts
+packages_removed
