@@ -1,12 +1,12 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Loader } from '@koakh/nestjs-dataloader';
-import { RestaurantsService } from 'src/restaurants/restaurants.service';
-import { BaseResolver } from '../common/resolvers';
+import { RestaurantsService } from '../restaurants/restaurants.service';
 import { RestaurantDataLoader } from './dataloader';
 import { CreateRecipeInput } from './dto/create-recipe.input';
 import { UpdateRecipeInput } from './dto/update-recipe.input';
 import { Recipe } from './entities/recipe.entity';
 import { RecipesService } from './recipes.service';
+import { BaseResolver } from '@koakh/nestjs-surrealdb';
 
 @Resolver(() => Recipe)
 export class RecipesResolver extends BaseResolver(Recipe, CreateRecipeInput, UpdateRecipeInput) {

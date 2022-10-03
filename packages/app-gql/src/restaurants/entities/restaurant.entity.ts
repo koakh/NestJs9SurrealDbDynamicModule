@@ -1,5 +1,5 @@
+import { BaseEntity } from '@koakh/nestjs-surrealdb';
 import { Directive, Field, ID, ObjectType } from '@nestjs/graphql';
-import { BaseEntity } from '../../common/entities';
 import { Recipe } from '../../recipes/entities';
 
 @ObjectType()

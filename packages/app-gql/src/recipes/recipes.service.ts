@@ -1,7 +1,7 @@
+import { BaseFindAllArgs } from '@koakh/nestjs-surrealdb';
+import { BaseService } from '@koakh/nestjs-surrealdb';
 import { SurrealDbService } from '@koakh/nestjs-surrealdb';
 import { Injectable, Type } from '@nestjs/common';
-import { BaseFindAllArgs } from '../common/dto/base-find-all.args';
-import { BaseService } from '../common/services';
 import { UpdateRecipeInput } from './dto';
 import { CreateRecipeInput } from './dto/create-recipe.input';
 import { Recipe } from './entities';

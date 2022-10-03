@@ -1,6 +1,6 @@
+import { BaseCreateEntityInput } from '@koakh/nestjs-surrealdb';
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDefined, IsEmail, IsOptional, IsUUID, MaxLength } from 'class-validator';
-import { BaseCreateEntityInput } from '../../common/dto/base-create-entity.input';
 
 @InputType()
 export class CreateRestaurantInput extends BaseCreateEntityInput {

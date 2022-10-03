@@ -1,6 +1,6 @@
 import { Loader } from '@koakh/nestjs-dataloader';
+import { BaseResolver } from '@koakh/nestjs-surrealdb';
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { BaseResolver } from '../common/resolvers';
 import { RecipesService } from '../recipes/recipes.service';
 import { RecipeDataLoader } from './dataloader';
 import { CreateRestaurantInput, UpdateRestaurantInput } from './dto';
