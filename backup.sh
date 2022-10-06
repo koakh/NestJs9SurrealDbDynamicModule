@@ -14,6 +14,7 @@ touch packages/app-gql/node_modules/${FILE_EXCLUDE}
 touch .oldnestjs9wayproject/${FILE_EXCLUDE}
 touch packages_fucked/${FILE_EXCLUDE} 
 touch packages_removed/${FILE_EXCLUDE}
+touch .trash/${FILE_EXCLUDE}
 
 tar -zcvf $FILE \
 	--exclude-tag-all=${FILE_EXCLUDE} \

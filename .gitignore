@@ -35,3 +35,4 @@ coverage/
 surrealdb.js
 packages_fucked
 packages_removed
+.trash

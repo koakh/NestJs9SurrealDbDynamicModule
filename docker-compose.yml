@@ -6,7 +6,7 @@ services:
     container_name: nestjs-surrealdb-rest-demo
     restart: unless-stopped
     build:
-      context: ./packages/app
+      context: ./packages/app-rst
       dockerfile: Dockerfile
     depends_on:
       - surrealdb

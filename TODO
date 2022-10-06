@@ -1,12 +1,15 @@
 Global:
   ☐ @critical remove all lerna stuff
-  ☐ publish final surrealdb nestjs package
+  ✔ publish final surrealdb nestjs package @done(22-10-03 23:21)
   ✔ @critical finish and publish nestjs package with new ts types @done(22-09-29 22:18)
   ✔ @critical add baseService entity stuff to nestjs package, like base service, @done(22-10-03 23:00)
   has many things related to graphql like @InputType() dtos, required '@nestjs/graphql' but why not
   this works with rest and graphql
   ☐ create a new github repo with this, and after finish project delete the old one
   https://github.com/koakh/NestJs9SurrealDbDynamicModule
+  ☐ add initdb with sample data and maybe a schema `initdb.sql`
+  ☐ add a tutorial to use in tutorials.surrealdb.com to
+  ☐ graphql and rest docker images
   ☐ get readme and notes from old project
   ✔ use latest surrealdb.js package @done(22-10-03 22:59)
   ✔ remove bcrypt, jwt references @done(22-09-09 23:36)
