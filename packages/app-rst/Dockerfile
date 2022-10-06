@@ -14,7 +14,8 @@ COPY --chown=node:node package*.json ./
 
 # Install app dependencies using the `npm ci` command instead of `npm install`
 # RUN npm ci
-RUN yarn install --frozen-lockfile
+RUN yarn install
+# --frozen-lockfile
 
 # Bundle app source
 COPY --chown=node:node . .
@@ -57,6 +58,8 @@ USER node
 
 FROM node:18-alpine As production
 
+WORKDIR /usr/src/app
+
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
@@ -69,4 +72,4 @@ ENV NODE_ENV production
 # COPY config/production.env /config
 
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "/usr/src/app/dist/main.js" ]

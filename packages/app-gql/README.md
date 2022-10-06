@@ -67,7 +67,9 @@ import { join } from 'path';
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      imports: [ConfigModule],
+      // TODO: this is not required here and provoke the error
+      // https://stackoverflow.com/questions/58236287/configuration-setup-the-path-argument-must-be-one-of-type-received-type
+      // imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         autoSchemaFile: join(

@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   nestjs-surrealdb-graphql-demo:
+    image: koakh/nestjs-surrealdb-graphql-demo:1.0.0
     hostname: nestjs-surrealdb-graphql-demo
     container_name: nestjs-surrealdb-graphql-demo
     restart: unless-stopped

@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   nestjs-surrealdb-rest-demo:
+    image: koakh/nestjs-surrealdb-rest-demo:1.0.0
     hostname: nestjs-surrealdb-rest-demo
     container_name: nestjs-surrealdb-rest-demo
     restart: unless-stopped
