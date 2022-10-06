@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  nestjs-surrealdb-graphql-demo:
+    hostname: nestjs-surrealdb-graphql-demo
+    container_name: nestjs-surrealdb-graphql-demo
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - nestjs-surrealdb-graphql-surrealdb
+    ports:
+      - 3030:3000
+    environment:
+      SURREALDB_URL: "http://surrealdb:8000/rpc"
+      SURREALDB_NAMESPACE: "test"
+      SURREALDB_DATABASE: "test"
+      SURREALDB_USER: "root"
+      SURREALDB_PASS: "root"
+    # command: "node dist/main.js"
+
+  nestjs-surrealdb-graphql-surrealdb:
+    hostname: surrealdb
+    container_name: nestjs-surrealdb-graphql-surrealdb
+    restart: unless-stopped
+    image: surrealdb/surrealdb:1.0.0-beta.8
+    # file:mydb
+    command: "start --user root --pass root"
+    # uncomment to expose surrealdb port
+    ports:
+      - 8001:8000

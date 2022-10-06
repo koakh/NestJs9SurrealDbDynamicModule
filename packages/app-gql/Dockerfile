@@ -13,7 +13,8 @@ WORKDIR /usr/src/app
 COPY --chown=node:node package*.json ./
 
 # Install app dependencies using the `npm ci` command instead of `npm install`
-RUN npm ci
+# RUN npm ci
+RUN yarn install --frozen-lockfile
 
 # Bundle app source
 COPY --chown=node:node . .
@@ -36,6 +37,9 @@ COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modul
 
 COPY --chown=node:node . .
 
+# required for use in scripts prebuild and build
+RUN npm i -g rimraf @nestjs/cli --silent
+
 # Run the build command which creates the production bundle
 RUN npm run build
 
@@ -43,7 +47,7 @@ RUN npm run build
 ENV NODE_ENV production
 
 # Running `npm ci` removes the existing node_modules directory and passing in --only=production ensures that only the production dependencies are installed. This ensures that the node_modules directory is as optimized as possible
-RUN npm ci --only=production && npm cache clean --force
+# RUN npm ci --only=production && npm cache clean --force
 
 USER node
 

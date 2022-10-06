@@ -38,9 +38,11 @@
   "dependencies": {
     "@golevelup/nestjs-modules": "^0.6.1",
     "@nestjs/config": "^2.2.0",
+    "@nestjs/graphql": "^10.1.2",
     "babel-core": "^6.26.3",
     "class-validator": "^0.13.2",
     "graphql-subscriptions": "^2.0.0",
+    "rxjs": "^7.5.7",
     "surrealdb.js": "^0.5.0",
     "ts-morph": "^16.0.0"
   },

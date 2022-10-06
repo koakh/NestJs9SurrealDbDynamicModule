@@ -18,11 +18,23 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker:build": "docker build -t koakh/nestjs-surrealdb-graphql-demo:1.0.0 .",
+    "docker:push": "docker push koakh/nestjs-surrealdb-graphql-demo:1.0.0",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down --remove-orphans"
+  },
+  "// opt local/remote @koakh/nestjs-surrealdb": {
+    "local": "file:../app-lib",
+    "remote ": "^0.1.4"
+  },
+  "// opt local/remote @koakh/nestjs-dataloader": {
+    "local": "file:../dataloader",
+    "remote ": "^1.1.0"
   },
   "dependencies": {
-    "@koakh/nestjs-dataloader": "file:../dataloader",
-    "@koakh/nestjs-surrealdb": "file:../app-lib",
+    "@koakh/nestjs-dataloader": "^1.1.0",
+    "@koakh/nestjs-surrealdb": "^0.1.4",
     "@nestjs/apollo": "^10.1.0",
     "@nestjs/common": "^9.1.2",
     "@nestjs/config": "^2.2.0",
