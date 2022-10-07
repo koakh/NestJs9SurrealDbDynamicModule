@@ -12,13 +12,14 @@ services:
     depends_on:
       - nestjs-surrealdb-graphql-surrealdb
     ports:
-      - 3030:3000
+      - 3030:3030
     environment:
       SURREALDB_URL: "http://surrealdb:8000/rpc"
       SURREALDB_NAMESPACE: "test"
       SURREALDB_DATABASE: "test"
       SURREALDB_USER: "root"
       SURREALDB_PASS: "root"
+      GRAPHQL_AUTO_SCHEMA_FILE: "./schema.gql"
     # command: "node dist/main.js"
 
   nestjs-surrealdb-graphql-surrealdb:

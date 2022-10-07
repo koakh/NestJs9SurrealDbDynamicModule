@@ -30,15 +30,16 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
       imports: [AppModule],
       inject: [ConfigService],
     }),
-    DataloaderModule,
-    RecipesModule,
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-// TODO: this is not required here and provoke the error
-// https://stackoverflow.com/questions/58236287/configuration-setup-the-path-argument-must-be-one-of-type-received-type
-// imports: [ConfigModule],
+      // TODO: this is not required here and provoke the error
+      // https://stackoverflow.com/questions/58236287/configuration-setup-the-path-argument-must-be-one-of-type-received-type
+      // imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
+        // TODO: GRAPHQL_AUTO_SCHEMA_FILE must have a value else annoying 
+        // TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+        // https://stackoverflow.com/questions/60234640/typeerror-err-invalid-arg-type-the-path-argument-must-be-of-type-string-re
         autoSchemaFile: join(process.cwd(), configService.get<string>('GRAPHQL_AUTO_SCHEMA_FILE')),
         installSubscriptionHandlers: true,
         transformSchema: (schema) => upperDirectiveTransformer(schema, 'upper'),
@@ -67,6 +68,9 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
         },
       }),
     }),
+    // TODO: removed DataloaderModule seems works same way?
+    DataloaderModule,
+    RecipesModule,
     RestaurantsModule,
   ],
   controllers: [AppController],

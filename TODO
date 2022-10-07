@@ -1,4 +1,5 @@
 Global:
+  ☐ @critical split client.http in two working files and all requests working
   ☐ @critical split packages one with and without graphql dependencies
   ✔ use latest surrealdb.js package @done(22-10-03 22:59)
   ✔ remove bcrypt, jwt references @done(22-09-09 23:36)
