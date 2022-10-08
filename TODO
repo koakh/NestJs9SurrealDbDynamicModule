@@ -1,6 +1,7 @@
 Global:
-  ☐ @critical split client.http in two working files and all requests working
-  ☐ @critical split packages one with and without graphql dependencies
+  ☐ @critical rest with current package without graphql deps
+  ☐ @critical test all client.http requests, do some cleanup
+    test with docker images
   ✔ use latest surrealdb.js package @done(22-10-03 22:59)
   ✔ remove bcrypt, jwt references @done(22-09-09 23:36)
   ✔ appModule add globalError Handling @done(22-09-09 23:36)
@@ -10,8 +11,13 @@ Global:
   ✔ publish final surrealdb nestjs package @done(22-10-03 23:21)
   ✔ @critical finish and publish nestjs package with new ts types @done(22-09-29 22:18)
   ✔ @critical add baseService entity stuff to nestjs package, like base service, @done(22-10-03 23:00)
-  has many things related to graphql like @InputType() dtos, required '@nestjs/graphql' but why not
-  this works with rest and graphql
+    has many things related to graphql like @InputType() dtos, required '@nestjs/graphql' but why not
+    this works with rest and graphql
+  ✔ change to override default EnvironmentVariables @done(22-10-07 22:36)
+    try using default variables
+  ✔ finish docker images and push to registry @done(22-10-07 22:58)
+    ✔ rest @done(22-10-07 22:58)
+    ✔ graphql @done(22-10-07 22:58)
   ☐ create a new github repo with this, and after finish project delete the old one
     https://github.com/koakh/NestJs9SurrealDbDynamicModule
   ☐ add initdb with sample data and maybe a schema `initdb.sql` (from old project)
@@ -24,11 +30,6 @@ Global:
     ☐ npm run pkg:app:debug
     ☐ npm run pkg:app-gql:debug
       ☐ note that it have all rest endpoints
-  ☐ docker images
-    ☐ rest
-    ☐ graphql
-  ☐ change to override default EnvironmentVariables
-    try using default variables
 
   DynamicModule:
 

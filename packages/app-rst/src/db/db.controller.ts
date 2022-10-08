@@ -13,7 +13,7 @@ export class DbController {
     return this.surrealDbService.getUserFindOneByField();
   }
 
-  @Get('/:thing')
+  @Get('select/:thing')
   select(@Param('thing') thing: string): any {
     return this.surrealDbService.select(thing);
   }

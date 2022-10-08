@@ -19,11 +19,11 @@ import { UserService } from './user/user.service';
     }),
     SurrealDbModule.forRootAsync(SurrealDbModule, {
       useFactory: async (configService: ConfigService, userService: UserService) => ({
-        url: configService.get('SURREALDB_URL'),
-        namespace: configService.get('SURREALDB_NAMESPACE'),
-        database: configService.get('SURREALDB_DATABASE'),
-        user: configService.get('SURREALDB_USER'),
-        pass: configService.get('SURREALDB_PASS'),
+        url: configService.get('surrealDbUrl'),
+        namespace: configService.get('surrealDbNamespace'),
+        database: configService.get('surrealDbDatabase'),
+        user: configService.get('surrealDbUser'),
+        pass: configService.get('surrealDbPass'),
         // userServiceAbstract
         userService,
       }),
@@ -37,7 +37,7 @@ import { UserService } from './user/user.service';
     DbModule,
   ],
   controllers: [
-    AppController
+    AppController,
   ],
   providers: [
     // another trick is that this AppService is required to else we have the classic error

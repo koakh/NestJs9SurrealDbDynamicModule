@@ -21,27 +21,23 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
     }),
     SurrealDbModule.forRootAsync(SurrealDbModule, {
       useFactory: async (configService: ConfigService) => ({
-        url: configService.get('SURREALDB_URL'),
-        namespace: configService.get('SURREALDB_NAMESPACE'),
-        database: configService.get('SURREALDB_DATABASE'),
-        user: configService.get('SURREALDB_USER'),
-        pass: configService.get('SURREALDB_PASS'),
+        url: configService.get('surrealDbUrl'),
+        namespace: configService.get('surrealDbNamespace'),
+        database: configService.get('surrealDbDatabase'),
+        user: configService.get('surrealDbUser'),
+        pass: configService.get('surrealDbPass'),
       }),
       imports: [AppModule],
       inject: [ConfigService],
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      // TODO: this is not required here and provoke the error
-      // https://stackoverflow.com/questions/58236287/configuration-setup-the-path-argument-must-be-one-of-type-received-type
-      // imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        // TODO: GRAPHQL_AUTO_SCHEMA_FILE must have a value else annoying 
-        // TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
-        // https://stackoverflow.com/questions/60234640/typeerror-err-invalid-arg-type-the-path-argument-must-be-of-type-string-re
-        autoSchemaFile: join(process.cwd(), configService.get<string>('GRAPHQL_AUTO_SCHEMA_FILE')),
+        autoSchemaFile: join(process.cwd(), configService.get<string>('graphqlAutoSchemaFile')),
         installSubscriptionHandlers: true,
+        // prevent `server is vulnerable to denial of service attacks via memory exhaustion`
+        cache: 'bounded',
         transformSchema: (schema) => upperDirectiveTransformer(schema, 'upper'),
         buildSchemaOptions: {
           directives: [
@@ -54,7 +50,6 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
         // if defined will be always true, or always false, ignoring NODE_ENV
         // debug: false,
         formatError: (err) => {
-          // TODO:
           // Don't give the specific errors to the client.
           // if (err.message.startsWith('Database Error: ')) {
           //   return new Error('Internal server error');
@@ -68,7 +63,6 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
         },
       }),
     }),
-    // TODO: removed DataloaderModule seems works same way?
     DataloaderModule,
     RecipesModule,
     RestaurantsModule,

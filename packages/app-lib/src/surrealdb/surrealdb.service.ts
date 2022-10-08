@@ -31,7 +31,7 @@ export class SurrealDbService {
   // example
   // appServiceAbstract: this is from consumer app AppModule/AppService
   getHelloAppModule(): { message: string } {
-    return { message: `${this.appService.getHello()} (called in SurrealDbService.etHelloAppModule())` };
+    return { message: `${this.appService.getHello()} (called in SurrealDbService.getHelloAppModule())` };
   }
 
   // example

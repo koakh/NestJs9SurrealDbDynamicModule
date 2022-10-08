@@ -74,7 +74,7 @@ import { join } from 'path';
       useFactory: async (configService: ConfigService) => ({
         autoSchemaFile: join(
           process.cwd(),
-          configService.get<string>('GRAPHQL_AUTO_SCHEMA_FILE'),
+          autoSchemaFile: join(process.cwd(), configService.get<string>('graphqlAutoSchemaFile')),
         ),
         installSubscriptionHandlers: true,
       }),

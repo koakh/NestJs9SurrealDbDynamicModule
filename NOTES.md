@@ -223,7 +223,7 @@ import * as DataLoader from 'dataloader';
 import DataLoader from 'dataloader';
 ```
 
-### Fix #2: DataLoader with Arrays ex 
+### Fix #2: DataLoader with Arrays ex
 
 - [How do I return an array from a dataloader?](https://stackoverflow.com/questions/56331154/how-do-i-return-an-array-from-a-dataloader)
 

@@ -13,17 +13,20 @@
 @thingRecipe = recipe:a1
 @token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjI3NjE5MTUsIm5iZiI6MTY2Mjc2MTkxNSwiZXhwIjoxNjYzOTcxNTE1LCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOjB3aGdnZHdna205d2w2aDY4emxjIn0.-bLrZge6Xqm6xTG5Zdp08Suvyrn-vOMJDu12m9kduDhRt7rrW0V2n_4mQYk8ey6UTxtOAktHNpPNzDyZkq3qKg
 
-// local appModule
+// ::::: BO app-rst :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+// local AppModule:AppController
 
 ### getHello
 // @name getHello
 GET {{uri}} HTTP/1.1
 Content-Type: {{contentType}}
 
-### appLib
+### appLib SurrealDbModule
 
 ### getConfig
 // @name getConfig
+// call surrealDbService.getConfig()
 
 GET {{uri}}/config HTTP/1.1
 Content-Type: {{contentType}}
@@ -33,6 +36,7 @@ Content-Type: {{contentType}}
 
 ### getHelloAppModule
 // @name getHelloAppModule
+// call surrealDbService.getHelloAppModule()
 
 GET {{uri}}/appservice HTTP/1.1
 Content-Type: {{contentType}}
@@ -42,7 +46,7 @@ Content-Type: {{contentType}}
 
 ### getUserFindOneByField
 // @name getUserFindOneByField
-// userService outside DbModule
+// call surrealDbService.getUserFindOneByField()
 
 GET {{uri}}/userservice HTTP/1.1
 Content-Type: {{contentType}}
@@ -50,13 +54,13 @@ Content-Type: {{contentType}}
 {
 }
 
-### dbModule
+// local AppModule:DbModule: DbController
 
 ### getUserFindOneByFieldInsideDbModule
 // @name getUserFindOneByFieldInsideDbModule
-// userService injectd in DbModule
+// call surrealDbService.getUserFindOneByField() (moked user)
 
-GET {{uri}}/db/userservice HTTP/1.1
+GET {{uriDb}}/userservice HTTP/1.1
 Content-Type: {{contentType}}
 
 {
@@ -64,9 +68,14 @@ Content-Type: {{contentType}}
 
 ### getSelectDbModule
 // @name getSelectDbModule
+// call surrealDbService.select(thing)
 
-GET {{uriDb}}/{{thing}}
+GET {{uriDb}}/select/{{thing}}
 Content-Type: application/json
+
+// ::::: EO app-rst :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+// ::::: BO app-rst and app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ###  surrealDbModule: surrealDb proxy methods
 
@@ -195,7 +204,7 @@ Content-Type: application/json
 ### getSelect
 // @name getSelect
 
-GET {{uriSurrealDb}}/select/{{thing}}-
+GET {{uriSurrealDb}}/select/{{thing}}
 Content-Type: application/json
 
 ### postCreate
@@ -218,6 +227,7 @@ Content-Type: application/json
 ### putUpdate
 // @name putUpdate
 // replace current record with payload data
+// TODO: BadRequestException : Bad Request Exception
 
 PUT {{uriSurrealDb}}/update/{{thing}}
 Content-Type: application/json
@@ -234,6 +244,7 @@ Content-Type: application/json
 ### patchChange
 // @name patchChange
 // patches thing, update only sent properties leaving all others untoutched
+// TODO: BadRequestException : Bad Request Exception
 
 PATCH {{uriSurrealDb}}/change/{{thing}}
 Content-Type: application/json
@@ -313,7 +324,10 @@ Content-Type: application/json
 {
 }
 
-### graphQl
+
+// ::::: EO app-rst and app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+// ::::: BO app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 @requestType = GraphQL
 @random = {{$randomInt 1000 9999}}
@@ -712,3 +726,5 @@ X-REQUEST-TYPE: {{requestType}}
 subscription recipeDeleted{
   recipeDeleted
 }
+
+// ::::: EO app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

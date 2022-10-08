@@ -12,13 +12,13 @@ services:
     depends_on:
       - nestjs-surrealdb-rest-surrealdb
     ports:
-      - 3030:3000
+      - 3030:3030
     environment:
       SURREALDB_URL: "http://surrealdb:8000/rpc"
-      SURREALDB_NAMESPACE: "test"
-      SURREALDB_DATABASE: "test"
-      SURREALDB_USER: "root"
-      SURREALDB_PASS: "root"
+    #   SURREALDB_NAMESPACE: "test"
+    #   SURREALDB_DATABASE: "test"
+    #   SURREALDB_USER: "root"
+    #   SURREALDB_PASS: "root"
     # command: "node dist/main.js"
 
   nestjs-surrealdb-rest-surrealdb:
