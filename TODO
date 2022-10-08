@@ -7,7 +7,6 @@ Global:
   ✔ appModule add globalError Handling @done(22-09-09 23:36)
   ✔ add all surrealdb methods from old project @done(22-09-09 23:36)
   ✔ @critical remove all lerna stuff @done(22-10-06 21:44)
-  ☐ graphql and rest docker images and docker compose files
   ✔ publish final surrealdb nestjs package @done(22-10-03 23:21)
   ✔ @critical finish and publish nestjs package with new ts types @done(22-09-29 22:18)
   ✔ @critical add baseService entity stuff to nestjs package, like base service, @done(22-10-03 23:00)

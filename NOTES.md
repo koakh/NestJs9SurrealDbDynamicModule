@@ -4,7 +4,7 @@
   - [Problems](#problems)
     - [Graphql Error Handling](#graphql-error-handling)
   - [How to use Generic @InputType() in BaseResolver](#how-to-use-generic-inputtype-in-baseresolver)
-    - [Solution for DTO's](#solution-for-dtos)
+    - [Solution for BaseResolver with DTO's (createEntity and updateEntity) with generics](#solution-for-baseresolver-with-dtos-createentity-and-updateentity-with-generics)
   - [Resolve N+1 Problem](#resolve-n1-problem)
     - [Fix Error #1: NestJS/GraphQL/DataLoader】Context creation failed: dataloader_1.default is not a constructor](#fix-error-1-nestjsgraphqldataloadercontext-creation-failed-dataloader_1default-is-not-a-constructor)
     - [Fix #2: DataLoader with Arrays ex](#fix-2-dataloader-with-arrays-ex)
@@ -159,7 +159,7 @@ export class RestaurantsResolver extends BaseResolver<Type<Restaurant>, CreateRe
 
 if I change `createEntityInput: K` with `createEntityInput: CreateRestaurantInput` obvious it works, but useless
 
-### Solution for DTO's
+### Solution for BaseResolver with DTO's (createEntity and updateEntity) with generics
 
 > Nice Post WITH THE SOLUTION [[Startup MVP recipes #6] GraphQL Resolver inheritance and a CRUD base resolver with generics - James Zhang](https://jczhang.com/2022/07/29/startup-mvp-recipes-6-graphql-resolver-inheritance-and-a-crud-base-resolver-with-generics/)
 

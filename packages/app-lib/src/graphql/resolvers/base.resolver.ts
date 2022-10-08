@@ -24,7 +24,7 @@ export function BaseResolver<T extends Type<BaseEntity>, K extends BaseCreateEnt
     }
 
     @Mutation(() => classRef, { name: `update${classRef.name}` })
-    async updateRestaurant(@Args('id') id: string, @Args(`update${classRef.name}Input`, { type: () => UpdateClassRefInput }) updateClassRefInput: K) {
+    async updateEntity(@Args('id') id: string, @Args(`update${classRef.name}Input`, { type: () => UpdateClassRefInput }) updateClassRefInput: K) {
       const entity = await this.serviceRef.update(id, updateClassRefInput);
       this.pubSub.publish(`${classRef.name.toLowerCase()}Updated`, { [`${classRef.name.toLowerCase()}Updated`]: entity });
       return entity;
