@@ -3,8 +3,8 @@ import Surreal, { Auth, Patch } from 'surrealdb.js';
 import Live from "surrealdb.js/types/classes/live";
 import { SignUpInResponseDto } from "./dto/signup-in-response.dto";
 import { SurrealDbResponseDto } from "./dto/surrealdb-response.dto";
-import { AppServiceAbstract, UserServiceAbstract } from "./surrealdb.abstracts";
-import { adminCurrentUser, APP_SERVICE, SURREALDB_MODULE_OPTIONS, SURREALDB_MODULE_USER_SERVICE } from './surrealdb.constants';
+import { UserServiceAbstract } from "./surrealdb.abstracts";
+import { adminCurrentUser, SURREALDB_MODULE_OPTIONS, SURREALDB_MODULE_USER_SERVICE } from './surrealdb.constants';
 import { SurrealDbModuleOptions } from './surrealdb.interfaces';
 import { SurrealDbUser as User } from './types';
 
@@ -14,11 +14,12 @@ export class SurrealDbService {
 
   constructor(
     @Inject(SURREALDB_MODULE_OPTIONS)
-    private readonly options: SurrealDbModuleOptions,
+    private readonly options: SurrealDbModuleOptions,    
     @Inject(SURREALDB_MODULE_USER_SERVICE)
     private readonly userService: UserServiceAbstract,
-    @Inject(APP_SERVICE)
-    private readonly appService: AppServiceAbstract,
+    // TODO: uncomment to use outside AppServiceAbstract
+    // @Inject(APP_SERVICE)
+    // private readonly appService: AppServiceAbstract,
   ) {
     this.initSurrealDb();
   }
@@ -28,11 +29,12 @@ export class SurrealDbService {
     return this.options;
   }
 
+  // TODO: uncomment to use outside AppServiceAbstract
   // example
   // appServiceAbstract: this is from consumer app AppModule/AppService
-  getHelloAppModule(): { message: string } {
-    return { message: `${this.appService.getHello()} (called in SurrealDbService.getHelloAppModule())` };
-  }
+  // getHelloAppModule(): { message: string } {
+  //   return { message: `${this.appService.getHello()} (called in SurrealDbService.getHelloAppModule())` };
+  // }
 
   // example
   // userServiceAbstract: this is from consumer app AppModule/UserService

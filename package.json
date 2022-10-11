@@ -24,6 +24,8 @@
     "docker:app-gql:push": "yarn --cwd packages/app-gql docker:push",
     "docker:app-gql:up": "yarn --cwd packages/app-gql docker:up",
     "docker:app-gql:down": "yarn --cwd packages/app-gql docker:down",
+    "// tutorial-graphql": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
+    "start:tutorial-graphql": "yarn --cwd packages/tutorial-graphql start:debug",
     "// end": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
   }
 }

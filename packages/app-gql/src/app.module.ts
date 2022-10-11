@@ -68,24 +68,25 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
     RestaurantsModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    // another trick is that this AppService is required to else we have the classic error
-    // Nest can't resolve dependencies of the AppController (?, SurrealDbService). Please make sure that the argument AppService at index [0] is available in the AppModule context.
-    {
-      provide: APP_SERVICE,
-      useClass: AppService,
-    },
-  ],
-  // at last so kind of clue, this is what will solve the problem of
-  // ERROR [ExceptionHandler] Nest can't resolve dependencies of the SurrealDbService (AUTH_MODULE_OPTIONS, ?). Please make sure that the argument APP_SERVICE at index [1] is available in the SurrealDbModule context.
-  // now we can import it with `imports: [AppModule]` into SurrealDbModule, and expose it's providers
-  // this wat we use it inside it with `@Inject('APP_SERVICE')`
-  exports: [
-    {
-      provide: APP_SERVICE,
-      useClass: AppService,
-    },
-  ],
+  // TODO: uncomment to use outside AppServiceAbstract
+  // providers: [
+  //   AppService,
+  //   // another trick is that this AppService is required to else we have the classic error
+  //   // Nest can't resolve dependencies of the AppController (?, SurrealDbService). Please make sure that the argument AppService at index [0] is available in the AppModule context.
+  //   {
+  //     provide: APP_SERVICE,
+  //     useClass: AppService,
+  //   },
+  // ],
+  // // at last so kind of clue, this is what will solve the problem of
+  // // ERROR [ExceptionHandler] Nest can't resolve dependencies of the SurrealDbService (AUTH_MODULE_OPTIONS, ?). Please make sure that the argument APP_SERVICE at index [1] is available in the SurrealDbModule context.
+  // // now we can import it with `imports: [AppModule]` into SurrealDbModule, and expose it's providers
+  // // this wat we use it inside it with `@Inject('APP_SERVICE')`
+  // exports: [
+  //   {
+  //     provide: APP_SERVICE,
+  //     useClass: AppService,
+  //   },
+  // ],
 })
 export class AppModule { }

@@ -8,6 +8,7 @@
   - [Resolve N+1 Problem](#resolve-n1-problem)
     - [Fix Error #1: NestJS/GraphQL/DataLoader】Context creation failed: dataloader_1.default is not a constructor](#fix-error-1-nestjsgraphqldataloadercontext-creation-failed-dataloader_1default-is-not-a-constructor)
     - [Fix #2: DataLoader with Arrays ex](#fix-2-dataloader-with-arrays-ex)
+  - [npm ERR! need auth This command requires you to be logged in to https://registry.yarnpkg.com/](#npm-err-need-auth-this-command-requires-you-to-be-logged-in-to-httpsregistryyarnpkgcom)
 
 - NestJS 9 SurrealDb dynamic moduled using 'old way' with `@golevelup/nestjs-modules`
 based on [301 Moved Permanently](https://github.com/koakh/NestJsPlayWithDynamicModulesWithAppAndAppLib.git)
@@ -249,4 +250,31 @@ query findManyRestaurants($skip: Int, $take: Int) {
     }
   }
 }
+```
+
+## npm ERR! need auth This command requires you to be logged in to https://registry.yarnpkg.com/
+
+```shell
+$ yarn start:app-lib:publish
+...
+npm ERR! code ENEEDAUTH
+npm ERR! need auth This command requires you to be logged in to https://registry.yarnpkg.com/
+npm ERR! need auth You need to authorize this machine using `npm adduser`
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/mario/.npm/_logs/2022-10-11T21_10_15_256Z-debug-0.log
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+```
+
+to fix just use `npm publish`
+
+```shell
+$ cd packages/app-lib
+$ npm publish
+# outcome
+npm notice Publishing to https://registry.npmjs.org/
++ @koakh/nestjs-surrealdb@0.1.5
 ```
