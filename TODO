@@ -16,10 +16,10 @@ Global:
   ✔ finish docker images and push to registry @done(22-10-07 22:58)
     ✔ rest @done(22-10-07 22:58)
     ✔ graphql @done(22-10-07 22:58)
-  ☐ create a new github repo with this, and after finish project delete the old one
+    ✔ create a new github repo with this, and after finish project delete the old one @done(22-10-11 23:15)
     https://github.com/koakh/NestJs9SurrealDbDynamicModule
+  ✔ add a graphql tutorial to use nestjs package and add it to tutorials.surrealdb.com @done(22-10-11 23:15)
   ☐ add initdb with sample data and maybe a schema `initdb.sql` (from old project)
-  ☐ add a graphql tutorial to use nestjs package and add it to tutorials.surrealdb.com
   
   ☐ get readme and notes from old project
   ☐ cleanup packages/app/README.md
