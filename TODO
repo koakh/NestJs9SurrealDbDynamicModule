@@ -1,14 +1,16 @@
 Global:
+  ☐ @critical cleanup main project README with scripts from package.json, links to project README's, how to run all projects, init db to test signup signin etc
+  ☐ add initdb with sample data and maybe a schema `initdb.sql` (from old project)
   ☐ @critical rest with current package without graphql deps
   ✔ test all client.http requests, do some cleanup @done(22-10-11 22:35)
   ✔ use latest surrealdb.js package @done(22-10-03 22:59)
   ✔ remove bcrypt, jwt references @done(22-09-09 23:36)
   ✔ appModule add globalError Handling @done(22-09-09 23:36)
   ✔ add all surrealdb methods from old project @done(22-09-09 23:36)
-  ✔ @critical remove all lerna stuff @done(22-10-06 21:44)
+  ✔ remove all lerna stuff @done(22-10-06 21:44)
   ✔ publish final surrealdb nestjs package @done(22-10-03 23:21)
-  ✔ @critical finish and publish nestjs package with new ts types @done(22-09-29 22:18)
-  ✔ @critical add baseService entity stuff to nestjs package, like base service, @done(22-10-03 23:00)
+  ✔ finish and publish nestjs package with new ts types @done(22-09-29 22:18)
+  ✔ add baseService entity stuff to nestjs package, like base service, @done(22-10-03 23:00)
     has many things related to graphql like @InputType() dtos, required '@nestjs/graphql' but why not
     this works with rest and graphql
   ✔ change to override default EnvironmentVariables @done(22-10-07 22:36)
@@ -19,17 +21,7 @@ Global:
     ✔ create a new github repo with this, and after finish project delete the old one @done(22-10-11 23:15)
     https://github.com/koakh/NestJs9SurrealDbDynamicModule
   ✔ add a graphql tutorial to use nestjs package and add it to tutorials.surrealdb.com @done(22-10-11 23:15)
-  ☐ add initdb with sample data and maybe a schema `initdb.sql` (from old project)
   
-  ☐ get readme and notes from old project
-  ☐ cleanup packages/app/README.md
-  ☐ cleanup packages/app-lib/README.md
-  ☐ add to readme
-    ☐ npm run pkg:app-lib:dev
-    ☐ npm run pkg:app:debug
-    ☐ npm run pkg:app-gql:debug
-      ☐ note that it have all rest endpoints
-
   DynamicModule:
 
   Rest App:
