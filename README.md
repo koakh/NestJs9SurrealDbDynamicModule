@@ -6,6 +6,7 @@
     - [REST Consumer App](#rest-consumer-app)
     - [GraphQL Consumer App](#graphql-consumer-app)
     - [GraphQL DataLoader Package](#graphql-dataloader-package)
+    - [GraphQL SurrealDb Tutorial](#graphql-surrealdb-tutorial)
   - [Test Package and Consumer Apps](#test-package-and-consumer-apps)
     - [Install and Run SurrealDb](#install-and-run-surrealdb)
       - [Install SurrealDb](#install-surrealdb)
@@ -41,6 +42,10 @@ graphql consumer sample app `@koakh/nestjs-surrealdb-graphql-demo` locate at `pa
 
 cloned [tracworx/nestjs-dataloade](https://github.com/tracworx/nestjs-dataloade) to work with nestjs 9 without use `--force` flag
 
+### GraphQL SurrealDb Tutorial
+
+- [README](packages/tutorial-graphql/README.md)
+
 ## Test Package and Consumer Apps
 
 ### Install and Run SurrealDb
@@ -69,6 +74,7 @@ $ curl -sSf https://install.surrealdb.com | sh
 ```shell
 $ iwr https://windows.surrealdb.com -useb | iex
 ```
+
 #### Start SurrealDb Instance
 
 - [SurrealDB | Documentation](https://surrealdb.com/docs/start/starting-surrealdb)
