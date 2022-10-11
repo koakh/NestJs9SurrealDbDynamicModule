@@ -1,14 +1,109 @@
 # README
 
+- [README](#readme)
+  - [Links](#links)
+    - [Main Repo](#main-repo)
+    - [SurrealDb](#surrealdb)
+    - [NestJs](#nestjs)
+  - [Install and Run SurrealDb](#install-and-run-surrealdb)
+    - [Install SurrealDb](#install-surrealdb)
+      - [Install on macOS](#install-on-macos)
+      - [Install on Linux](#install-on-linux)
+      - [Install on Windows](#install-on-windows)
+    - [Start SurrealDb Instance](#start-surrealdb-instance)
+  - [NestJs/Node Prerequisites](#nestjsnode-prerequisites)
+  - [Setup](#setup)
+  - [Create a new NestJs Project](#create-a-new-nestjs-project)
+  - [Installing the required packages:](#installing-the-required-packages)
+  - [CleanUp non used Files](#cleanup-non-used-files)
+  - [Add .env File](#add-env-file)
+  - [Change AppModule](#change-appmodule)
+  - [Add AllExceptionsFilter](#add-allexceptionsfilter)
+  - [DateScalar](#datescalar)
+  - [Config Main](#config-main)
+  - [Add GraphQL code first Resolvers](#add-graphql-code-first-resolvers)
+    - [Recipes](#recipes)
+    - [Restaurants](#restaurants)
+    - [Add Modules to AppModule](#add-modules-to-appmodule)
+  - [Build and Run Application](#build-and-run-application)
+  - [Play with GraphQL API](#play-with-graphql-api)
+
 ## Links
+
+### Main Repo
+
+- [GitHub - koakh/NestJs9SurrealDbDynamicModule](https://github.com/koakh/NestJs9SurrealDbDynamicModule)
+- [GitHub - koakh/NestJs9SurrealDbDynamicModule : tutorial-graphql](https://github.com/koakh/NestJs9SurrealDbDynamicModule/tree/main/packages/tutorial-graphql)
+
+> full `tutorial-graphql` project on above link
+
+### SurrealDb
+
+- [SurrealDb](https://surrealdb.com)
+
+### NestJs
 
 - [Documentation | NestJS - A progressive Node.js framework](https://docs.nestjs.com/graphql/quick-start)
 - [nest/sample/23-graphql-code-first at master · nestjs/nest](https://github.com/nestjs/nest/tree/master/sample/23-graphql-code-first)
 
-## Prerequisites
+## Install and Run SurrealDb
 
-Please make sure that NPM or YARN and Node.js (version >= 12, except for v13) is installed on your operating system.
+### Install SurrealDb
 
+first install SurrealDb. full instruction at [SurrealDB | Install](https://surrealdb.com/install)
+
+#### Install on macOS
+
+```shell
+$ brew install surrealdb/tap/surreal
+```
+
+#### Install on Linux
+
+```shell
+$ curl -sSf https://install.surrealdb.com | sh
+```
+
+#### Install on Windows
+
+```shell
+$ iwr https://windows.surrealdb.com -useb | iex
+```
+
+### Start SurrealDb Instance
+
+- [SurrealDB | Documentation](https://surrealdb.com/docs/start/starting-surrealdb)
+
+```shell
+# start with in memory
+$ surreal start --user root --pass root
+
+# or start with rocksdb (persisted on disk)
+$ surreal start --user root --pass root file:mydb
+
+# outcome
+ .d8888b.                                             888 8888888b.  888888b.
+d88P  Y88b                                            888 888  'Y88b 888  '88b
+Y88b.                                                 888 888    888 888  .88P
+ 'Y888b.   888  888 888d888 888d888  .d88b.   8888b.  888 888    888 8888888K.
+    'Y88b. 888  888 888P'   888P'   d8P  Y8b     '88b 888 888    888 888  'Y88b
+      '888 888  888 888     888     88888888 .d888888 888 888    888 888    888
+Y88b  d88P Y88b 888 888     888     Y8b.     888  888 888 888  .d88P 888   d88P
+ 'Y8888P'   'Y88888 888     888      'Y8888  'Y888888 888 8888888P'  8888888P'
+
+
+[2022-09-05 23:05:47] INFO  surrealdb::iam Root authentication is enabled
+[2022-09-05 23:05:47] INFO  surrealdb::iam Root username is 'root'
+[2022-09-05 23:05:47] INFO  surrealdb::dbs Database strict mode is disabled
+[2022-09-05 23:05:47] INFO  surrealdb::kvs Starting kvs store at file:mydb
+[2022-09-05 23:05:47] INFO  surrealdb::kvs Started kvs store at file:mydb
+[2022-09-05 23:05:47] INFO  surrealdb::net Starting web server on 0.0.0.0:8000
+[2022-09-05 23:05:47] INFO  surrealdb::net Started web server on 0.0.0.0:8000
+```
+
+## NestJs/Node Prerequisites
+
+- Please make sure that NPM or YARN and Node.js (version >= 12, except for v13) is installed on your operating system.
 ## Setup
 
 ```shell
@@ -208,7 +303,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-## Add GrapqhQL code first Resolvers 
+## Add GraphQL code first Resolvers 
 
 here we use some **base classes that will do the hard work for our CRUD from DTO's**, leaving us to do only some **custom resolvers** and we are done
 

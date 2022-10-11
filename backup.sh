@@ -11,9 +11,7 @@ touch node_modules/${FILE_EXCLUDE}
 touch packages/app-lib/node_modules/${FILE_EXCLUDE}
 touch packages/app/node_modules/${FILE_EXCLUDE}
 touch packages/app-gql/node_modules/${FILE_EXCLUDE}
-touch .oldnestjs9wayproject/${FILE_EXCLUDE}
-touch packages_fucked/${FILE_EXCLUDE} 
-touch packages_removed/${FILE_EXCLUDE}
+touch packages/tutorial-graphql/node_modules/${FILE_EXCLUDE}
 touch .trash/${FILE_EXCLUDE}
 
 tar -zcvf $FILE \

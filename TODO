@@ -1,7 +1,6 @@
 Global:
   ☐ @critical rest with current package without graphql deps
-  ☐ @critical test all client.http requests, do some cleanup
-    test with docker images
+  ✔ test all client.http requests, do some cleanup @done(22-10-11 22:35)
   ✔ use latest surrealdb.js package @done(22-10-03 22:59)
   ✔ remove bcrypt, jwt references @done(22-09-09 23:36)
   ✔ appModule add globalError Handling @done(22-09-09 23:36)
@@ -20,7 +19,8 @@ Global:
   ☐ create a new github repo with this, and after finish project delete the old one
     https://github.com/koakh/NestJs9SurrealDbDynamicModule
   ☐ add initdb with sample data and maybe a schema `initdb.sql` (from old project)
-  ☐ add a tutorial to use nestjs package and to use in tutorials.surrealdb.com to
+  ☐ add a graphql tutorial to use nestjs package and add it to tutorials.surrealdb.com
+  
   ☐ get readme and notes from old project
   ☐ cleanup packages/app/README.md
   ☐ cleanup packages/app-lib/README.md
