@@ -1,0 +1,109 @@
+{
+  "name": "@koakh/nestjs-dataloader",
+  "version": "1.1.0",
+  "description": "Quick and easy GraphQL dataloaders for NestJS",
+  "keywords": [
+    "nest",
+    "nestjs",
+    "graphql",
+    "gql",
+    "dataloader",
+    "loader",
+    "batch"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/tracworx/nestjs-dataloader#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tracworx/nestjs-dataloader.git"
+  },
+  "author": {
+    "name": "Eoin O'Brien",
+    "email": "eoin@tracworx.ai",
+    "url": "https://tracworx.ai/"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "prepare": "npm run build",
+    "// disabled tests and pre publish": "",
+    "// prepublishOnly": "npm test && npm run test:e2e && npm run lint",
+    "// preversion": "npm test && npm run test:e2e",
+    "// postversion": "git push && git push --tags",
+    "version:patch": "npm run build && npm version patch",
+    "version:publish": "npm publish"
+  },
+  "dependencies": {
+    "dataloader": "^2.0.0",
+    "rxjs": "^7.5.6",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@golevelup/ts-jest": "0.3.3",
+    "@nestjs/apollo": "^10.1.0",
+    "@nestjs/cli": "^9.1.2",
+    "@nestjs/common": "^9.1.2",
+    "@nestjs/core": "^9.1.2",
+    "@nestjs/graphql": "^10.1.2",
+    "@nestjs/platform-express": "^9.0.11",
+    "@nestjs/schematics": "^9.0.3",
+    "@nestjs/testing": "^9.0.11",
+    "@tsconfig/node14": "^1.0.3",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^18.7.16",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "@typescript-eslint/parser": "^5.36.2",
+    "apollo-server-express": "^3.10.2",
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "graphql": "^16.6.0",
+    "jest": "27.0.6",
+    "prettier": "^2.7.1",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "source-map-support": "^0.5.21",
+    "supertest": "^6.2.4",
+    "ts-jest": "27.0.3",
+    "ts-loader": "^9.3.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.0",
+    "typescript": "^4.8.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s",
+      "!index.ts"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
