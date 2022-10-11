@@ -1,6 +1,7 @@
 # README
 
 - [README](#readme)
+  - [Intro](#intro)
   - [Links](#links)
     - [Main Repo](#main-repo)
     - [SurrealDb](#surrealdb)
@@ -19,14 +20,27 @@
   - [Add .env File](#add-env-file)
   - [Change AppModule](#change-appmodule)
   - [Add AllExceptionsFilter](#add-allexceptionsfilter)
-  - [DateScalar](#datescalar)
+  - [Add DateScalar](#add-datescalar)
   - [Config Main](#config-main)
   - [Add GraphQL code first Resolvers](#add-graphql-code-first-resolvers)
-    - [Recipes](#recipes)
-    - [Restaurants](#restaurants)
-    - [Add Modules to AppModule](#add-modules-to-appmodule)
+    - [RecipesModule](#recipesmodule)
+      - [DataLoader](#dataloader)
+      - [DTO's](#dtos)
+      - [Entities](#entities)
+      - [Recipes Modules Stuff](#recipes-modules-stuff)
+    - [RestaurantsModule](#restaurantsmodule)
+      - [DataLoader](#dataloader-1)
+      - [DTO's](#dtos-1)
+      - [Entities](#entities-1)
+      - [Restaurants Modules Stuff](#restaurants-modules-stuff)
+    - [Add new RecipesModule and RestaurantsModule to AppModule](#add-new-recipesmodule-and-restaurantsmodule-to-appmodule)
   - [Build and Run Application](#build-and-run-application)
   - [Play with GraphQL API](#play-with-graphql-api)
+
+## Intro
+
+A simple tutorial of a GraphQL Server with [NestJs 9](https://nestjs.com/) and [SurrealDB](https://surrealdb.com), 
+using [@koakh/nestjs-surrealdb](https://github.com/koakh/NestJs9SurrealDbDynamicModule/tree/main/packages/app-lib) surrealdb wrapper on top of [surrealdb.js](https://surrealdb.com/surrealdb.js) driver, with DataLoaders, Subscriptions and BaseClasses to generate CRUD from simples DTOs and using Schemaless SurrealDb Scheme
 
 ## Links
 
@@ -103,7 +117,7 @@ Y88b  d88P Y88b 888 888     888     Y8b.     888  888 888 888  .d88P 888   d88P
 
 ## NestJs/Node Prerequisites
 
-- Please make sure that NPM or YARN and Node.js (version >= 12, except for v13) is installed on your operating system.
+- Please make sure that NPM and Node.js (version >= 12, except for v13) is installed on your operating system.
 ## Setup
 
 ```shell
@@ -202,7 +216,9 @@ import { join } from 'path';
 export class AppModule { }
 ```
 
-before we must run app we must implement at least on GraphQL root query, else we get error `GraphQLError: Query root type must be provided.`
+before we run app, **we must implement at least on GraphQL root query**, else we get error `GraphQLError: Query root type must be provided.`
+
+but first we need some extra stuff to configure our nestjs application, let's start
 
 ## Add AllExceptionsFilter
 
@@ -244,9 +260,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
 }
 ```
 
-## DateScalar
+## Add DateScalar
 
-this is required to use SurrealDB date format
+this is required to use SurrealDb date format
 
 `src/common/scalars/date.scalar.ts`
 
@@ -305,9 +321,9 @@ bootstrap();
 
 ## Add GraphQL code first Resolvers 
 
-here we use some **base classes that will do the hard work for our CRUD from DTO's**, leaving us to do only some **custom resolvers** and we are done
+here we will use some **base classes that will do the hard work for our CRUD from DTO's**, leaving us to do only some **custom resolvers** with some non CRUD logic in future, and we are done
 
-we will create bellow file structure, with **dataloader's, dto's, entities, modules, resolvers and services**
+we will create bellow file structure, with **dataloader's, dto's, entities, modules, resolvers and services** for new sample Modules `RecipesModule` and `RestaurantsModule`
 
 ```shell
 ├── src
@@ -343,7 +359,9 @@ we will create bellow file structure, with **dataloader's, dto's, entities, modu
 │       └── restaurants.service.ts
 ```
 
-### Recipes
+### RecipesModule
+
+#### DataLoader
 
 `src/recipes/dataloader/index.ts`
 
@@ -374,6 +392,8 @@ export class RestaurantDataLoader {
   }
 }
 ```
+
+#### DTO's
 
 `src/recipes/dto/index.ts`
 
@@ -437,6 +457,8 @@ export class UpdateRecipeInput extends BaseUpdateEntityInput {
 }
 ```
 
+#### Entities
+
 `src/recipes/entities/index.ts`
 
 ```ts
@@ -469,6 +491,8 @@ export class Recipe extends BaseEntity {
   restaurant: Restaurant;
 }
 ```
+
+#### Recipes Modules Stuff
 
 `src/recipes/recipes.module.ts`
 
@@ -536,7 +560,10 @@ export class RecipesService extends BaseService<Type<Recipe>, BaseFindAllArgs, C
 }
 ```
 
-### Restaurants
+### RestaurantsModule
+
+
+#### DataLoader
 
 `src/restaurants/dataloader/index.ts`
 
@@ -569,6 +596,8 @@ export class RecipeDataLoader {
   }
 }
 ```
+
+#### DTO's
 
 `src/restaurants/dto/index.ts`
 
@@ -626,6 +655,8 @@ export class UpdateRestaurantInput extends BaseUpdateEntityInput {
 }
 ```
 
+#### Entities
+
 `src/restaurants/entities/index.ts`
 
 ```ts
@@ -658,6 +689,9 @@ export class Restaurant extends BaseEntity {
   recipes?: Recipe[];
 }
 ```
+
+#### Restaurants Modules Stuff
+
 
 `src/restaurants/restaurants.module.ts`
 
@@ -724,7 +758,7 @@ export class RestaurantsService extends BaseService<Type<Restaurant>, BaseFindAl
 
 done now we must add modules to AppModule
 
-### Add Modules to AppModule
+### Add new RecipesModule and RestaurantsModule to AppModule
 
 add modules `DataloaderModule`, `RecipesModule`, `RestaurantsModule` to `AppModule`
 
@@ -770,6 +804,11 @@ for ex
 $ yarn build && yarn start:prod
 # run in dev
 $ yarn start:dev
+```
+
+here we will use the debug version
+
+```shell
 # run in debug
 $ yarn start:debug
 # outcome
@@ -783,4 +822,3 @@ $ yarn start:debug
 [Open GraphQL PlayGround](http://localhost:3030/graphql) and play with API
 
 > Don't forget to play with DataLoaders and Subscriptions :)
-
