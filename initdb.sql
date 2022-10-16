@@ -1,5 +1,5 @@
 -- implicit full access for new signup users
--- TODO: the only way to work with a signin user is using bellow PERMISSIONS
+-- the only way to work with a signin user is using bellow PERMISSIONS
 DEFINE TABLE person SCHEMALESS PERMISSIONS
   FOR select, create, update, delete FULL;
 

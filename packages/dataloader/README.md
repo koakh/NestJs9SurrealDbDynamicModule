@@ -11,6 +11,10 @@
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/tracworx/nestjs-dataloader)](https://codeclimate.com/github/tracworx/nestjs-dataloader/test_coverage)
 [![Twitter](https://img.shields.io/twitter/follow/realEoinOBrien.svg?style=social&label=Follow)](https://twitter.com/realEoinOBrien)
 
+## Note
+
+this is the same package as `@tracworx/nestjs-dataloader` but with updated node modules to latest versions only, all credit goes to `@tracworx/nestjs-dataloader` authors
+
 ## Description
 
 Quick and easy GraphQL [dataloaders](https://github.com/graphql/dataloader) for NestJS.
@@ -18,7 +22,8 @@ Quick and easy GraphQL [dataloaders](https://github.com/graphql/dataloader) for 
 ## Installation
 
 ```bash
-$ npm install @tracworx/nestjs-dataloader
+# npm install @tracworx/nestjs-dataloader
+$ npm install @koakh/nestjs-dataloader
 ```
 
 ## Usage

@@ -1,14 +1,10 @@
 # README
-## Intro
-
-A simple tutorial of a GraphQL Server with [NestJs 9](https://nestjs.com/) and [SurrealDB](https://surrealdb.com), 
-using [@koakh/nestjs-surrealdb](https://github.com/koakh/NestJs9SurrealDbDynamicModule/tree/main/packages/app-lib) surrealdb nestjs 9 dynamic module wrapper on top of [surrealdb.js](https://surrealdb.com/surrealdb.js) driver, with DataLoaders, Subscriptions and BaseClasses to generate CRUD from simple DTOs and using Schemaless SurrealDb Scheme.....
 
 ## TOC
 
 - [README](#readme)
-  - [Intro](#intro)
   - [TOC](#toc)
+  - [Intro](#intro)
   - [Links](#links)
     - [Main Repo](#main-repo)
     - [SurrealDb](#surrealdb)
@@ -43,6 +39,11 @@ using [@koakh/nestjs-surrealdb](https://github.com/koakh/NestJs9SurrealDbDynamic
     - [Add new RecipesModule and RestaurantsModule to AppModule](#add-new-recipesmodule-and-restaurantsmodule-to-appmodule)
   - [Build and Run Application](#build-and-run-application)
   - [Play with GraphQL API](#play-with-graphql-api)
+
+## Intro
+
+A simple tutorial of a GraphQL Server with [NestJs 9](https://nestjs.com/) and [SurrealDB](https://surrealdb.com), 
+using [@koakh/nestjs-surrealdb](https://github.com/koakh/NestJs9SurrealDbDynamicModule/tree/main/packages/app-lib) surrealdb nestjs 9 dynamic module wrapper on top of [surrealdb.js](https://surrealdb.com/surrealdb.js) driver, with DataLoaders, Subscriptions and BaseClasses to generate CRUD from simple DTOs and using Schemaless SurrealDb Scheme.....
 
 ## Links
 

@@ -18,7 +18,7 @@ some other projects and files that help
 - `/home/mario/Development/@Koakh/node-modules/@koakh/@NestJsPackages/TypescriptNestJsPackageJwtAuthenticationLdap/nestjs-package-jwt-authentication-ldap-consumer/src/consumer-app/consumer-app.module.ts`
 
 
-AFTER SOM MANY HOURS the start solving is using `@Global` on `SurrealDbModule`
+AFTER SO MANY HOURS the start solving is using `@Global` on `SurrealDbModule`
 
 - `packages/app-lib/src/surrealdb/surrealdb.module.ts`
 

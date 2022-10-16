@@ -2,7 +2,7 @@
 
 - [README](#readme)
   - [Project Components](#project-components)
-    - [Dynamic Module](#dynamic-module)
+    - [NestJs SurrealDb Dynamic Module](#nestjs-surrealdb-dynamic-module)
     - [REST Consumer App](#rest-consumer-app)
     - [GraphQL Consumer App](#graphql-consumer-app)
     - [GraphQL DataLoader Package](#graphql-dataloader-package)
@@ -16,13 +16,14 @@
           - [Install on Windows](#install-on-windows)
       - [Start SurrealDb Instance](#start-surrealdb-instance)
   - [Init surrealDb Database](#init-surrealdb-database)
-  - [Run App from Source Code](#run-app-from-source-code)
-    - [Launch some Queries](#launch-some-queries)
-  - [Run App with Docker Compose](#run-app-with-docker-compose)
+  - [Now launch Consumer Apps](#now-launch-consumer-apps)
+    - [Rest Consumer App](#rest-consumer-app-1)
+    - [GraphQL Consumer App](#graphql-consumer-app-1)
+    - [GraphQL Tutorial Consumer App](#graphql-tutorial-consumer-app)
 
 ## Project Components
 
-### Dynamic Module
+### NestJs SurrealDb Dynamic Module
 
 the main `@koakh/nestjs-surrealdb` nestjs dynamic module (library) locate at  `packages/app-lib`
 
@@ -164,288 +165,35 @@ done we have a ready to play surrealdb database ready to use with `signup` and `
 
 > more info on [gist](https://gist.github.com/koakh/fbbc37cde630bedcf57acfd4d6a6956b)
 
-## Run App from Source Code
+## Now launch Consumer Apps
+
+from root `package.json` 
+
+### Rest Consumer App
 
 ```shell
-$ cd consumer-app
-$ npm i
-$ npm run start:debug
-# outcome
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [NestFactory] Starting Nest application...
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [InstanceLoader] ConfigHostModule dependencies initialized +24ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [InstanceLoader] SurrealDbModule dependencies initialized +5ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [InstanceLoader] AppModule dependencies initialized +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RoutesResolver] AppController {/}: +5ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/, GET} route +2ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/connect, POST} route +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/close, POST} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/use, POST} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/signup, POST} route +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/signin, POST} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/invalidate, POST} route +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/authenticate, POST} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/let, POST} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/query, POST} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/:thing, GET} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/, POST} route +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/:thing, PUT} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/modify/:thing, PATCH} route +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/:thing, PATCH} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/:thing, DELETE} route +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/sync, POST} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/ping, POST} route +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/info, POST} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/live, POST} route +0ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [RouterExplorer] Mapped {/kill, POST} route +1ms
-[Nest] 24577  - 09/05/2022, 11:45:06 PM     LOG [NestApplication] Nest application successfully started +2ms
-Application is running on: http://[::1]:3000
+# start dev
+$ yarn start:app-rst
+
+# start docker stack
+$ docker:app-rst:up
+$ docker:app-rst:down
 ```
 
-> note for local package in `"@koakh/nestjs-surrealdb": "file:../dynamic-module"`
-
-### Launch some Queries
-
-install [Rest Client Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
-
-open [client.http](client.http) and start fire some requests
-
-or just use some curls
+### GraphQL Consumer App
 
 ```shell
-# postSignup
-$ curl --request POST \
-  --url http://localhost:3000/signup \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{"ns": "test","db": "test","sc": "allusers","email": "tobie@surrealdb.com","pass": "some password","marketing": true,"tags": ["rust", "golang", "javascript"]}'
-# outcome
-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjI0MTU4MjYsIm5iZiI6MTY2MjQxNTgyNiwiZXhwIjoxNjYzNjI1NDI2LCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOjB3aGdnZHdna205d2w2aDY4emxjIn0.v3rueJnSIoJfmv_KiA-3BolWuSdNBdWw2XkvCEUyuifuInzoyJxB9VOtbteFhDyTVHXrd0ROiUASKwNJLiZACg
+# start dev
+$ yarn start:app-gql
 
-# postQuery: SELECT * FROM $auth
-$ curl --request POST \
-  --url http://localhost:3000/query \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{"sql": "SELECT * FROM $auth"}'
-# outcome
-[
-  {
-    "result": [
-      {
-        "email": "tobie@surrealdb.com",
-        "id": "user:0whggdwgkm9wl6h68zlc",
-        "pass": "$argon2id$v=19$m=4096,t=3,p=1$Ifk8ToH+kVm2rkp/ozsbEw$LlcNW8elxRX2uHsRQasxCy3kyQyWlo3mz+gWUgnddwg",
-        "settings": {
-          "marketing": "true"
-        },
-        "tags": [
-          "golang"
-        ]
-      }
-    ],
-    "status": "OK",
-    "time": "185.332µs"
-  }
-]
-
-# postQuery: SELECT * FROM $session
-$ curl --request POST \
-  --url http://localhost:3000/query \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{"sql": "SELECT * FROM $session"}'
-# outcome
-[
-  {
-    "result": [
-      {
-        "db": "test",
-        "id": null,
-        "ip": "127.0.0.1:54928",
-        "ns": "test",
-        "or": null,
-        "sc": "allusers",
-        "sd": "user:0whggdwgkm9wl6h68zlc"
-      }
-    ],
-    "status": "OK",
-    "time": "60.966µs"
-  }
-]
-
-# postQuery: SELECT * FROM $scope
-$ curl --request POST \
-  --url http://localhost:3000/query \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{"sql": "SELECT * FROM $scope"}'
-# outcome
-[
-  {
-    "result": [
-      "allusers"
-    ],
-    "status": "OK",
-    "time": "46.318µs"
-  }
-]
-
-# postCreate
-$ curl --request POST \
-  --url http://localhost:3000/ \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{"id": "person:uv1o55sjes0tdpa31ool","title": "Founder & CEO","name": {"first": "Tobie","last": "Morgan Hitchcock"},"marketing": true,"age": 28}'
-# outcome
-{
-  "age": 28,
-  "id": "person:uv1o55sjes0tdpa31ool",
-  "marketing": true,
-  "name": {
-    "first": "Tobie",
-    "last": "Morgan Hitchcock"
-  },
-  "title": "Founder & CEO"
-}
-
-# getSelect
-$ curl --request GET \
-  --url http://localhost:3000/person:uv1o55sjes0tdpa31ool \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient'
-# outcome
-[
-  {
-    "age": 28,
-    "id": "person:uv1o55sjes0tdpa31ool",
-    "marketing": true,
-    "name": {
-      "first": "Tobie",
-      "last": "Morgan Hitchcock"
-    },
-    "title": "Founder & CEO"
-  }
-]
-
-# postQuery: SELECT id, string::concat(name.first, ' ', name.last) AS name, age FROM $id;
-$ curl --request POST \
-  --url http://localhost:3000/query \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{"sql": "SELECT id, string::concat(name.first, '\'' '\'', name.last) AS name, age FROM $id;","vars": {"id": "person:uv1o55sjes0tdpa31ool"}}'
-# outcome
-[
-  {
-    "result": [
-      {
-        "age": 28,
-        "id": "person:uv1o55sjes0tdpa31ool",
-        "name": "Tobie Morgan Hitchcock"
-      }
-    ],
-    "status": "OK",
-    "time": "142.58µs"
-  }
-]
-
-# putUpdate
-$ curl --request PUT \
-  --url http://localhost:3000/person:uv1o55sjes0tdpa31ool \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{"name": {"first": "Mário","last": "Monteiro"},"age": 50,"country": "Portugal"}'
-# outcome
-{
-  "age": 50,
-  "country": "Portugal",
-  "id": "person:uv1o55sjes0tdpa31ool",
-  "name": {
-    "first": "Mário",
-    "last": "Monteiro"
-  }
-}
-
-# patchChange
-$ curl --request PATCH \
-  --url http://localhost:3000/person:uv1o55sjes0tdpa31ool \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{"name": {"first": "Tobie changed...","last": "Morgan Hitchcock changed..."}}'
-# outcome
-{
-  "age": 50,
-  "country": "Portugal",
-  "id": "person:uv1o55sjes0tdpa31ool",
-  "name": {
-    "first": "Tobie changed...",
-    "last": "Morgan Hitchcock changed..."
-  }
-}
-
-# patchModify
-$ curl --request PATCH \
-  --url http://localhost:3000/modify/person:uv1o55sjes0tdpa31ool \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{"name": {"fullName": "Tobie Morgan Hitchcock"}}'
-# outcome
-{
-  "age": 50,
-  "country": "Portugal",
-  "id": "person:uv1o55sjes0tdpa31ool",
-  "name": {
-    "fullName": "Tobie Morgan Hitchcock"
-  }
-}
-
-# deleteDelete
-$ curl --request DELETE \
-  --url http://localhost:3000/person:uv1o55sjes0tdpa31ool \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient'
-# outcome
-none
-
-# postInfo
-$ curl --request POST \
-  --url http://localhost:3000/info \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{}'
-# outcome
-{
-  "email": "tobie@surrealdb.com",
-  "id": "user:0whggdwgkm9wl6h68zlc",
-  "pass": "$argon2id$v=19$m=4096,t=3,p=1$Ifk8ToH+kVm2rkp/ozsbEw$LlcNW8elxRX2uHsRQasxCy3kyQyWlo3mz+gWUgnddwg",
-  "settings": {
-    "marketing": "true"
-  },
-  "tags": [
-    "golang"
-  ]
-}
+# start docker stack
+$ docker:app-gql:up
+$ docker:app-gql:down
 ```
 
-## Run App with Docker Compose
-
-> first stop surrealdb binnary
-
-> required docker and docker-compose installed
-
-before build image, change `consumer-app/package.json` to use published package
-
-change `@koakh/nestjs-surrealdb": "file:../dynamic-module"` with `@koakh/nestjs-surrealdb": "^0.1.1"`
+### GraphQL Tutorial Consumer App
 
 ```shell
-$ cd consumer-app
-$ npm i
-$ cd ..
-$ docker-compose build
-$ docker-compose up
-# or use daemon mode
-$ docker-compose up -d
+# start dev
+$ yarn start:tutorial-graphql
 ```
-
-done, now you can do the same steps as in `Run App from Source Code`, init db, and launch some requests
