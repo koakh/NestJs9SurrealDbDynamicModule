@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "surreal": "surreal start --username root --password root --bind 0.0.0.0:8000 --log info --allow-all rocksdb://database",
+    "surreal:initdb": "surreal import initdb.sql --conn http://localhost:8000 --user root --pass root --ns test --db test",
     "surreal:cli": "surreal sql --endpoint http://localhost:8000 --namespace test --database test --auth-level root --username root --password root",
     "surreal:export": "surreal export --conn http://localhost:8000 --user root --pass root --ns test --db test export.surql",
     "// workspace": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
@@ -29,6 +30,7 @@
     "docker:app-gql:down": "yarn --cwd packages/app-gql docker:down",
     "// tutorial-graphql": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
     "start:tutorial-graphql": "yarn --cwd packages/tutorial-graphql start:debug",
-    "// end": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-  }
+    "// end": ":::::::::::::::::::::::::::::::::::: ::::::::::::::::::::::::::"
+  },
+  "packageManager": "yarn@4.5.2"
 }

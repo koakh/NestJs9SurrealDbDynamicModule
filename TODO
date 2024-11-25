@@ -21,6 +21,14 @@ Global:
     ✔ create a new github repo with this, and after finish project delete the old one @done(22-10-11 23:15)
     https://github.com/koakh/NestJs9SurrealDbDynamicModule
   ✔ add a graphql tutorial to use nestjs package and add it to tutorials.surrealdb.com @done(22-10-11 23:15)
+  ☐ c3-backend
+    ☐ debug working
+    ☐ update all dependencies in all packages
+    ☐ test all consumer apps
+    ☐ update to new surreal 2.1.0
+    ☐ pub and deploy project on npm and test with c3-backend
+    ☐ @criical done we have a ready to play surrealdb database ready to use with `signup` and `signin`
+      replace this with new auth stuff
   
   DynamicModule:
 

@@ -7,17 +7,16 @@
     - [GraphQL Consumer App](#graphql-consumer-app)
     - [GraphQL DataLoader Package](#graphql-dataloader-package)
     - [GraphQL SurrealDb Tutorial](#graphql-surrealdb-tutorial)
-  - [Test Package and Consumer Apps](#test-package-and-consumer-apps)
-    - [Install and Run SurrealDb](#install-and-run-surrealdb)
-      - [Install SurrealDb](#install-surrealdb)
-        - [TLDR](#tldr)
-          - [Install on macOS](#install-on-macos)
-          - [Install on Linux](#install-on-linux)
-          - [Install on Windows](#install-on-windows)
-      - [Start SurrealDb Instance](#start-surrealdb-instance)
+  - [Configure Dev Environment](#configure-dev-environment)
+  - [Install and Run SurrealDb](#install-and-run-surrealdb)
+    - [Install SurrealDb](#install-surrealdb)
+      - [Install on macOS](#install-on-macos)
+      - [Install on Linux](#install-on-linux)
+      - [Install on Windows](#install-on-windows)
+    - [Start SurrealDb Instance](#start-surrealdb-instance)
   - [Init surrealDb Database](#init-surrealdb-database)
   - [Now launch Consumer Apps](#now-launch-consumer-apps)
-    - [Rest Consumer App](#rest-consumer-app-1)
+    - [REST Consumer App](#rest-consumer-app-1)
     - [GraphQL Consumer App](#graphql-consumer-app-1)
     - [GraphQL Tutorial Consumer App](#graphql-tutorial-consumer-app)
 
@@ -47,44 +46,74 @@ cloned [tracworx/nestjs-dataloade](https://github.com/tracworx/nestjs-dataloade)
 
 - [README](packages/tutorial-graphql/README.md)
 
-## Test Package and Consumer Apps
+## Configure Dev Environment
 
-### Install and Run SurrealDb
+requirements `node` and `npm`
 
-#### Install SurrealDb
+this project use yarn workspaces, so start to install yarn and workspace dependencies
+
+- [Installation | Yarn](https://yarnpkg.com/getting-started/install)
+
+> The preferred way to manage Yarn is by-project and through `Corepack`, a tool shipped by default with Node.js. Modern releases of Yarn aren't meant to be installed globally, or from npm.
+
+```shell
+$ node -v
+v23.1.0
+# remove old yarn.lock if exists
+$ rm yarn.lock
+# enable corepack
+$ corepack enable
+# update to latest version
+$ yarn set version stable
+$ yarn --version
+4.5.2
+# install workspace dependecies
+$ yarn install
+...
+➤ YN0007: │ root@workspace:. must be built because it never has been before or the last one failed
+...
+wait until that process finishes
+
+
+➤ YN0000: ┌ Link step
+➤ YN0007: │ root@workspace:. must be built because it never has been before or the last one failed
+➤ YN0009: │ root@workspace:. couldn't be built successfully (exit code 1, logs can be found here: /tmp/xfs-a0bf80aa/build.log)
+➤ YN0000: └ Completed in 1m 19s
+➤ YN0000: · Failed with errors in 1m 21s
+```
+
+## Install and Run SurrealDb
+
+### Install SurrealDb
 
 first install SurrealDb. full instruction at [SurrealDB | Install](https://surrealdb.com/install)
 
-##### TLDR
-
-###### Install on macOS
+#### Install on macOS
 
 ```shell
 $ brew install surrealdb/tap/surreal
 ```
 
-###### Install on Linux
+#### Install on Linux
 
 ```shell
 $ curl -sSf https://install.surrealdb.com | sh
+$ sudo mv /home/c3/.surrealdb/surreal /usr/local/bin
 ```
 
-###### Install on Windows
+#### Install on Windows
 
 ```shell
 $ iwr https://windows.surrealdb.com -useb | iex
 ```
 
-#### Start SurrealDb Instance
+### Start SurrealDb Instance
 
 - [SurrealDB | Documentation](https://surrealdb.com/docs/start/starting-surrealdb)
 
 ```shell
-# start with in memory
-$ surreal start --user root --pass root
-
-# or start with rocksdb (persisted on disk)
-$ surreal start --user root --pass root file:mydb
+# start surream with rocksdb
+$ yarn surreal
 
 # outcome
  .d8888b.                                             888 8888888b.  888888b.
@@ -97,13 +126,13 @@ Y88b  d88P Y88b 888 888     888     Y8b.     888  888 888 888  .d88P 888   d88P
  'Y8888P'   'Y88888 888     888      'Y8888  'Y888888 888 8888888P'  8888888P'
 
 
-[2022-09-05 23:05:47] INFO  surrealdb::iam Root authentication is enabled
-[2022-09-05 23:05:47] INFO  surrealdb::iam Root username is 'root'
-[2022-09-05 23:05:47] INFO  surrealdb::dbs Database strict mode is disabled
-[2022-09-05 23:05:47] INFO  surrealdb::kvs Starting kvs store at file:mydb
-[2022-09-05 23:05:47] INFO  surrealdb::kvs Started kvs store at file:mydb
-[2022-09-05 23:05:47] INFO  surrealdb::net Starting web server on 0.0.0.0:8000
-[2022-09-05 23:05:47] INFO  surrealdb::net Started web server on 0.0.0.0:8000
+2024-11-25T11:47:45.498218Z  INFO surreal::env: Running 2.1.0 for linux on x86_64
+2024-11-25T11:47:45.499027Z  INFO surrealdb::core::kvs::ds: Starting kvs store at rocksdb://database
+2024-11-25T11:47:45.546100Z  INFO surrealdb::core::kvs::ds: Started kvs store at rocksdb://database
+2024-11-25T11:47:45.550552Z  WARN surrealdb::core::kvs::ds: Credentials were provided, but existing root users were found. The root user 'root' will not be created
+2024-11-25T11:47:45.550748Z  WARN surrealdb::core::kvs::ds: Consider removing the --user and --pass arguments from the server start command
+2024-11-25T11:47:45.554246Z  INFO surrealdb::net: Listening for a system shutdown signal.
+2024-11-25T11:47:45.554092Z  INFO surrealdb::net: Started web server on 0.0.0.0:8000
 ```
 
 ## Init surrealDb Database
@@ -112,52 +141,48 @@ import the `initdb.sql`
 
 ```shell
 # import schemafull
-$ surreal import initdb.sql --conn http://localhost:8000 --user root --pass root --ns test --db test
+$ yarn surreal:initdb
 # outcome
 [2022-09-05 23:07:01] INFO  surrealdb::cli The SQL file was imported successfully
 
 # check info for db
-$ echo "INFO FOR DB;" | surreal sql --conn http://localhost:8000 --user root --pass root --ns test --db test | jq
-[
-  {
-    "time": "129.866µs",
-    "status": "OK",
-    "result": {
-      "dl": {},
-      "dt": {},
-      "sc": {
-        "allusers": "DEFINE SCOPE allusers SESSION 2w SIGNUP (CREATE user SET settings.marketing = $marketing, email = $email, pass = crypto::argon2::generate($pass), tags = $tags) SIGNIN (SELECT * FROM user WHERE email = $email AND crypto::argon2::compare(pass, $pass))"
-      },
-      "tb": {
-        "person": "DEFINE TABLE person SCHEMALESS",
-        "user": "DEFINE TABLE user SCHEMAFULL PERMISSIONS FOR select WHERE id = $auth.id, FOR create NONE, FOR update WHERE id = $auth.id, FOR delete NONE"
-      }
-    }
-  }
-]
+$  echo "INFO FOR DB;" | surreal sql --json --hide-welcome --pretty --conn http://localhost:8000 --user root --pass root --ns test --db test
+-- Query 1 (execution time: 609.242µs
+{
+  "accesses": {
+    "allusers": "DEFINE ACCESS allusers ON DATABASE TYPE RECORD SIGNUP (CREATE user SET settings.marketing = $marketing, email = $email, pass = crypto::argon2::generate($pass), tags = $tags) SIGNIN (SELECT * FROM user WHERE email = $email AND crypto::argon2::compare(pass, $pass)) WITH JWT ALGORITHM HS512 KEY '[REDACTED]' WITH ISSUER KEY '[REDACTED]' DURATION FOR TOKEN 1h, FOR SESSION 2w"
+  },
+  "analyzers": {},
+  "configs": {},
+  "functions": {},
+  "models": {},
+  "params": {},
+  "tables": {
+    "person": "DEFINE TABLE person TYPE ANY SCHEMALESS PERMISSIONS FULL",
+    "user": "DEFINE TABLE user TYPE NORMAL SCHEMAFULL PERMISSIONS FOR select, update WHERE id = $auth.id, FOR create, delete NONE"
+  },
+  "users": {}
+}
 
 # check info for user
-$ echo "INFO FOR TABLE user;" | surreal sql --conn http://localhost:8000 --user root --pass root --ns test --db test | jq
-[
-  {
-    "time": "112.283µs",
-    "status": "OK",
-    "result": {
-      "ev": {},
-      "fd": {
-        "email": "DEFINE FIELD email ON user TYPE string",
-        "pass": "DEFINE FIELD pass ON user TYPE string",
-        "settings.marketing": "DEFINE FIELD settings.marketing ON user TYPE string",
-        "settings[*]": "DEFINE FIELD settings[*] ON user TYPE object",
-        "tags": "DEFINE FIELD tags ON user TYPE array"
-      },
-      "ft": {},
-      "ix": {
-        "idx_email": "DEFINE INDEX idx_email ON user FIELDS email UNIQUE"
-      }
-    }
-  }
-]
+$ echo "INFO FOR TABLE user;" | surreal sql --json --hide-welcome --pretty --conn http://localhost:8000 --user root --pass root --ns test --db test
+
+-- Query 1 (execution time: 326.369987ms
+{
+	"events": {},
+	"fields": {
+		"email": "DEFINE FIELD email ON user TYPE string PERMISSIONS FULL",
+		"pass": "DEFINE FIELD pass ON user TYPE string PERMISSIONS FULL",
+		"settings.marketing": "DEFINE FIELD settings.marketing ON user TYPE string PERMISSIONS FULL",
+		"settings[*]": "DEFINE FIELD settings[*] ON user TYPE object PERMISSIONS FULL",
+		"tags": "DEFINE FIELD tags ON user TYPE array PERMISSIONS FULL"
+	},
+	"indexes": {
+		"idx_email": "DEFINE INDEX idx_email ON user FIELDS email UNIQUE"
+	},
+	"lives": {},
+	"tables": {}
+}
 ```
 
 done we have a ready to play surrealdb database ready to use with `signup` and `signin`
@@ -166,9 +191,9 @@ done we have a ready to play surrealdb database ready to use with `signup` and `
 
 ## Now launch Consumer Apps
 
-from root `package.json` 
+from root `package.json`
 
-### Rest Consumer App
+### REST Consumer App
 
 ```shell
 # start dev

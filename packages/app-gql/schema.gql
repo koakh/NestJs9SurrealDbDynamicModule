@@ -16,9 +16,6 @@ type Recipe {
   restaurant: Restaurant!
 }
 
-"""Date custom scalar type"""
-scalar Date
-
 type Restaurant {
   id: ID!
   createdAt: Date!
@@ -30,11 +27,14 @@ type Restaurant {
   recipes: [Recipe!]
 }
 
+"""Date custom scalar type"""
+scalar Date
+
 type Query {
   findOneRecipe(id: String!): Recipe!
-  findManyRecipes(skip: Int = 0, take: Int = 25, filter: String): [Recipe!]!
+  findManyRecipes(skip: Int! = 0, take: Int! = 25, filter: String): [Recipe!]!
   findOneRestaurant(id: String!): Restaurant!
-  findManyRestaurants(skip: Int = 0, take: Int = 25, filter: String): [Restaurant!]!
+  findManyRestaurants(skip: Int! = 0, take: Int! = 25, filter: String): [Restaurant!]!
 }
 
 type Mutation {
