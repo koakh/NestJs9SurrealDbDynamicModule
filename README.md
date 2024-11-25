@@ -27,9 +27,9 @@
 
 the main `@koakh/nestjs-surrealdb` nestjs dynamic module (library) locate at  `packages/app-lib`
 
-this is just a simple wrapper on top of [surrealdb.js integration](https://surrealdb.com/docs/integration/libraries/nodejs), 
-check [github repo](https://github.com/surrealdb/surrealdb.js), 
-and don't forget to **star** the project, this "dreamers" deserve it
+this is just a simple wrapper on top of [surrealdb.js integration](https://surrealdb.com/docs/integration/libraries/nodejs),
+check [github repo](https://github.com/surrealdb/surrealdb.js),
+and don't forget to **star** the project, this "surreal team dreamers" deserve it
 
 ### REST Consumer App
 
@@ -54,7 +54,6 @@ cloned [tracworx/nestjs-dataloade](https://github.com/tracworx/nestjs-dataloade)
 #### Install SurrealDb
 
 first install SurrealDb. full instruction at [SurrealDB | Install](https://surrealdb.com/install)
-
 
 ##### TLDR
 
@@ -109,7 +108,7 @@ Y88b  d88P Y88b 888 888     888     Y8b.     888  888 888 888  .d88P 888   d88P
 
 ## Init surrealDb Database
 
-import the `initdb.sql` 
+import the `initdb.sql`
 
 ```shell
 # import schemafull

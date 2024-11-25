@@ -6,17 +6,13 @@
   - [How to use Generic @InputType() in BaseResolver](#how-to-use-generic-inputtype-in-baseresolver)
     - [Solution for BaseResolver with DTO's (createEntity and updateEntity) with generics](#solution-for-baseresolver-with-dtos-createentity-and-updateentity-with-generics)
   - [Resolve N+1 Problem](#resolve-n1-problem)
-    - [Fix Error #1: NestJS/GraphQL/DataLoader】Context creation failed: dataloader_1.default is not a constructor](#fix-error-1-nestjsgraphqldataloadercontext-creation-failed-dataloader_1default-is-not-a-constructor)
+    - [Fix Error #1: NestJS/GraphQL/DataLoader】Context creation failed: dataloader\_1.default is not a constructor](#fix-error-1-nestjsgraphqldataloadercontext-creation-failed-dataloader_1default-is-not-a-constructor)
     - [Fix #2: DataLoader with Arrays ex](#fix-2-dataloader-with-arrays-ex)
   - [npm ERR! need auth This command requires you to be logged in to https://registry.yarnpkg.com/](#npm-err-need-auth-this-command-requires-you-to-be-logged-in-to-httpsregistryyarnpkgcom)
-
-- NestJS 9 SurrealDb dynamic moduled using 'old way' with `@golevelup/nestjs-modules`
-based on [301 Moved Permanently](https://github.com/koakh/NestJsPlayWithDynamicModulesWithAppAndAppLib.git)
 
 some other projects and files that help
 
 - `/home/mario/Development/@Koakh/node-modules/@koakh/@NestJsPackages/TypescriptNestJsPackageJwtAuthenticationLdap/nestjs-package-jwt-authentication-ldap-consumer/src/consumer-app/consumer-app.module.ts`
-
 
 AFTER SO MANY HOURS the start solving is using `@Global` on `SurrealDbModule`
 
@@ -64,7 +60,7 @@ if ((ctx as any).contextType === 'graphql') {
 ## How to use Generic @InputType() in BaseResolver
 
 Hi, I followed [GraphQL Class Inheritance](https://docs.nestjs.com/graphql/resolvers#class-inheritance) and implemented a `BaseResolver`,
-and everything works well, I can extended it and have all the resolvers working, all `@Query`, `@Mutation` and `@Subscription` that don't need specfic `@InputType()` generics, like `create` and `update` in `@Mutation`'s, for ex 
+and everything works well, I can extended it and have all the resolvers working, all `@Query`, `@Mutation` and `@Subscription` that don't need specfic `@InputType()` generics, like `create` and `update` in `@Mutation`'s, for ex
 
 ```ts
 @InputType()
