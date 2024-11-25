@@ -43,6 +43,7 @@
     "class-validator": "^0.13.2",
     "graphql-subscriptions": "^2.0.0",
     "rxjs": "^7.5.7",
+    "surrealdb": "^1.1.0",
     "surrealdb.js": "^0.5.0",
     "ts-morph": "^16.0.0"
   },

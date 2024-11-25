@@ -1,7 +1,7 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": [
+  "// old // workspaces": [
     "packages/*"
   ],
   "scripts": {
@@ -10,27 +10,27 @@
     "surreal:cli": "surreal sql --endpoint http://localhost:8000 --namespace test --database test --auth-level root --username root --password root",
     "surreal:export": "surreal export --conn http://localhost:8000 --user root --pass root --ns test --db test export.surql",
     "// workspace": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
-    "install": "yarn",
+    "install": "pnpm install",
     "// app-lib": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
-    "app-lib:dev": "yarn --cwd packages/app-lib dev",
-    "app-lib:build": "yarn --cwd packages/app-lib build",
-    "app-lib:patch": "yarn --cwd packages/app-lib version:patch",
-    "app-lib:publish": "yarn --cwd packages/app-lib version:publish",
+    "app-lib:dev": "pnpm --cwd packages/app-lib dev",
+    "app-lib:build": "pnpm --cwd packages/app-lib build",
+    "app-lib:patch": "pnpm --cwd packages/app-lib version:patch",
+    "app-lib:publish": "pnpm --cwd packages/app-lib version:publish",
     "// app-rst": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
-    "start:app-rst": "yarn --cwd packages/app-rst start:debug",
-    "docker:app-rst:build": "yarn --cwd packages/app-rst docker:build",
-    "docker:app-rst:push": "yarn --cwd packages/app-rst docker:push",
-    "docker:app-rst:up": "yarn --cwd packages/app-rst docker:up",
-    "docker:app-rst:down": "yarn --cwd packages/app-rst docker:down",
+    "start:app-rst": "pnpm --cwd packages/app-rst start:debug",
+    "docker:app-rst:build": "pnpm --cwd packages/app-rst docker:build",
+    "docker:app-rst:push": "pnpm --cwd packages/app-rst docker:push",
+    "docker:app-rst:up": "pnpm --cwd packages/app-rst docker:up",
+    "docker:app-rst:down": "pnpm --cwd packages/app-rst docker:down",
     "// app-gql": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
-    "start:app-gql": "yarn --cwd packages/app-gql start:debug",
-    "docker:app-gql:build": "yarn --cwd packages/app-gql docker:build",
-    "docker:app-gql:push": "yarn --cwd packages/app-gql docker:push",
-    "docker:app-gql:up": "yarn --cwd packages/app-gql docker:up",
-    "docker:app-gql:down": "yarn --cwd packages/app-gql docker:down",
+    "start:app-gql": "pnpm --cwd packages/app-gql start:debug",
+    "docker:app-gql:build": "pnpm --cwd packages/app-gql docker:build",
+    "docker:app-gql:push": "pnpm --cwd packages/app-gql docker:push",
+    "docker:app-gql:up": "pnpm --cwd packages/app-gql docker:up",
+    "docker:app-gql:down": "pnpm --cwd packages/app-gql docker:down",
     "// tutorial-graphql": "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
-    "start:tutorial-graphql": "yarn --cwd packages/tutorial-graphql start:debug",
+    "start:tutorial-graphql": "pnpm --cwd packages/tutorial-graphql start:debug",
     "// end": ":::::::::::::::::::::::::::::::::::: ::::::::::::::::::::::::::"
   },
-  "packageManager": "yarn@4.5.2"
+  "packageManager": "pnpm@4.5.2"
 }
