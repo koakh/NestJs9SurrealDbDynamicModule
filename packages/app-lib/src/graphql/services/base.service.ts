@@ -3,6 +3,7 @@ import { SurrealDbService } from '../../surrealdb/surrealdb.service';
 import { BaseCreateEntityInput, BaseUpdateEntityInput } from '../dto';
 import { BaseFindAllArgs } from '../dto/base-find-all.args';
 import { BaseEntity } from '../entities';
+import { Fill, MapQueryResult, PreparedQuery, Prettify, RecordId } from 'surrealdb';
 
 @Injectable()
 export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFindAllArgs, V extends BaseCreateEntityInput, Z extends BaseUpdateEntityInput> {
@@ -18,14 +19,14 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
    * @param data payload
    * @returns created entity
    */
-  async create(data: V): Promise<T> {
+  async create<T extends { [x: string]: unknown; id: RecordId<string>; }, U extends T>(data: V): Promise<T> {
     // await this.surrealDb.thingExists(data.restaurant);
     const id = data?.id ? data.id : this.entityName.name.toLowerCase();
-    return (await this.surrealDb.create(id, {
+    return (await this.surrealDb.create<T, U>(id, {
       ...data,
       createdAt: new Date(),
       updatedAt: new Date(),
-    })) as T;
+    })) as unknown as T;
   }
 
   /**
@@ -33,7 +34,7 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
    * @param filter, skip, take
    * @returns array of entity object
    */
-  async findMany({ filter, skip, take }: K): Promise<T[]> {
+  async findMany<T extends unknown[]>({ filter, skip, take }: K): Promise<T[]> {
     const where = filter ? ` WHERE ${filter} ` : '';
     const limit = take != undefined ? ` LIMIT ${take}` : '';
     const start = skip != undefined ? ` START ${skip}` : '';
@@ -41,8 +42,9 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
     // TODO: use vars with LIMIT and START
     // const query = 'SELECT * FROM type::table($table) LIMIT $limit START $start';
     const vars = { table: this.entityName.name.toLowerCase(), start: skip, limit: take };
-    const data = await this.surrealDb.query(query, vars);
-    return data[0].result;
+    const data = await this.surrealDb.query<T>(query, vars);
+    // TODO:
+    return (data[0] as any).result;
   }
 
   /**
@@ -65,8 +67,8 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
    * @param data payload
    * @returns updated object
    */
-  async update(id: string, data: Z): Promise<T> {
-    return (await this.surrealDb.change(id, data)) as any as T;
+  async update<T extends { [x: string]: unknown; id: RecordId<string> }, U extends T>(id: string, data: Z): Promise<T> {
+    return (await this.surrealDb.update<T, U>(id, data)) as any as T;
   }
 
   /**
@@ -83,8 +85,7 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
    * raw query
    * @param sql
    */
-  async rawQuery(sql: string): Promise<T[]> {
-    const data = await this.surrealDb.query(sql);
-    return data[0].result;
+  async queryRaw<T extends unknown[]>(...params: [prepared: PreparedQuery, gaps?: Fill<unknown>[]]): Promise<Prettify<MapQueryResult<T>>> {
+    return await this.surrealDb.queryRaw<T>(...params);
   }
 }

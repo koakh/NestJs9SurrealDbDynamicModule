@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
-import { AuthenticateDto, ChangeDto, ConnectDto, CreateDto, LetDto, ModifyDto, QueryDto, SigninDto, SignupDto, SyncDto, UpdateDto, UseDto } from './dto';
+import { Body, Controller, Delete, Get, Logger, Param, Post, Put } from '@nestjs/common';
+import { Uuid } from 'surrealdb';
+import { AuthenticateDto, ConnectDto, CreateDto, SigninDto, SignupDto, UpdateDto, UseDto } from './dto';
 import { SignUpInResponseDto } from './dto/signup-in-response.dto';
-import { SurrealDbResponseDto } from './dto/surrealdb-response.dto';
 import { SurrealDbService } from './surrealdb.service';
 
 @Controller('surrealdb')
@@ -11,17 +11,17 @@ export class SurrealDbController {
   ) { }
 
   @Post('/connect')
-  connect(@Body() { url }: ConnectDto): any {
+  connect(@Body() { url }: ConnectDto) {
     return this.surrealDbService.connect(url);
   }
 
   @Post('/close')
-  close(): any {
+  close() {
     return this.surrealDbService.close();
   }
 
   @Post('/use')
-  use(@Body() { ns, db }: UseDto): any {
+  use(@Body() { ns, db }: UseDto) {
     return this.surrealDbService.use(ns, db);
   }
 
@@ -63,72 +63,57 @@ export class SurrealDbController {
   }
 
   @Post('/authenticate')
-  authenticate(@Body() { token }: AuthenticateDto): any {
+  authenticate(@Body() { token }: AuthenticateDto) {
     return this.surrealDbService.authenticate(token);
   }
 
   @Post('/let')
-  let(@Body() { key, val }: LetDto): Promise<string> {
+  let(@Body() { key, val }) {
     return this.surrealDbService.let(key, val);
   }
 
   @Post('/query')
-  async query(@Body() { sql, vars }: QueryDto): Promise<SurrealDbResponseDto> {
+  async query(@Body() { sql, vars }) {
     return this.surrealDbService.query(sql, vars);
   }
 
   @Get('/select/:thing')
-  select(@Param('thing') thing: string): any {
+  select(@Param('thing') thing: string) {
     return this.surrealDbService.select(thing);
   }
 
   @Post('/create/:thing')
-  create(@Param('thing') thing: string, @Body() createDto: CreateDto): any {
+  create(@Param('thing') thing: string, @Body() createDto: CreateDto) {
     return this.surrealDbService.create(thing, createDto);
   }
 
   @Put('/update/:thing')
-  update(@Param('thing') thing: string, @Body() updateDto: UpdateDto): any {
+  update(@Param('thing') thing: string, @Body() updateDto: UpdateDto) {
     return this.surrealDbService.update(thing, updateDto);
   }
 
-  @Patch('/change/:thing')
-  change(@Param('thing') thing: string, @Body() modifyDto: ModifyDto): any {
-    return this.surrealDbService.change(thing, modifyDto);
-  }
-
-  @Patch('/modify/:thing')
-  modify(@Param('thing') thing: string, @Body() changeDto: ChangeDto): any {
-    return this.surrealDbService.change(thing, changeDto);
-  }
-
   @Delete('/delete/:thing')
-  delete(@Param('thing') thing: string): any {
+  delete(@Param('thing') thing: string) {
     return this.surrealDbService.delete(thing);
   }
 
-  @Post('/sync')
-  sync(@Body() { query, vars }: SyncDto): any {
-    return this.surrealDbService.sync(query, vars);
-  }
-
   @Post('/ping')
-  ping(): any {
+  ping() {
     return this.surrealDbService.ping();
   }
 
   @Post('/info')
-  info(): any {
+  info() {
     return this.surrealDbService.info();
   }
 
   @Post('/live')
-  live(@Param('table') table: string): any {
+  live(@Param('table') table: string) {
     return this.surrealDbService.live(table);
   }
 
   @Post('/kill')
-  kill(@Param('query') query: string): any {
-    return this.surrealDbService.kill(query);
+  kill(@Param('query') queryUuid: Uuid | readonly Uuid[]) {
+    return this.surrealDbService.kill(queryUuid);
   }
 }

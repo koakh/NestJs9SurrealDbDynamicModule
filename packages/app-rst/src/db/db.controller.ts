@@ -1,5 +1,5 @@
 import { SurrealDbService, SurrealDbUser as User } from '@koakh/nestjs-surrealdb';
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Logger, Param } from '@nestjs/common';
 
 @Controller('db')
 export class DbController {
@@ -17,5 +17,4 @@ export class DbController {
   select(@Param('thing') thing: string): any {
     return this.surrealDbService.select(thing);
   }
-
 }

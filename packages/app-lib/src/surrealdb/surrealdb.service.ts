@@ -4,9 +4,7 @@ import { SignUpInResponseDto } from "./dto/signup-in-response.dto";
 import { AppServiceAbstract, UserServiceAbstract } from "./surrealdb.abstracts";
 import { APP_SERVICE, SURREALDB_MODULE_OPTIONS, SURREALDB_MODULE_USER_SERVICE, adminCurrentUser } from './surrealdb.constants';
 import { SurrealDbModuleOptions } from './surrealdb.interfaces';
-import { SurrealDbUser as User } from './types';
-
-type RecordId$1<Tb extends string = string> = RecordId<Tb> | StringRecordId;
+import { RecordId$1, SurrealDbUser as User } from './types';
 
 @Injectable()
 export class SurrealDbService {
@@ -45,16 +43,16 @@ export class SurrealDbService {
   // initSurrealDb
 
   private async initSurrealDb(): Promise<Surreal> {
-    const db = new Surreal();
+    this.db = new Surreal();
     try {
       const { url, namespace, database, user, pass, userService } = this.options;
       console.log(`url: ${url}, namespace: ${namespace}, database: ${database}, user: ${user}, pass: ${url}`);
-      await db.connect(url, { namespace, database });
-      await db.use({ namespace, database });
-      return db;
+      await this.db.connect(url, { namespace, database });
+      await this.db.use({ namespace, database });
+      return this.db;
     } catch (err) {
       console.error("Failed to connect to SurrealDB:", err instanceof Error ? err.message : String(err));
-      await db.close();
+      await this.db.close();
       throw err;
     }
   }

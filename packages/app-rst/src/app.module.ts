@@ -27,7 +27,7 @@ import { UserService } from './user/user.service';
         // userServiceAbstract
         userService,
       }),
-      // this is required to else we have error
+      // this is required else we have error
       // Nest can't resolve dependencies of the SurrealDbService (AUTH_MODULE_OPTIONS, ?). Please make sure that the argument APP_SERVICE at index [1] is available in the SurrealDbModule context.
       imports: [AppModule, UserModule],
       inject: [ConfigService, UserService],
