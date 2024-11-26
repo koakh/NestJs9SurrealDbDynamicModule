@@ -23,7 +23,7 @@ export class AppController {
     return this.surrealDbService.getConfig();
   }
 
-  // TODO: uncomment to use outside AppServiceAbstract
+  // TODO: comment/uncomment to use/hide outside AppServiceAbstract
   // use app-lib > calling appService
   @Get('appservice')
   getHelloAppModule(): { message: string } {

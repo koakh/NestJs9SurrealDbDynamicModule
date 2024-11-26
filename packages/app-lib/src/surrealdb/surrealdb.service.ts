@@ -15,7 +15,7 @@ export class SurrealDbService {
     private readonly options: SurrealDbModuleOptions,
     @Inject(SURREALDB_MODULE_USER_SERVICE)
     private readonly userService: UserServiceAbstract,
-    // TODO: uncomment to use outside AppServiceAbstract
+    // TODO: comment/uncomment to use/hide outside AppServiceAbstract
     @Inject(APP_SERVICE)
     private readonly appService: AppServiceAbstract,
   ) {
@@ -27,7 +27,7 @@ export class SurrealDbService {
     return this.options;
   }
 
-  // TODO: uncomment to use outside AppServiceAbstract
+  // TODO: comment/uncomment to use/hide outside AppServiceAbstract
   // example
   // appServiceAbstract: this is from consumer app AppModule/AppService
   getHelloAppModule(): { message: string } {

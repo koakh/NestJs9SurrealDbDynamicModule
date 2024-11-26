@@ -68,7 +68,7 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
     RestaurantsModule,
   ],
   controllers: [AppController],
-  // TODO: uncomment to use outside AppServiceAbstract
+  // TODO: comment/uncomment to use/hide outside AppServiceAbstract
   providers: [
     AppService,
     // another trick is that this AppService is required to else we have the classic error
