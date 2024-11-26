@@ -3,7 +3,7 @@ import { DataloaderProvider } from '@koakh/nestjs-dataloader';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Type } from '@nestjs/common';
 import { RestaurantsService } from '../../restaurants/restaurants.service';
-import { Restaurant } from '../..//restaurants/entities';
+import { Restaurant } from '../../restaurants/entities';
 
 @DataloaderProvider()
 export class RestaurantDataLoader {

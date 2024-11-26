@@ -49,17 +49,17 @@ export function BaseResolver<T extends Type<BaseEntity>, K extends BaseCreateEnt
 
     @Subscription(() => classRef, { name: `${classRef.name.toLowerCase()}Added` })
     entityAdded() {
-      return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Added`);
+      return (this.pubSub as any | AsyncIterableIterator<any>).asyncIterator(`${classRef.name.toLowerCase()}Added`);
     }
 
     @Subscription(() => classRef, { name: `${classRef.name.toLowerCase()}Updated` })
     entityUpdated() {
-      return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Updated`);
+      return (this.pubSub as any | AsyncIterableIterator<any>).asyncIterator(`${classRef.name.toLowerCase()}Updated`);
     }
 
     @Subscription(() => String, { name: `${classRef.name.toLowerCase()}Deleted` })
     entityDeleted() {
-      return this.pubSub.asyncIterator(`${classRef.name.toLowerCase()}Deleted`);
+      return (this.pubSub as any | AsyncIterableIterator<any>).asyncIterator(`${classRef.name.toLowerCase()}Deleted`);
     }
   }
 

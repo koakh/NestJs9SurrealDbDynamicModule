@@ -27,23 +27,33 @@ export class SurrealDbController {
 
   @Post('/signup')
   signup(@Body() signupDto: SignupDto): Promise<SignUpInResponseDto> {
+    let mode = {};
+    // https://surrealdb.com/docs/sdk/javascript/methods/signup#example-usage
+    if (signupDto.access) {
+      // with Record Access: if passed 
+      mode = { access: 'user' };
+    }
+    // With Scopes
+    else {
+      mode = { scope: 'user' };
+    }
+
     return this.surrealDbService.signup({
-      NS: signupDto.ns,
-      DB: signupDto.db,
-      SC: signupDto.sc,
-      user: signupDto.user,
-      pass: signupDto.pass,
+      namespace: signupDto.namespace,
+      database: signupDto.database,
+      scope: signupDto.scope,
+      ...mode,
     });
   }
 
   @Post('/signin')
   signin(@Body() signinDto: SigninDto): Promise<SignUpInResponseDto> {
     return this.surrealDbService.signin({
-        NS: signinDto.ns,
-        DB: signinDto.db,
-        SC: signinDto.sc,
-        user: signinDto.user,
-        pass: signinDto.pass,
+      namespace: signinDto.namespace,
+      database: signinDto.database,
+      scope: signinDto.scope,
+      username: signinDto.username,
+      password: signinDto.password,
     });
   }
 

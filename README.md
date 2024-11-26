@@ -11,14 +11,15 @@
   - [Install and Run SurrealDb](#install-and-run-surrealdb)
     - [Install SurrealDb](#install-surrealdb)
       - [Install on macOS](#install-on-macos)
-      - [Install on Linux](#install-on-linux)
+      - [Install on Linux Distros](#install-on-linux-distros)
       - [Install on Windows](#install-on-windows)
     - [Start SurrealDb Instance](#start-surrealdb-instance)
   - [Init surrealDb Database](#init-surrealdb-database)
   - [Now launch Consumer Apps](#now-launch-consumer-apps)
-    - [REST Consumer App](#rest-consumer-app-1)
-    - [GraphQL Consumer App](#graphql-consumer-app-1)
-    - [GraphQL Tutorial Consumer App](#graphql-tutorial-consumer-app)
+    - [Always run Dev Watch for Lib](#always-run-dev-watch-for-lib)
+    - [Launch REST Consumer App](#launch-rest-consumer-app)
+    - [Launch GraphQL Consumer App](#launch-graphql-consumer-app)
+    - [Launch GraphQL Tutorial Consumer App](#launch-graphql-tutorial-consumer-app)
 
 ## Project Components
 
@@ -36,13 +37,17 @@ rest consumer sample app `@koakh/nestjs-surrealdb-rest-demo` locate at `packages
 
 ### GraphQL Consumer App
 
-graphql consumer sample app `@koakh/nestjs-surrealdb-graphql-demo` locate at `packages/app-rst`
+graphql consumer sample app `@koakh/nestjs-surrealdb-graphql-demo` locate at `packages/app-gql`
 
 ### GraphQL DataLoader Package
+
+graphql consumer sample app `@koakh/nestjs-surrealdb-gql-dataloader` locate at `packages/dataloader`
 
 cloned [tracworx/nestjs-dataloade](https://github.com/tracworx/nestjs-dataloade) to work with nestjs 9 without use `--force` flag
 
 ### GraphQL SurrealDb Tutorial
+
+tutorial-graphql `@koakh/nestjs-surrealdb-gql-tutorial` locate at `packages/tutorial-graphql`
 
 - [README](packages/tutorial-graphql/README.md)
 
@@ -57,29 +62,41 @@ this project use yarn workspaces, so start to install yarn and workspace depende
 > The preferred way to manage Yarn is by-project and through `Corepack`, a tool shipped by default with Node.js. Modern releases of Yarn aren't meant to be installed globally, or from npm.
 
 ```shell
+$ nvh i 20
 $ node -v
-v23.1.0
+v20.18.1
+# start with the basic packages, to preven infinite install dependencies problem
+$ mv packages/{app-gql,dataloader} packages_standby/
+# clena up
+$ sudo rm node_modules/ -Rf
 # remove old yarn.lock if exists
 $ rm yarn.lock
+$ yarn --version
+1.22.22
 # enable corepack
 $ corepack enable
 # update to latest version
 $ yarn set version stable
 $ yarn --version
-4.5.2
-# install workspace dependecies
-$ yarn install
-...
-➤ YN0007: │ root@workspace:. must be built because it never has been before or the last one failed
-...
-wait until that process finishes
+4.5.3
+# clean cache
+$ yarn cache clean --mirror --all
 
+# install workspace dependecies, with --mode=skip-build to prevent annoying infinite loop trying install dependecies
+$ yarn install --mode=skip-build
 
-➤ YN0000: ┌ Link step
-➤ YN0007: │ root@workspace:. must be built because it never has been before or the last one failed
-➤ YN0009: │ root@workspace:. couldn't be built successfully (exit code 1, logs can be found here: /tmp/xfs-a0bf80aa/build.log)
-➤ YN0000: └ Completed in 1m 19s
-➤ YN0000: · Failed with errors in 1m 21s
+# try upgrade all packages to latest in interactive mode
+$ yarn upgrade-interactive
+# NOTE: this can enter in annoying infinite loop, is so change package version and use above install with --mode=skip-build after, ex
+? Pick the packages you want to upgrade.          Current          Range            Latest
+
+ > tsc-watch ----------------------------------- ◉ 6.2.1 -------- ◯ 6.3.0 --------
+# fix it mannually
+$ cd packages/app-lib/
+$ yarn add tsc-watch@6.2.1 --mode=skip-build
+# check id there is no updates
+
+# done seems that without build step we can't install dependecies, let's advance and check if all consumer projects run without issues
 ```
 
 ## Install and Run SurrealDb
@@ -94,7 +111,7 @@ first install SurrealDb. full instruction at [SurrealDB | Install](https://surre
 $ brew install surrealdb/tap/surreal
 ```
 
-#### Install on Linux
+#### Install on Linux Distros
 
 ```shell
 $ curl -sSf https://install.surrealdb.com | sh
@@ -146,7 +163,7 @@ $ yarn surreal:initdb
 [2022-09-05 23:07:01] INFO  surrealdb::cli The SQL file was imported successfully
 
 # check info for db
-$  echo "INFO FOR DB;" | surreal sql --json --hide-welcome --pretty --conn http://localhost:8000 --user root --pass root --ns test --db test
+$ echo "INFO FOR DB;" | surreal sql --json --hide-welcome --pretty --conn http://localhost:8000 --user root --pass root --ns test --db test
 -- Query 1 (execution time: 609.242µs
 {
   "accesses": {
@@ -167,21 +184,21 @@ $  echo "INFO FOR DB;" | surreal sql --json --hide-welcome --pretty --conn http:
 # check info for user
 $ echo "INFO FOR TABLE user;" | surreal sql --json --hide-welcome --pretty --conn http://localhost:8000 --user root --pass root --ns test --db test
 
--- Query 1 (execution time: 326.369987ms
+-- Query 1 (execution time: 316.537µs
 {
-	"events": {},
-	"fields": {
-		"email": "DEFINE FIELD email ON user TYPE string PERMISSIONS FULL",
-		"pass": "DEFINE FIELD pass ON user TYPE string PERMISSIONS FULL",
-		"settings.marketing": "DEFINE FIELD settings.marketing ON user TYPE string PERMISSIONS FULL",
-		"settings[*]": "DEFINE FIELD settings[*] ON user TYPE object PERMISSIONS FULL",
-		"tags": "DEFINE FIELD tags ON user TYPE array PERMISSIONS FULL"
-	},
-	"indexes": {
-		"idx_email": "DEFINE INDEX idx_email ON user FIELDS email UNIQUE"
-	},
-	"lives": {},
-	"tables": {}
+  "events": {},
+  "fields": {
+    "email": "DEFINE FIELD email ON user TYPE string PERMISSIONS FULL",
+    "pass": "DEFINE FIELD pass ON user TYPE string PERMISSIONS FULL",
+    "settings.marketing": "DEFINE FIELD settings.marketing ON user TYPE string PERMISSIONS FULL",
+    "settings[*]": "DEFINE FIELD settings[*] ON user TYPE object PERMISSIONS FULL",
+    "tags": "DEFINE FIELD tags ON user TYPE array PERMISSIONS FULL"
+  },
+  "indexes": {
+    "idx_email": "DEFINE INDEX idx_email ON user FIELDS email UNIQUE"
+  },
+  "lives": {},
+  "tables": {}
 }
 ```
 
@@ -193,7 +210,15 @@ done we have a ready to play surrealdb database ready to use with `signup` and `
 
 from root `package.json`
 
-### REST Consumer App
+### Always run Dev Watch for Lib
+
+this way it will apply changes in lib, and propagate this changes to consumer apps
+
+```shell
+$ yarn app-lib:dev
+```
+
+### Launch REST Consumer App
 
 ```shell
 # start dev
@@ -204,7 +229,7 @@ $ docker:app-rst:up
 $ docker:app-rst:down
 ```
 
-### GraphQL Consumer App
+### Launch GraphQL Consumer App
 
 ```shell
 # start dev
@@ -215,7 +240,7 @@ $ docker:app-gql:up
 $ docker:app-gql:down
 ```
 
-### GraphQL Tutorial Consumer App
+### Launch GraphQL Tutorial Consumer App
 
 ```shell
 # start dev

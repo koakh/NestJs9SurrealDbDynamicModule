@@ -1,20 +1,30 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsObject, IsOptional, IsString } from 'class-validator';
 
 export declare class SignupDto {
+  // The namespace to sign up to
+  // required
   @IsString()
-  user: string;
+  namespace?: string;
 
+  // The database to sign up to
+  // required
   @IsString()
-  pass: string;
+  database?: string;
+
+  // The scope to sign up to. Also pass any variables used in the scope.
+  // Only supported in SurrealDB 1.x
+  // required
+  @IsString()
+  scope?: string;
+
+  // The access to sign in to. Also pass any variables used in the access.
+  // Only supported from SurrealDB 2.x onwards
+  // required
+  @IsString()
+  access?: string;
 
   @IsOptional()
-  @IsString()
-  ns?: string;
-
-  @IsOptional()
-  @IsString()
-  db?: string;
-
-  @IsString()
-  sc?: string;
+  @IsObject()
+  // Also pass any properties required by the scope definition
+  variables?: { [key: string]: string };
 }
