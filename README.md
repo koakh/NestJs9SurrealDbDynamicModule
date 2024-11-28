@@ -8,6 +8,7 @@
     - [GraphQL DataLoader Package](#graphql-dataloader-package)
     - [GraphQL SurrealDb Tutorial](#graphql-surrealdb-tutorial)
   - [Configure Dev Environment](#configure-dev-environment)
+  - [Always use `--mode=skip-build` to add packages to package projects](#always-use---modeskip-build-to-add-packages-to-package-projects)
   - [Install and Run SurrealDb](#install-and-run-surrealdb)
     - [Install SurrealDb](#install-surrealdb)
       - [Install on macOS](#install-on-macos)
@@ -97,6 +98,15 @@ $ yarn add tsc-watch@6.2.1 --mode=skip-build
 # check id there is no updates
 
 # done seems that without build step we can't install dependecies, let's advance and check if all consumer projects run without issues
+```
+
+## Always use `--mode=skip-build` to add packages to package projects
+
+ex
+
+```shell
+$ cd packages/app-rst
+$ cd yarn add -D nodemon --mode=skip-build
 ```
 
 ## Install and Run SurrealDb
