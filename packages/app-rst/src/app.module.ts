@@ -22,8 +22,8 @@ import { UserService } from './user/user.service';
         url: configService.get('surrealDbUrl'),
         namespace: configService.get('surrealDbNamespace'),
         database: configService.get('surrealDbDatabase'),
-        user: configService.get('surrealDbUser'),
-        pass: configService.get('surrealDbPass'),
+        username: configService.get('surrealDbUser'),
+        password: configService.get('surrealDbPass'),
         // userServiceAbstract
         userService,
       }),

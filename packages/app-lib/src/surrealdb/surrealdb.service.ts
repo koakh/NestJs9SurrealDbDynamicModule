@@ -1,5 +1,5 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { AccessRecordAuth, ActionResult, AnyAuth, default as Auth, ExportOptions, Fill, default as Live, LiveHandler, MapQueryResult, Patch, PreparedQuery, Prettify, QueryParameters, QueryResult, RecordId, RecordIdRange, RpcResponse, ScopeAuth, StringRecordId, default as Surreal, Table, Uuid } from 'surrealdb';
+import { Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
+import { AccessRecordAuth, ActionResult, AnyAuth, default as Auth, ExportOptions, Fill, default as Live, LiveHandler, MapQueryResult, Patch, PreparedQuery, Prettify, QueryParameters, QueryResult, RecordId, RecordIdRange, ResponseError, RpcResponse, ScopeAuth, StringRecordId, default as Surreal, Table, Uuid } from 'surrealdb';
 import { SignUpInResponseDto } from "./dto/signup-in-response.dto";
 import { AppServiceAbstract, UserServiceAbstract } from "./surrealdb.abstracts";
 import { APP_SERVICE, SURREALDB_MODULE_OPTIONS, SURREALDB_MODULE_USER_SERVICE, adminCurrentUser } from './surrealdb.constants';
@@ -45,10 +45,14 @@ export class SurrealDbService {
   private async initSurrealDb(): Promise<Surreal> {
     this.db = new Surreal();
     try {
-      const { url, namespace, database, user, pass, userService } = this.options;
-      console.log(`url: ${url}, namespace: ${namespace}, database: ${database}, user: ${user}, pass: ${url}`);
+      const { url, namespace, database, username, password, userService } = this.options;
+      // this appear on start of server log, after `[InstanceLoader] ConfigModule dependencies initialize`
+      // Logger.log(`url: ${url}, namespace: ${namespace}, database: ${database}, username: ${username}, password: ${password}`, SurrealDbService.name);
       await this.db.connect(url, { namespace, database });
       await this.db.use({ namespace, database });
+      //  wait for the connection to the database to succeed
+      Logger.log(`surrealdb database is ready url: ${url}, namespace: ${namespace}, database: ${database}`, SurrealDbService.name);
+      await this.db.ready;
       return this.db;
     } catch (err) {
       console.error("Failed to connect to SurrealDB:", err instanceof Error ? err.message : String(err));
@@ -133,7 +137,7 @@ export class SurrealDbService {
    * @return The authentication token.
    */
   async signup(vars: ScopeAuth | AccessRecordAuth): Promise<SignUpInResponseDto> {
-    return { accessToken: await this.db.signup(vars) };
+    return { accessToken: await this.db.signup(vars).catch(() => { throw new ResponseError('signup error'); }) };
   }
 
   /**
@@ -142,7 +146,9 @@ export class SurrealDbService {
    * @return The authentication token.
    */
   async signin(vars: AnyAuth): Promise<SignUpInResponseDto> {
-    return { accessToken: await this.db.signin(vars) };
+    return {
+      accessToken: await this.db.signin(vars).catch(() => { throw new ResponseError('signup error'); })
+    };
   }
 
   /**

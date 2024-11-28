@@ -33,15 +33,4 @@ composer.lock
 /node_modules
 coverage/
 packages_removed
-database/000016.sst
-database/000018.sst
-database/000026.sst
-database/CURRENT
-database/IDENTITY
-database/LOCK
-database/LOG
-database/LOG.old.1732535265502211
-database/LOG.old.1732537000960764
-database/MANIFEST-000022
-database/OPTIONS-000015
-database/OPTIONS-000024
+database/

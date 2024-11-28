@@ -7,7 +7,7 @@
 @uriGql = {{uriBase}}/graphql
 @contentType = application/json
 
-@thing = person:uv1o55sjes0tdpa31ool
+@thing = person:kapa
 @thingTobie = person:tobie
 @thingRestaurant = restaurant:a6
 @thingRecipe = recipe:a1
@@ -46,7 +46,7 @@ Content-Type: {{contentType}}
 
 ### getUserFindOneByField
 // @name getUserFindOneByField
-// call surrealDbService.getUserFindOneByField()
+// call surrealDbService.getUserFindOneByField() (moked user)
 
 GET {{uri}}/userservice HTTP/1.1
 Content-Type: {{contentType}}
@@ -86,7 +86,7 @@ POST {{uriSurrealDb}}/connect
 Content-Type: application/json
 
 {
-  "url": "http://127.0.0.1:8000/rpc"
+  "url": "ws://127.0.0.1:8000/rpc"
 }
 
 ### postClose
@@ -105,8 +105,8 @@ POST {{uriSurrealDb}}/use
 Content-Type: application/json
 
 {
-  "ns": "test",
-  "db": "test"
+  "namespace": "test",
+  "database": "test"
 }
 
 ### postSignup
@@ -116,37 +116,48 @@ POST {{uriSurrealDb}}/signup
 Content-Type: application/json
 
 {
-  "ns": "test",
-  "db": "test",
-  // We want to signup to the 'allusers' scope defined above
-  "sc": "allusers",
+  "namespace": "test",
+  "database": "test",
+  // opt1: with Record Access : We want to signup to the 'allusers' scope defined above
+  // "scope": "allusers",
+  // opt2: Only supported from SurrealDB 2.x onwards
+  // account match `DEFINE ACCESS account ON DATABASE...`
+  "access": "account",
   // We can add any variable here to use in the SIGNUP clause
-  // "email": "tobie@surrealdb.com",
-  "user": "tobie",
-  // We can add any variable here to use in the SIGNUP clause
-  "pass": "some password",
-  // We can add any variable here to use in the SIGNUP clause
-  "marketing": true,
-  // We can add any variable here to use in the SIGNUP clause
-  "tags": ["rust", "golang", "javascript"]
+  "variables": {
+    "username": "mario",
+    "password": "password",
+    "tags": ["rust", "golang", "javascript"],
+    "settings": {
+      "marketing": true
+    }
+  }
 }
 
 ### postSignin
 // @name postSignin
+// https://surrealdb.com/docs/sdk/javascript/methods/signin#example-usage
 
 POST {{uriSurrealDb}}/signin
 Content-Type: application/json
 
 {
-  "ns": "test",
-  "db": "test",
-  // We want to signup to the 'allusers' scope defined above
-  "sc": "allusers",
-  // We can add any variable here to use in the SIGNUP clause
-  // "email": "tobie@surrealdb.com",
-  "user": "tobie",
-  // We can add any variable here to use in the SIGNUP clause
-  "pass": "some password"
+  "namespace": "test",
+  "database": "test",
+  // opt1: with Record Access : We want to signup to the 'allusers' scope defined above
+  // "scope": "allusers",
+  // opt2: Only supported from SurrealDB 2.x onwards
+  // account match `DEFINE ACCESS account ON DATABASE...`
+  "access": "account",
+  "variables": {
+    "username": "mario",
+    "password": "password"
+    // this can be used, if used in signin function
+    // "tags": ["rust", "golang", "javascript"],
+    // "settings": {
+    //   "marketing": true
+    // }
+  }  
 }
 
 ### postInvalidate
@@ -192,7 +203,8 @@ POST {{uriSurrealDb}}/query
 Content-Type: application/json
 
 {
-  "sql": "SELECT id, string::concat(name.first, ' ', name.last) AS name, age FROM $id;",
+  // "sql": "SELECT id, string::concat(name.first, ' ', name.last) AS name, age FROM $id;",
+  "sql": "select * from user where is = $thing",
   "vars": {
     "id": "{{thing}}"
   }
@@ -203,15 +215,19 @@ Content-Type: application/json
 
 ### getSelect
 // @name getSelect
+# @authToken = {{postSignin.response.body.$.accessToken}}
 
-GET {{uriSurrealDb}}/select/{{thing}}
+GET {{uriSurrealDb}}/select/user:brjk1nr5mtw1afl103b9
 Content-Type: application/json
+# Authorization: Bearer {{authToken}}
 
 ### postCreate
 // @name postCreate
+# @authToken = {{postSignin.response.body.$.accessToken}}
 
 POST {{uriSurrealDb}}/create/{{thing}}
 Content-Type: application/json
+# Authorization: Bearer {{authToken}}
 
 {
   "title": "Founder & CEO",

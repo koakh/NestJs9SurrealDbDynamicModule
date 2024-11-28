@@ -36,11 +36,11 @@ $ rm src/app.controller.spec.ts src/app.controller.ts src/app.service.ts
 ```bash
 GRAPHQL_SERVER_PORT="3030"
 GRAPHQL_AUTO_SCHEMA_FILE='./schema.gql'
-SURREALDB_URL="http://127.0.0.1:8000/rpc"
+SURREALDB_URL="ws://127.0.0.1:8000/rpc"
 SURREALDB_NAMESPACE="test"
 SURREALDB_DATABASE="test"
-SURREALDB_USER="root"
-SURREALDB_PASS="root"
+SURREALDB_USERNAME="root"
+SURREALDB_PASSWORD="root"
 ```
 
 ## Change AppModule
@@ -67,8 +67,8 @@ import { join } from 'path';
         url: configService.get('SURREALDB_URL'),
         namespace: configService.get('SURREALDB_NAMESPACE'),
         database: configService.get('SURREALDB_DATABASE'),
-        user: configService.get('SURREALDB_USER'),
-        pass: configService.get('SURREALDB_PASS'),
+        user: configService.get('SURREALDB_USERNAME'),
+        pass: configService.get('SURREALDB_PASSWORD'),
       }),
       imports: [AppModule],
       inject: [ConfigService],

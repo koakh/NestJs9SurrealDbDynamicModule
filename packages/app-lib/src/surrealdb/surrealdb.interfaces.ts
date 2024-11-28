@@ -4,7 +4,7 @@ export interface SurrealDbModuleOptions {
   url: string;
   namespace: string;
   database: string;
-  user: string;
-  pass: string;
+  username: string;
+  password: string;
   userService?: UserServiceAbstract;
 }

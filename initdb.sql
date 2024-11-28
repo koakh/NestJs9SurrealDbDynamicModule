@@ -1,24 +1,28 @@
--- implicit full access for new signup users
--- the only way to work with a signin user is using bellow PERMISSIONS
-DEFINE TABLE person SCHEMALESS PERMISSIONS
-  FOR select, create, update, delete FULL;
+define namespace test;
+define database test;
+-- use ns test db test;
 
--- DEFINE TABLE person SCHEMALESS PERMISSIONS
---   FOR select, create, update, delete WHERE id = $auth.id;
+-- https://surrealdb.com/docs/surrealql/statements/define/table#defining-permissions
+-- define table user schemafull permissions full;
+define table user schemafull permissions 
+  for select, create full, 
+  for update, delete where id = $auth.id or $auth.admin = true;
 
-DEFINE TABLE user SCHEMAFULL
-  PERMISSIONS 
-    FOR select, update WHERE id = $auth.id, 
-    FOR create, delete NONE;
+define field overwrite username on user type string assert $value != NONE;
+define field overwrite password on user type string assert $value != NONE;
+-- flexible
+define field overwrite settings on user flexible type object default {};
+define field overwrite settings.marketing on user type bool default false;
+define field overwrite tags on user type option<array<string>> default [];
+define index overwrite idx_username on user columns username unique;
 
-DEFINE FIELD email ON user TYPE string;
-DEFINE FIELD pass ON user TYPE string;
-DEFINE FIELD settings.* ON user TYPE object;
-DEFINE FIELD settings.marketing ON user TYPE string;
-DEFINE FIELD tags ON user TYPE array;
-DEFINE INDEX idx_email ON user COLUMNS email UNIQUE;
+-- defining access in your application
+-- https://surrealdb.com/docs/sdk/javascript/core/handling-authentication#defining-access-in-your-application
+-- define access method/function
+define access account on database type record
+	signup ( create user set username = $username, password = crypto::argon2::generate($password), settings.marketing = $marketing, tags = $tags )
+	signin ( select * from user where username = $username and crypto::argon2::compare(password, $password) )
+	duration for token 15m, for session 12h;
 
-DEFINE SCOPE allusers
-  SESSION 14d
-  SIGNUP ( CREATE user SET settings.marketing = $marketing, email = $email, pass = crypto::argon2::generate($pass), tags = $tags )
-  SIGNIN ( SELECT * FROM user WHERE email = $email AND crypto::argon2::compare(pass, $pass) )
+-- info for db;
+-- info for table user;

@@ -11,109 +11,97 @@ export class SurrealDbController {
   ) { }
 
   @Post('/connect')
-  connect(@Body() { url }: ConnectDto) {
-    return this.surrealDbService.connect(url);
+  async connect(@Body() { url }: ConnectDto) {
+    return await this.surrealDbService.connect(url);
   }
 
   @Post('/close')
-  close() {
-    return this.surrealDbService.close();
+  async close() {
+    return await this.surrealDbService.close();
   }
 
   @Post('/use')
-  use(@Body() { ns, db }: UseDto) {
-    return this.surrealDbService.use(ns, db);
+  async use(@Body() { ns, db }: UseDto) {
+    return await this.surrealDbService.use(ns, db);
   }
 
   @Post('/signup')
-  signup(@Body() signupDto: SignupDto): Promise<SignUpInResponseDto> {
-    let mode = {};
+  // https://surrealdb.com/docs/sdk/javascript/methods/signup#signup
+  async signup(@Body() signupDto: SignupDto): Promise<SignUpInResponseDto> {
+    // access supported from SurrealDB 2.x onwards
+    // https://surrealdb.com/docs/sdk/javascript/core/handling-authentication
     // https://surrealdb.com/docs/sdk/javascript/methods/signup#example-usage
-    if (signupDto.access) {
-      // with Record Access: if passed 
-      mode = { access: 'user' };
-    }
-    // With Scopes
-    else {
-      mode = { scope: 'user' };
-    }
-
-    return this.surrealDbService.signup({
-      namespace: signupDto.namespace,
-      database: signupDto.database,
-      scope: signupDto.scope,
-      ...mode,
-    });
+    let mode = signupDto.access ? { access: signupDto.access } : { access: signupDto.scope };
+    const payload = { ...signupDto, ...mode, }
+    // Logger.log(`payload: [${JSON.stringify(payload, undefined, 2)}]`, SurrealDbController.name);
+    return await this.surrealDbService.signup(payload);
   }
 
   @Post('/signin')
-  signin(@Body() signinDto: SigninDto): Promise<SignUpInResponseDto> {
-    return this.surrealDbService.signin({
-      namespace: signinDto.namespace,
-      database: signinDto.database,
-      scope: signinDto.scope,
-      username: signinDto.username,
-      password: signinDto.password,
-    });
+  // https://surrealdb.com/docs/sdk/javascript/methods/signin#example-usage    
+  async signin(@Body() signinDto: SigninDto): Promise<SignUpInResponseDto> {
+    let mode = signinDto.access ? { access: signinDto.access } : { access: signinDto.scope };
+    const payload = { ...signinDto, ...mode, }
+    return await this.surrealDbService.signin(payload);
   }
 
   @Post('/invalidate')
-  invalidate(): any {
-    return this.surrealDbService.invalidate();
+  async invalidate() {
+    return await this.surrealDbService.invalidate();
   }
 
   @Post('/authenticate')
-  authenticate(@Body() { token }: AuthenticateDto) {
-    return this.surrealDbService.authenticate(token);
+  async authenticate(@Body() { token }: AuthenticateDto) {
+    return await this.surrealDbService.authenticate(token);
   }
 
   @Post('/let')
-  let(@Body() { key, val }) {
-    return this.surrealDbService.let(key, val);
+  async let(@Body() { key, val }) {
+    return await this.surrealDbService.let(key, val);
   }
 
   @Post('/query')
   async query(@Body() { sql, vars }) {
-    return this.surrealDbService.query(sql, vars);
+    return await this.surrealDbService.query(sql, vars);
   }
 
   @Get('/select/:thing')
-  select(@Param('thing') thing: string) {
-    return this.surrealDbService.select(thing);
+  async select(@Param('thing') thing: string) {
+    return await this.surrealDbService.select(thing);
   }
 
   @Post('/create/:thing')
-  create(@Param('thing') thing: string, @Body() createDto: CreateDto) {
-    return this.surrealDbService.create(thing, createDto);
+  async create(@Param('thing') thing: string, @Body() createDto: CreateDto) {
+    return await this.surrealDbService.create(thing, createDto);
   }
 
   @Put('/update/:thing')
-  update(@Param('thing') thing: string, @Body() updateDto: UpdateDto) {
-    return this.surrealDbService.update(thing, updateDto);
+  async update(@Param('thing') thing: string, @Body() updateDto: UpdateDto) {
+    return await this.surrealDbService.update(thing, updateDto);
   }
 
   @Delete('/delete/:thing')
-  delete(@Param('thing') thing: string) {
-    return this.surrealDbService.delete(thing);
+  async delete(@Param('thing') thing: string) {
+    return await this.surrealDbService.delete(thing);
   }
 
   @Post('/ping')
-  ping() {
-    return this.surrealDbService.ping();
+  async ping() {
+    return await this.surrealDbService.ping();
   }
 
   @Post('/info')
-  info() {
-    return this.surrealDbService.info();
+  async info() {
+    return await this.surrealDbService.info();
   }
 
   @Post('/live')
-  live(@Param('table') table: string) {
-    return this.surrealDbService.live(table);
+  async live(@Param('table') table: string) {
+    return await this.surrealDbService.live(table);
   }
 
   @Post('/kill')
-  kill(@Param('query') queryUuid: Uuid | readonly Uuid[]) {
-    return this.surrealDbService.kill(queryUuid);
+  async kill(@Param('query') queryUuid: Uuid | readonly Uuid[]) {
+    return await this.surrealDbService.kill(queryUuid);
   }
 }

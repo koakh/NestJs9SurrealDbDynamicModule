@@ -220,11 +220,21 @@ $ yarn app-lib:dev
 
 ### Launch REST Consumer App
 
+> TIP: use a split window with `app-lib:dev` and `start:app-rst`, this way when file changes on both projects you will see watch reload working on both projects
+
 ```shell
 # start dev
 $ yarn start:app-rst
+[Nest] 284274  - 11/27/2024, 11:02:44 AM     LOG [NestApplication] Nest application successfully started +2ms
+[Nest] 284274  - 11/27/2024, 11:02:44 AM     LOG [NestApplication] Application is running on: http://[::1]:3030
+[Nest] 284274  - 11/27/2024, 11:02:44 AM     LOG [NestApplication] using surrealDb host: ws://127.0.0.1:8000/rpc
+```
 
-# start docker stack
+> launch debug here, it will work with consumer app and lib/package
+
+
+```shell
+# or start docker stack
 $ docker:app-rst:up
 $ docker:app-rst:down
 ```
