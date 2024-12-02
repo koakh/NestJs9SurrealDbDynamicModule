@@ -6,6 +6,6 @@ export const configuration = (): EnvironmentVariables => ({
   surrealDbUrl: process.env.SURREALDB_URL || 'ws://127.0.0.1:8000/rpc',
   surrealDbNamespace: process.env.SURREALDB_NAMESPACE || 'test',
   surrealDbDatabase: process.env.SURREALDB_DATABASE || 'test',
-  surrealDbUser: process.env.SURREALDB_USERNAME || 'root',
-  surrealDbPass: process.env.SURREALDB_PASSWORD || 'root',
+  surrealDbUsername: process.env.SURREALDB_USERNAME || 'root',
+  surrealDbPassword: process.env.SURREALDB_PASSWORD || 'root',
 });

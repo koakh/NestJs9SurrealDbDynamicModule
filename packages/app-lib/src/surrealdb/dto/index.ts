@@ -1,4 +1,3 @@
-export * from './authenticate.dto';
 export * from './change.dto';
 export * from './connect.dto';
 export * from './create.dto';

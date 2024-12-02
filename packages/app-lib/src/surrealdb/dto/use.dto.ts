@@ -2,8 +2,8 @@ import { IsString } from 'class-validator';
 
 export declare class UseDto {
   @IsString()
-  ns: string;
+  namespace: string;
 
   @IsString()
-  db: string;
+  database: string;
 }

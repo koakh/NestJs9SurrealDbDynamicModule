@@ -4,8 +4,10 @@ define database test;
 
 -- https://surrealdb.com/docs/surrealql/statements/define/table#defining-permissions
 -- define table user schemafull permissions full;
-define table user schemafull permissions 
-  for select, create full, 
+define table overwrite user schemafull permissions 
+  -- this will be used to check permission when we are signin and select all users
+  for select where id = $auth.id or $auth.admin = true,  
+  for create full, 
   for update, delete where id = $auth.id or $auth.admin = true;
 
 define field overwrite username on user type string assert $value != NONE;

@@ -11,7 +11,7 @@
 @thingTobie = person:tobie
 @thingRestaurant = restaurant:a6
 @thingRecipe = recipe:a1
-@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjI3NjE5MTUsIm5iZiI6MTY2Mjc2MTkxNSwiZXhwIjoxNjYzOTcxNTE1LCJpc3MiOiJTdXJyZWFsREIiLCJucyI6InRlc3QiLCJkYiI6InRlc3QiLCJzYyI6ImFsbHVzZXJzIiwiaWQiOiJ1c2VyOjB3aGdnZHdna205d2w2aDY4emxjIn0.-bLrZge6Xqm6xTG5Zdp08Suvyrn-vOMJDu12m9kduDhRt7rrW0V2n_4mQYk8ey6UTxtOAktHNpPNzDyZkq3qKg
+@namespaceAndDatabase = test
 
 // ::::: BO app-rst :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -98,6 +98,16 @@ Content-Type: application/json
 {
 }
 
+### postPing
+// @name postPing
+// ping is used internally. It doesn't need to be called from any client code
+
+POST {{uriSurrealDb}}/ping
+Content-Type: application/json
+
+{
+}
+
 ### postUse
 // @name postUse
 
@@ -105,8 +115,20 @@ POST {{uriSurrealDb}}/use
 Content-Type: application/json
 
 {
-  "namespace": "test",
-  "database": "test"
+  // use SELECT * FROM $session to view current ns and db
+  "namespace": "{{namespaceAndDatabase}}",
+  "database": "{{namespaceAndDatabase}}"
+}
+
+### postInfo
+// @name postInfo
+// note: This method returns the record of an authenticated scope user.
+// returns the same as $auth
+
+POST {{uriSurrealDb}}/info
+Content-Type: application/json
+
+{
 }
 
 ### postSignup
@@ -116,8 +138,8 @@ POST {{uriSurrealDb}}/signup
 Content-Type: application/json
 
 {
-  "namespace": "test",
-  "database": "test",
+  "namespace": "{{namespaceAndDatabase}}",
+  "database": "{{namespaceAndDatabase}}",
   // opt1: with Record Access : We want to signup to the 'allusers' scope defined above
   // "scope": "allusers",
   // opt2: Only supported from SurrealDB 2.x onwards
@@ -125,7 +147,7 @@ Content-Type: application/json
   "access": "account",
   // We can add any variable here to use in the SIGNUP clause
   "variables": {
-    "username": "mario",
+    "username": "alex",
     "password": "password",
     "tags": ["rust", "golang", "javascript"],
     "settings": {
@@ -140,10 +162,11 @@ Content-Type: application/json
 
 POST {{uriSurrealDb}}/signin
 Content-Type: application/json
+// note: signIn user, check $auth and $session
 
 {
-  "namespace": "test",
-  "database": "test",
+  "namespace": "{{namespaceAndDatabase}}",
+  "database": "{{namespaceAndDatabase}}",
   // opt1: with Record Access : We want to signup to the 'allusers' scope defined above
   // "scope": "allusers",
   // opt2: Only supported from SurrealDB 2.x onwards
@@ -162,6 +185,7 @@ Content-Type: application/json
 
 ### postInvalidate
 // @name postInvalidate
+// note: invalid current signIn user, will clean the $aut object
 
 POST {{uriSurrealDb}}/invalidate
 Content-Type: application/json
@@ -171,29 +195,88 @@ Content-Type: application/json
 
 ### postAuthenticate
 // @name postAuthenticate
-// TODO: how authenticate?
+// note: very usefull to authenticate user from a authToken, ex after invalidate, 
+// even work if we are signin with a user and want to switch to other user
 
 POST {{uriSurrealDb}}/authenticate
 Content-Type: application/json
 
 {
-  "token": "{{token}}"
+  "token": "{{postSignin.response.body.*}}"
 }
 
 ### postLet
 // @name postLet
+// note: Assigns a value as a parameter for this connection.
+// test: `return $name;` will return `[ { "first": "Tobie", "last": "Morgan Hitchcock" } ]`
 
 POST {{uriSurrealDb}}/let
 Content-Type: application/json
 
 {
-  "key": "name",
+  "variable": "name",
   "value": {
-    "name": {
-      "first": "Tobie",
-      "last": "Morgan Hitchcock"
-    }
+    "first": "Tobie",
+    "last": "Morgan Hitchcock"
   }
+}
+
+### postUnset
+// @name postUnset
+// note: Removes a parameter for this connection.
+// test: `return $name;` will return `[ null ]`
+
+POST {{uriSurrealDb}}/unset
+Content-Type: application/json
+
+{
+  "variable": "name"
+}
+
+### postLive
+// @name postLive
+// Initiates a live query.
+// this will return uuid wrapped in double quotes
+
+POST {{uriSurrealDb}}/live/person
+Content-Type: application/json
+// note: we have the optional callback in controller
+
+{
+}
+
+### postSubscribeLive
+// @name postSubscribeLive
+// Registers a callback function for a running live query.
+// don't use return uuid wrapped in double quotes
+// @queryUuid = {{postLive.response.body.*}}
+
+POST {{uriSurrealDb}}/subscribe-live/4c40e576-87f6-40cb-8285-d44f72fe23b7
+Content-Type: application/json
+
+{
+}
+
+### postUnsubscribeLive
+// @name postUnsubscribeLive
+// don't use return uuid wrapped in double quotes
+// @queryUuid = {{postLive.response.body.*}}
+
+POST {{uriSurrealDb}}/unsubscribe-live/2157e0ec-56af-4815-8a45-e4710e5fac3c
+Content-Type: application/json
+
+{
+}
+
+### postKill
+// @name postKill
+// don't use return uuid wrapped in double quotes
+// @queryUuid = {{postLive.response.body.*}}
+
+POST {{uriSurrealDb}}/kill/d4810e75-2d2b-4fc3-8a8e-49bfd1a89b2a
+Content-Type: application/json
+
+{
 }
 
 ### postQuery
@@ -203,42 +286,59 @@ POST {{uriSurrealDb}}/query
 Content-Type: application/json
 
 {
-  // "sql": "SELECT id, string::concat(name.first, ' ', name.last) AS name, age FROM $id;",
-  "sql": "select * from user where is = $thing",
-  "vars": {
-    "id": "{{thing}}"
-  }
+  // recordId
+  // don't need to use type::thing($id) when use recordId string  
+  // "sql": "select * from person where id = person:1jftpekc74qvd3roms9c",
+  // required to use type::thing($id) when use $id var
+  // "sql": "select * from person where id = type::thing($id)",
+  // "sql": "select string::concat(name.first, ' ', name.last) AS name, age FROM type::thing($id)",
+  // table
+  // "sql": "select * from type::table($tb)",
+  // "vars": {
+  //   // "id": "person:bytmz5ib1my6d0d7sti5"
+  //   "tb": "person"
+  // }
+  // https://surrealdb.com/docs/surrealql/parameters#auth
   // "sql": "SELECT * FROM $auth"
+  // https://surrealdb.com/docs/surrealql/parameters#session
   // "sql": "SELECT * FROM $session"
-  // "sql": "SELECT * FROM $scope"
+  // https://surrealdb.com/docs/surrealql/parameters#access
+  // "sql": "SELECT * FROM $access"
+  // "sql": "select * from user;"
+  // test above let
+  "sql": "return $name;"
 }
+
+// TODO: queryRaw
 
 ### getSelect
 // @name getSelect
-# @authToken = {{postSignin.response.body.$.accessToken}}
 
-GET {{uriSurrealDb}}/select/user:brjk1nr5mtw1afl103b9
+GET {{uriSurrealDb}}/select/person:xv3svatpsyo0a9i2smug
 Content-Type: application/json
-# Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 ### postCreate
 // @name postCreate
-# @authToken = {{postSignin.response.body.$.accessToken}}
 
-POST {{uriSurrealDb}}/create/{{thing}}
+POST {{uriSurrealDb}}/create/person
 Content-Type: application/json
-# Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 {
   "title": "Founder & CEO",
   "name": {
-    "first": "Tobie",
+    "first": "Jamie",
     "last": "Morgan Hitchcock"
   },
   "marketing": true,
   "age": 28,
   "html":"123"
 }
+
+// TODO: insert
+
+// TODO: insertRelation
 
 ### putUpdate
 // @name putUpdate
@@ -257,33 +357,39 @@ Content-Type: application/json
   "country": "Portugal"
 }
 
-### patchChange
-// @name patchChange
-// patches thing, update only sent properties leaving all others untoutched
-// TODO: BadRequestException : Bad Request Exception
+// TODO: merge
 
-PATCH {{uriSurrealDb}}/change/{{thing}}
-Content-Type: application/json
+// TODO: patch
 
-{
-  "name": {
-    "first": "Tobie changed...",
-    "last": "Morgan Hitchcock changed..."
-  }
-}
+// DEPRECATED: 
+// ### patchChange
+// // @name patchChange
+// // patches thing, update only sent properties leaving all others untoutched
+// // TODO: BadRequestException : Bad Request Exception
+// 
+// PATCH {{uriSurrealDb}}/change/{{thing}}
+// Content-Type: application/json
+// 
+// {
+//   "name": {
+//     "first": "Tobie changed...",
+//     "last": "Morgan Hitchcock changed..."
+//   }
+// }
 
-### patchModify
-// @name patchModify
-// modify replaces properties of record
-
-PATCH {{uriSurrealDb}}/modify/{{thing}}
-Content-Type: application/json
-
-{
-  "name": {
-    "fullName": "Tobie Morgan Hitchcock"
-  }
-}
+DEPRECATED: 
+// ### patchModify
+// // @name patchModify
+// // modify replaces properties of record
+// 
+// PATCH {{uriSurrealDb}}/modify/{{thing}}
+// Content-Type: application/json
+// 
+// {
+//   "name": {
+//     "fullName": "Tobie Morgan Hitchcock"
+//   }
+// }
 
 ### deleteDelete
 // @name deleteDelete
@@ -291,55 +397,24 @@ Content-Type: application/json
 DELETE {{uriSurrealDb}}/delete/{{thing}}
 Content-Type: application/json
 
-### postSync
-// @name postSync
-// TODO: sync, live, and kill aren't fully implemented yet
+// DEPRECATED: 
+// ### postSync
+// // @name postSync
+// // TODO: sync, live, and kill aren't fully implemented yet
+// 
+// POST {{uriSurrealDb}}/sync
+// Content-Type: application/json
+// 
+// {
+// }
 
-POST {{uriSurrealDb}}/sync
-Content-Type: application/json
+// TODO: version
 
-{
-}
+// TODO: relate
 
-### postPing
-// @name postPing
-// ping is used internally. It doesn't need to be called from any client code
+// TODO: rpc
 
-POST {{uriSurrealDb}}/ping
-Content-Type: application/json
-
-{
-}
-
-### postInfo
-// @name postInfo
-
-POST {{uriSurrealDb}}/info
-Content-Type: application/json
-
-{
-}
-
-### postLive
-// @name postLive
-// TODO: sync, live, and kill aren't fully implemented yet
-
-POST {{uriSurrealDb}}/live
-Content-Type: application/json
-
-{
-}
-
-### postKill
-// @name postKill
-// TODO: sync, live, and kill aren't fully implemented yet
-
-POST {{uriSurrealDb}}/kill
-Content-Type: application/json
-
-{
-}
-
+// TODO: export
 
 // ::::: EO app-rst and app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -355,7 +430,7 @@ Content-Type: application/json
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 mutation createRestaurant($createRestaurantInput: CreateRestaurantInput!) {
 	createRestaurant(createRestaurantInput: $createRestaurantInput) {
@@ -395,7 +470,7 @@ mutation createRestaurant($createRestaurantInput: CreateRestaurantInput!) {
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 mutation updateRestaurant($id: String!, $updateRestaurantInput: UpdateRestaurantInput!) {
 	updateRestaurant(id: $id, updateRestaurantInput: $updateRestaurantInput) {
@@ -432,7 +507,7 @@ mutation updateRestaurant($id: String!, $updateRestaurantInput: UpdateRestaurant
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 query findOneRestaurant($id: String!){
   findOneRestaurant(id: $id ){
@@ -463,7 +538,7 @@ query findOneRestaurant($id: String!){
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 query findManyRestaurants($skip: Int, $take: Int) {
   findManyRestaurants(skip: $skip, take: $take) {
@@ -503,7 +578,7 @@ query findManyRestaurants($skip: Int, $take: Int) {
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 mutation removeRestaurant($id: String!){
   removeRestaurant(id: $id )
@@ -519,7 +594,7 @@ mutation removeRestaurant($id: String!){
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 subscription restaurantAdded{
   restaurantAdded{
@@ -534,7 +609,7 @@ subscription restaurantAdded{
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 subscription restaurantUpdated{
   restaurantUpdated{
@@ -549,7 +624,7 @@ subscription restaurantUpdated{
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 subscription restaurantDeleted{
   restaurantDeleted
@@ -562,7 +637,7 @@ subscription restaurantDeleted{
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 mutation createRecipe($createRecipeInput: CreateRecipeInput!) {
 	createRecipe(createRecipeInput: $createRecipeInput) {
@@ -605,7 +680,7 @@ mutation createRecipe($createRecipeInput: CreateRecipeInput!) {
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 mutation updateRecipe($id: String!, $updateRecipeInput: UpdateRecipeInput!) {
 	updateRecipe(id: $id, updateRecipeInput: $updateRecipeInput) {
@@ -634,7 +709,7 @@ mutation updateRecipe($id: String!, $updateRecipeInput: UpdateRecipeInput!) {
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 query findOneRecipe($id: String!){
   findOneRecipe(id: $id ){
@@ -662,7 +737,7 @@ query findOneRecipe($id: String!){
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 query findManyRecipes($skip: Int, $take: Int) {
   findManyRecipes(skip: $skip, take: $take) {
@@ -691,7 +766,7 @@ query findManyRecipes($skip: Int, $take: Int) {
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 mutation removeRecipe($id: String!){
   removeRecipe(id: $id )
@@ -707,7 +782,7 @@ mutation removeRecipe($id: String!){
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 subscription recipeAdded{
   recipeAdded{
@@ -722,7 +797,7 @@ subscription recipeAdded{
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 subscription recipeUpdated{
   recipeUpdated{
@@ -737,7 +812,7 @@ subscription recipeUpdated{
 POST {{uriGql}} HTTP/1.1
 Content-Type: {{contentType}}
 X-REQUEST-TYPE: {{requestType}}
-// Authorization: Bearer {{authToken}}
+// Authorization: Bearer {{postSignin.response.body.*}}
 
 subscription recipeDeleted{
   recipeDeleted

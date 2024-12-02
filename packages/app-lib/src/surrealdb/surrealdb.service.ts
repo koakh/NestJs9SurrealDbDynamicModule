@@ -1,6 +1,5 @@
-import { Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
-import { AccessRecordAuth, ActionResult, AnyAuth, default as Auth, ExportOptions, Fill, default as Live, LiveHandler, MapQueryResult, Patch, PreparedQuery, Prettify, QueryParameters, QueryResult, RecordId, RecordIdRange, ResponseError, RpcResponse, ScopeAuth, StringRecordId, default as Surreal, Table, Uuid } from 'surrealdb';
-import { SignUpInResponseDto } from "./dto/signup-in-response.dto";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { AccessRecordAuth, ActionResult, AnyAuth, default as Auth, ExportOptions, Fill, LiveHandler, MapQueryResult, Patch, PreparedQuery, Prettify, QueryParameters, RecordId, RecordIdRange, ResponseError, RpcResponse, ScopeAuth, StringRecordId, default as Surreal, Table, Uuid } from 'surrealdb';
 import { AppServiceAbstract, UserServiceAbstract } from "./surrealdb.abstracts";
 import { APP_SERVICE, SURREALDB_MODULE_OPTIONS, SURREALDB_MODULE_USER_SERVICE, adminCurrentUser } from './surrealdb.constants';
 import { SurrealDbModuleOptions } from './surrealdb.interfaces';
@@ -48,9 +47,11 @@ export class SurrealDbService {
       const { url, namespace, database, username, password, userService } = this.options;
       // this appear on start of server log, after `[InstanceLoader] ConfigModule dependencies initialize`
       // Logger.log(`url: ${url}, namespace: ${namespace}, database: ${database}, username: ${username}, password: ${password}`, SurrealDbService.name);
-      await this.db.connect(url, { namespace, database });
-      await this.db.use({ namespace, database });
-      //  wait for the connection to the database to succeed
+      await this.db.connect(url, { namespace, database, auth: { username, password } });
+      // already defined above
+      // await this.db.use({ namespace, database });
+      // await this.db.signin({ username, password });
+      // wait for the connection to the database to succeed
       Logger.log(`surrealdb database is ready url: ${url}, namespace: ${namespace}, database: ${database}`, SurrealDbService.name);
       await this.db.ready;
       return this.db;
@@ -136,8 +137,8 @@ export class SurrealDbService {
    * @param vars - Variables used in a signup query.
    * @return The authentication token.
    */
-  async signup(vars: ScopeAuth | AccessRecordAuth): Promise<SignUpInResponseDto> {
-    return { accessToken: await this.db.signup(vars).catch(() => { throw new ResponseError('signup error'); }) };
+  async signup(vars: ScopeAuth | AccessRecordAuth): Promise<string> {
+    return await this.db.signup(vars).catch(() => { throw new ResponseError('signup error'); });
   }
 
   /**
@@ -145,10 +146,8 @@ export class SurrealDbService {
    * @param vars - Variables used in a signin query.
    * @return The authentication token.
    */
-  async signin(vars: AnyAuth): Promise<SignUpInResponseDto> {
-    return {
-      accessToken: await this.db.signin(vars).catch(() => { throw new ResponseError('signup error'); })
-    };
+  async signin(vars: AnyAuth): Promise<string> {
+    return await this.db.signin(vars).catch(() => { throw new ResponseError('signup error'); });
   }
 
   /**
@@ -168,11 +167,11 @@ export class SurrealDbService {
 
   /**
    * Specify a variable for the current socket connection.
-   * @param key - Specifies the name of the variable.
-   * @param val - Assigns the value to the variable name.
+   * @param variable - Specifies the name of the variable.
+   * @param value - Assigns the value to the variable name.
    */
-  async let(key: string, val: any): Promise<true> {
-    return await this.db.let(key, val);
+  async let(variable: string, value: any): Promise<true> {
+    return await this.db.let(variable, value);
   }
 
   /**
@@ -191,7 +190,7 @@ export class SurrealDbService {
    * @returns A unique subscription ID
    */
   async live<Result extends Record<string, unknown> | Patch = Record<string, unknown>>(table: RecordIdRange | Table | string, callback?: LiveHandler<Result>, diff?: boolean): Promise<Uuid> {
-    return await this.db.live<Result>(table);
+    return (await this.db.live<Result>(table, callback));
   }
 
   /**
@@ -205,7 +204,7 @@ export class SurrealDbService {
 
   /**
    * Unsubscribe a callback from a live select query
-   * @param queryUuid - The unique ID of an existing live query you want to ubsubscribe from.
+   * @param queryUuid - The unique ID of an existing live query you want to unsubscribe from.
    * @param callback - The previously subscribed callback function.
    */
   async unSubscribeLive<Result extends Record<string, unknown> | Patch = Record<string, unknown>>(queryUuid: Uuid, callback: LiveHandler<Result>): Promise<void> {
@@ -244,9 +243,15 @@ export class SurrealDbService {
    * If you intend on sorting, filtering, or performing other operations on the data, it is recommended to use the `query` method instead.
    * @param thing - The table name or a record ID to select.
    */
-  async select<T extends { [x: string]: unknown; }>(thing: string | RecordIdRange<string> | Table<string>)
-    : Promise<ActionResult<T>[]> {
-    return await this.db.select<T>(thing);
+  async select<T extends { [x: string]: unknown; }>(thing: RecordId$1 | RecordIdRange | Table | string)
+    : Promise<ActionResult<T> | Promise<ActionResult<T>[]>> {
+    if (thing.toString().split(':').length === 2) {
+      // if is a recordId
+      return await this.db.select<T>(new StringRecordId(thing.toString()));
+    } else {
+      // if is a table
+      return await this.db.select<T>(thing.toString())
+    }
   }
 
   /**
@@ -335,8 +340,8 @@ export class SurrealDbService {
    * Obtain the version of the SurrealDB instance
    * @example `surrealdb-2.1.0`
    */
-  async version(): Promise<{ version: string }> {
-    return { version: await this.db.version() };
+  async version(): Promise<string> {
+    return await this.db.version();
   }
 
   /**
