@@ -390,22 +390,23 @@ Content-Type: application/json
 // Inserts one or multiple relations in the database.
 // Authorization: Bearer {{postSignin.response.body.*}}
 
-{
-  "in": "person:mario",
-  "out": "post:wu4o9efvd25nz9rpp5v3"
-}
+// test with one relation
+// {
+//   "in": "person:mario",
+//   "out": "post:wu4o9efvd25nz9rpp5v3"
+// }
 
-// [
-//   // test with multiple relations
-// 	{
-//     "in": "person:mario",
-//     "out": "post:wu4o9efvd25nz9rpp5v3"
-// 	},
-// 	{
-//     "in": "person:alex",
-//     "out": "post:3jzehgkqyqvip86ryy5f"
-// 	}
-// ]
+[
+  // test with multiple relations
+	{
+    "in": "person:mario",
+    "out": "post:wu4o9efvd25nz9rpp5v3"
+	},
+	{
+    "in": "person:alex",
+    "out": "post:3jzehgkqyqvip86ryy5f"
+	}
+]
 
 ### putUpdate
 // @name putUpdate

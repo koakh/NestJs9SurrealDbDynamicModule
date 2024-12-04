@@ -1,8 +1,8 @@
-import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, Post, Put, ValidationPipe } from '@nestjs/common';
-import { RecordId, Uuid } from 'surrealdb';
-import { ConnectDto, DataDto, InsertRelation, InsertRelationDto, SigninDto, SignupDto, UpdateDto, UseDto } from './dto';
-import { SurrealDbService } from './surrealdb.service';
+import { Body, Controller, Delete, Get, Logger, Param, Post } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
+import { Uuid } from 'surrealdb';
+import { ConnectDto, DataDto, InsertRelation, InsertRelationDto, SigninDto, SignupDto, UseDto } from './dto';
+import { SurrealDbService } from './surrealdb.service';
 
 const callbackSubscribeLive =
   // The callback function takes two arguments: the 'action' and 'result' properties
@@ -136,19 +136,20 @@ export class SurrealDbController {
   }
 
   @Post('/insert-relation/:thing')
-  async insertRelation(@Param('thing') thing: string, @Body() rawPayload: any[]) {
-    // manually transform the payload
+  async insertRelation(@Param('thing') thing: string, @Body() rawPayload: any) {
     // Logger.log(`Raw Payload: ${JSON.stringify(rawPayload)}`, SurrealDbController.name);
-    const transformedData = rawPayload.map(item => {
-      // Logger.log(`Processing item: ${JSON.stringify(item)}`, SurrealDbController.name);
-      return plainToInstance(InsertRelation, item, {
+    // normalize payload to always be an array, this wai it works with arrays and plain objects
+    const payloadArray = Array.isArray(rawPayload) ? rawPayload : [rawPayload];
+    const transformedData = payloadArray.map(item =>
+      plainToInstance(InsertRelation, item, {
         enableImplicitConversion: true,
         excludeExtraneousValues: false,
-      });
-    });
+      })
+    );
+    // used InsertRelationDto here, not in controller
     const insertRelationDto = new InsertRelationDto();
     insertRelationDto.data = transformedData;
-    // Logger.log(`transformed DTO: ${JSON.stringify(insertRelationDto)}`, SurrealDbController.name);
+    // Logger.log(`Transformed DTO: ${JSON.stringify(insertRelationDto)}`, SurrealDbController.name);
     return await this.surrealDbService.insertRelation(thing, insertRelationDto.data);
   }
 

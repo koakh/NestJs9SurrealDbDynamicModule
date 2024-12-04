@@ -1,14 +1,14 @@
-import { Transform, Type, plainToInstance } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsNotEmpty, ValidateNested } from 'class-validator';
 import { RecordId } from 'surrealdb';
 
 export class InsertRelation {
   @Transform(({ value }) => {
-    console.log('IN value:', value);
+    // Logger.log(`IN value: ${value}`);
     if (value instanceof RecordId) return value;
     if (typeof value === 'string') {
       const [table, id] = value.split(':');
-      console.log('IN split:', { table, id });
+      // Logger.log(`IN split: ${JSON.stringify({ table, id })}`);
       return new RecordId(table, id);
     }
     return value;
@@ -17,11 +17,11 @@ export class InsertRelation {
   in: RecordId;
 
   @Transform(({ value }) => {
-    console.log('OUT value:', value);
+    // Logger.log(`OUT value: ${value}`);
     if (value instanceof RecordId) return value;
     if (typeof value === 'string') {
       const [table, id] = value.split(':');
-      console.log('OUT split:', { table, id });
+      // Logger.log(`OUT split: ${JSON.stringify({ table, id })}`);
       return new RecordId(table, id);
     }
     return value;
@@ -33,5 +33,5 @@ export class InsertRelation {
 export class InsertRelationDto {
   @ValidateNested({ each: true })
   @Type(() => InsertRelation)
-  data: InsertRelation[];
+  data: InsertRelation | InsertRelation[];
 }
