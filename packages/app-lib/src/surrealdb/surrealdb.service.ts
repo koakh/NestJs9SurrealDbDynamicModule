@@ -276,9 +276,8 @@ export class SurrealDbService {
    * Inserts one or multiple records in the database.
    * @param thing - The table name or the specific record ID to create.
    * @param data - The document(s) / record(s) to insert.
-   * @deprecated Use `insertRelation` instead
    */
-  async insertRelation<T extends { [x: string]: unknown; id: RecordId<string> }, U extends T>(table: string | Table<string>, data?: any): Promise<{ [x: string]: unknown; id: RecordId<string>; }[]> {
+  async insertRelation<T extends { [x: string]: unknown; id: RecordId<string> }, U extends T = T>(table: string | Table<string>, data?: any): Promise<{ [x: string]: unknown; id: RecordId<string>; }[]> {
     return await this.db.insertRelation<T, U>(table, data);
   }
 

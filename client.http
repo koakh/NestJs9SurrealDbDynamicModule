@@ -288,33 +288,45 @@ Content-Type: application/json
 {
   // recordId
   // don't need to use type::thing($id) when use recordId string  
-  // "sql": "select * from person where id = person:1jftpekc74qvd3roms9c",
+  // "query": "select * from person where id = person:1jftpekc74qvd3roms9c",
   // required to use type::thing($id) when use $id var
-  // "sql": "select * from person where id = type::thing($id)",
-  // "sql": "select string::concat(name.first, ' ', name.last) AS name, age FROM type::thing($id)",
+  "query": "select * from person where id = type::thing($id)",
+  // "query": "select string::concat(name.first, ' ', name.last) AS name, age FROM type::thing($id)",
   // table
-  // "sql": "select * from type::table($tb)",
-  // "vars": {
-  //   // "id": "person:bytmz5ib1my6d0d7sti5"
-  //   "tb": "person"
-  // }
+  // "query": "select * from type::table($tb)",
+  "bindings": {
+    "id": "person:0betlakpbh5oojrcypnw"
+    // "tb": "person"
+  }
   // https://surrealdb.com/docs/surrealql/parameters#auth
-  // "sql": "SELECT * FROM $auth"
+  // "query": "SELECT * FROM $auth"
   // https://surrealdb.com/docs/surrealql/parameters#session
-  // "sql": "SELECT * FROM $session"
+  // "query": "SELECT * FROM $session"
   // https://surrealdb.com/docs/surrealql/parameters#access
-  // "sql": "SELECT * FROM $access"
-  // "sql": "select * from user;"
+  // "query": "SELECT * FROM $access"
+  // "query": "select * from user;"
   // test above let
-  "sql": "return $name;"
+  // "query": "return $name;"
 }
 
-// TODO: queryRaw
+### postQueryRaw
+// @name postQueryRaw
+
+POST {{uriSurrealDb}}/query-raw
+Content-Type: application/json
+
+{
+  "query": "select * from person where id = type::thing($id)",
+  "bindings": {
+    "id": "person:0betlakpbh5oojrcypnw"
+  }
+}
+
 
 ### getSelect
 // @name getSelect
 
-GET {{uriSurrealDb}}/select/person:xv3svatpsyo0a9i2smug
+GET {{uriSurrealDb}}/select/person:0betlakpbh5oojrcypnw
 Content-Type: application/json
 // Authorization: Bearer {{postSignin.response.body.*}}
 
@@ -336,9 +348,64 @@ Content-Type: application/json
   "html":"123"
 }
 
-// TODO: insert
+### postInsert
+// @name postInsert
+
+POST {{uriSurrealDb}}/insert/person
+Content-Type: application/json
+// Inserts one or multiple records in the database.
+// Authorization: Bearer {{postSignin.response.body.*}}
+
+[
+  // test with multiple records
+  {
+    "title": "Founder & CEO",
+    "name": {
+      "first": "Multiple 1",
+      "last": "Morgan Hitchcock"
+    },
+    "marketing": true,
+    "age": 28,
+    "html":"123"
+  },
+  {
+    "title": "Founder & CEO",
+    "name": {
+      "first": "Multiple 2",
+      "last": "Morgan Hitchcock"
+    },
+    "marketing": true,
+    "age": 28,
+    "html":"123"
+  }
+]
 
 // TODO: insertRelation
+### postInsertRelation
+// @name postInsertRelation
+// Inserts one or multiple relations in the database.
+
+POST {{uriSurrealDb}}/insert-relation/person_relation_post
+Content-Type: application/json
+// Inserts one or multiple relations in the database.
+// Authorization: Bearer {{postSignin.response.body.*}}
+
+{
+  "in": "person:mario",
+  "out": "post:wu4o9efvd25nz9rpp5v3"
+}
+
+// [
+//   // test with multiple relations
+// 	{
+//     "in": "person:mario",
+//     "out": "post:wu4o9efvd25nz9rpp5v3"
+// 	},
+// 	{
+//     "in": "person:alex",
+//     "out": "post:3jzehgkqyqvip86ryy5f"
+// 	}
+// ]
 
 ### putUpdate
 // @name putUpdate

@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, Put } from '@nestjs/common';
-import { Uuid } from 'surrealdb';
-import { ConnectDto, CreateDto, SigninDto, SignupDto, UpdateDto, UseDto } from './dto';
+import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, Post, Put, ValidationPipe } from '@nestjs/common';
+import { RecordId, Uuid } from 'surrealdb';
+import { ConnectDto, DataDto, InsertRelation, InsertRelationDto, SigninDto, SignupDto, UpdateDto, UseDto } from './dto';
 import { SurrealDbService } from './surrealdb.service';
+import { plainToInstance } from 'class-transformer';
 
 const callbackSubscribeLive =
   // The callback function takes two arguments: the 'action' and 'result' properties
@@ -110,11 +111,14 @@ export class SurrealDbController {
   }
 
   @Post('/query')
-  async query(@Body() { sql, vars }) {
-    return await this.surrealDbService.query(sql, vars);
+  async query(@Body() { query, bindings }) {
+    return await this.surrealDbService.query(query, bindings);
   }
 
-  // TODO: queryRaw
+  @Post('/query-raw')
+  async queryRaw(@Body() { query, bindings }) {
+    return await this.surrealDbService.queryRaw(query, bindings);
+  }
 
   @Get('/select/:thing')
   async select(@Param('thing') thing: string) {
@@ -122,18 +126,36 @@ export class SurrealDbController {
   }
 
   @Post('/create/:thing')
-  async create(@Param('thing') thing: string, @Body() createDto: CreateDto) {
+  async create(@Param('thing') thing: string, @Body() createDto: DataDto) {
     return await this.surrealDbService.create(thing, createDto);
   }
 
-  // TODO: insert
-
-  // TODO: insertRelation
-
-  @Put('/update/:thing')
-  async update(@Param('thing') thing: string, @Body() updateDto: UpdateDto) {
-    return await this.surrealDbService.update(thing, updateDto);
+  @Post('/insert/:thing')
+  async insert(@Param('thing') thing: string, @Body() insertDto: DataDto) {
+    return await this.surrealDbService.insert(thing, insertDto);
   }
+
+  @Post('/insert-relation/:thing')
+  async insertRelation(@Param('thing') thing: string, @Body() rawPayload: any[]) {
+    // manually transform the payload
+    // Logger.log(`Raw Payload: ${JSON.stringify(rawPayload)}`, SurrealDbController.name);
+    const transformedData = rawPayload.map(item => {
+      // Logger.log(`Processing item: ${JSON.stringify(item)}`, SurrealDbController.name);
+      return plainToInstance(InsertRelation, item, {
+        enableImplicitConversion: true,
+        excludeExtraneousValues: false,
+      });
+    });
+    const insertRelationDto = new InsertRelationDto();
+    insertRelationDto.data = transformedData;
+    // Logger.log(`transformed DTO: ${JSON.stringify(insertRelationDto)}`, SurrealDbController.name);
+    return await this.surrealDbService.insertRelation(thing, insertRelationDto.data);
+  }
+
+  // @Put('/update/:thing')
+  // async update(@Param('thing') thing: string, @Body() updateDto: UpdateDto) {
+  //   return await this.surrealDbService.update(thing, updateDto);
+  // }
 
   // TODO: merge
 

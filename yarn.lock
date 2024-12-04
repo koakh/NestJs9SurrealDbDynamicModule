@@ -1334,6 +1334,7 @@ __metadata:
     graphql-query-complexity: "npm:^1.0.0"
     graphql-subscriptions: "npm:^3.0.0"
     jest: "npm:29.7.0"
+    nodemon: "npm:^3.1.7"
     prettier: "npm:^3.4.0"
     reflect-metadata: "npm:^0.2.2"
     rimraf: "npm:^6.0.1"
@@ -1449,7 +1450,7 @@ __metadata:
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.10.0"
     babel-core: "npm:6.26.3"
-    class-validator: "npm:0.14.1"
+    class-validator: "npm:^0.14.1"
     graphql-subscriptions: "npm:3.0.0"
     jest: "npm:29.7.0"
     nodemon: "npm:3.1.7"
@@ -3607,7 +3608,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-validator@npm:0.14.1, class-validator@npm:^0.14.1":
+"class-validator@npm:^0.14.1":
   version: 0.14.1
   resolution: "class-validator@npm:0.14.1"
   dependencies:
