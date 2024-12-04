@@ -28,3 +28,9 @@ define access account on database type record
 
 -- info for db;
 -- info for table user;
+
+-- test functions
+DEFINE FUNCTION fn::greet($name: string) {
+	RETURN "Hello, " + $name + "!";
+};
+-- RETURN fn::greet("Tobie");

@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Put } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { Uuid } from 'surrealdb';
-import { ConnectDto, DataDto, InsertRelation, InsertRelationDto, SigninDto, SignupDto, UseDto } from './dto';
+import { ExportOptions, RecordId, StringRecordId, Uuid } from 'surrealdb';
+import { ConnectDto, DataDto, InsertRelation, InsertRelationDto, Relate, RelateDto, SigninDto, SignupDto, UseDto } from './dto';
 import { SurrealDbService } from './surrealdb.service';
 
 const callbackSubscribeLive =
@@ -153,25 +153,97 @@ export class SurrealDbController {
     return await this.surrealDbService.insertRelation(thing, insertRelationDto.data);
   }
 
-  // @Put('/update/:thing')
-  // async update(@Param('thing') thing: string, @Body() updateDto: UpdateDto) {
-  //   return await this.surrealDbService.update(thing, updateDto);
-  // }
+  @Put('/update/:thing')
+  async update(@Param('thing') thing: string, @Body() updateDto: any) {
+    return await this.surrealDbService.update(thing, updateDto);
+  }
 
-  // TODO: merge
+  @Patch('/upsert/:thing')
+  async upsert(@Param('thing') thing: string, @Body() upsertDto: any) {
+    return await this.surrealDbService.upsert(thing, upsertDto);
+  }
 
-  // TODO: patch
+  @Post('/merge/:thing')
+  async merge(@Param('thing') thing: string, @Body() upsertDto: any) {
+    return await this.surrealDbService.merge(thing, upsertDto);
+  }
+
+  @Patch('/patch/:thing')
+  async patch(@Param('thing') thing: string, @Body() patchDto: any) {
+    return await this.surrealDbService.patch(thing, patchDto);
+  }
 
   @Delete('/delete/:thing')
   async delete(@Param('thing') thing: string) {
     return await this.surrealDbService.delete(thing);
   }
 
-  // TODO: version
+  @Get('/version')
+  async version() {
+    return await this.surrealDbService.version();
+  }
+
+  @Post('/run/:name')
+  async run(@Param('name') name: string, @Body() runDto: unknown[]) {
+    return await this.surrealDbService.run(name, runDto);
+  }
 
   // TODO: relate
+  @Post('/relate/:thing')
+  async relate(@Param('thing') thing: string, @Body() rawPayload: any) {
+    // Logger.log(`Raw Payload: ${JSON.stringify(rawPayload)}`, SurrealDbController.name);
+    // normalize payload to always be an array, this wai it works with arrays and plain objects
+    const payloadArray = Array.isArray(rawPayload) ? rawPayload : [rawPayload];
+    const transformedData = payloadArray.map(item =>
+      plainToInstance(Relate, item, {
+        enableImplicitConversion: true,
+        excludeExtraneousValues: false,
+      })
+    );
+    // used RelateDto here, not in controller
+    const relationDto = new RelateDto();
+    relationDto.data = transformedData;
+    Logger.log(`Transformed DTO: ${JSON.stringify(relationDto)}`, SurrealDbController.name);
+
+    // const from = [
+    //   new StringRecordId('person:mario'),
+    //   new StringRecordId('person:alex'),
+    // ];
+    // const to = [
+    //   new StringRecordId('post:3jzehgkqyqvip86ryy5f'),
+    //   new StringRecordId('post:wu4o9efvd25nz9rpp5v3'),
+    // ];
+    // const from = new StringRecordId('person:mario');
+    // const to = new StringRecordId('post:3jzehgkqyqvip86ryy5f');
+    const from = 'person:mario';
+    const to = 'post:3jzehgkqyqvip86ryy5f';
+    const data = {
+      newProp: 'fooBar',
+      temp: {
+        prop1: 'value1',
+        prop2: 'value2',
+        prop3: 'value3'
+      },
+      tags: ['rust', 'ts']
+    };
+    return await this.surrealDbService.relate(from, new StringRecordId(thing), to, data);
+
+    // https://discord.com/channels/902568124350599239/1013527402674139268/1313934957776736277
+    // await this.surrealDbService.query(`RELATE $from->${thing}->$to`, {
+    //   from: new StringRecordId(from),
+    //   to: new StringRecordId(to)
+    // });
+  }
 
   // TODO: rpc
+  @Post('/rpc/:method')
+  async rpc(@Param('method') method: string, @Body() rpcDto: unknown[]) {
+    return await this.surrealDbService.rpc(method, rpcDto);
+  }
 
   // TODO: export
+  // @Post('/export')
+  // async export(@Param('method') method: string, @Body() optionsDto?: Partial<ExportOptions>) {
+  //   return await this.surrealDbService.export(method, optionsDto);
+  // }
 }

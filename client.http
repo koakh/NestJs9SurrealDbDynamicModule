@@ -380,15 +380,12 @@ Content-Type: application/json
   }
 ]
 
-// TODO: insertRelation
 ### postInsertRelation
 // @name postInsertRelation
 // Inserts one or multiple relations in the database.
 
 POST {{uriSurrealDb}}/insert-relation/person_relation_post
 Content-Type: application/json
-// Inserts one or multiple relations in the database.
-// Authorization: Bearer {{postSignin.response.body.*}}
 
 // test with one relation
 // {
@@ -411,9 +408,8 @@ Content-Type: application/json
 ### putUpdate
 // @name putUpdate
 // replace current record with payload data
-// TODO: BadRequestException : Bad Request Exception
 
-PUT {{uriSurrealDb}}/update/{{thing}}
+PUT {{uriSurrealDb}}/update/person:mario
 Content-Type: application/json
 
 {
@@ -425,62 +421,137 @@ Content-Type: application/json
   "country": "Portugal"
 }
 
-// TODO: merge
+### patchUpsert
+// @name patchUpsert
+// upserts all records in a table, or a specific record, in the database.
 
-// TODO: patch
+PATCH {{uriSurrealDb}}/upsert/person:pedro
+Content-Type: application/json
 
-// DEPRECATED: 
-// ### patchChange
-// // @name patchChange
-// // patches thing, update only sent properties leaving all others untoutched
-// // TODO: BadRequestException : Bad Request Exception
-// 
-// PATCH {{uriSurrealDb}}/change/{{thing}}
-// Content-Type: application/json
-// 
-// {
-//   "name": {
-//     "first": "Tobie changed...",
-//     "last": "Morgan Hitchcock changed..."
-//   }
-// }
+{
+  "name": {
+    "first": "Pedro",
+    "last": "Monteiro"
+  },
+  "age": 50,
+  "country": "Portugal"
+}
 
-DEPRECATED: 
-// ### patchModify
-// // @name patchModify
-// // modify replaces properties of record
-// 
-// PATCH {{uriSurrealDb}}/modify/{{thing}}
-// Content-Type: application/json
-// 
-// {
-//   "name": {
-//     "fullName": "Tobie Morgan Hitchcock"
-//   }
-// }
+### postMerge
+// @name postMerge
+// upserts all records in a table, or a specific record, in the database.
+
+POST {{uriSurrealDb}}/merge/person:pedro
+Content-Type: application/json
+
+{
+  "newProp": "fooBar",
+  "temp": {
+    "prop1": "value1",
+    "prop2": "value2",
+    "prop3": "value3"
+  },
+  "tags": []
+}
+
+### patchPatch
+// @name patchPatch
+// applies JSON Patch changes to all records, or a specific record, in the database.
+
+PATCH {{uriSurrealDb}}/patch/person:pedro
+Content-Type: application/json
+
+[
+	{ "op": "replace", "path": "/settings/active", "value": false },
+	{ "op": "add", "path": "/tags", "value": ["developer", "engineer"] },
+	{ "op": "remove", "path": "/temp" }
+]
 
 ### deleteDelete
 // @name deleteDelete
+// Deletes all records in a table, or a specific record, from the database.
 
-DELETE {{uriSurrealDb}}/delete/{{thing}}
+// delete whole table
+// DELETE {{uriSurrealDb}}/delete/person
+DELETE {{uriSurrealDb}}/delete/person:pedro
 Content-Type: application/json
 
-// DEPRECATED: 
-// ### postSync
-// // @name postSync
-// // TODO: sync, live, and kill aren't fully implemented yet
-// 
-// POST {{uriSurrealDb}}/sync
-// Content-Type: application/json
-// 
-// {
-// }
+{
+}
 
-// TODO: version
+### getVersion
+// @name getVersion
+// Obtain the version of the SurrealDB instance
+
+GET {{uriSurrealDb}}/version
+Content-Type: application/json
+
+{
+}
+
+### postRun
+// @name postRun
+// Run a SurrealQL function
+
+POST {{uriSurrealDb}}/run/fn::greet
+Content-Type: application/json
+
+[
+  "Tobie"
+]
 
 // TODO: relate
+### postRelate
+// @name postRelate
 
-// TODO: rpc
+POST {{uriSurrealDb}}/relate/person_relation_post
+Content-Type: application/json
+
+// test with one relation
+// {
+//   "in": "person:mario",
+//   "out": "post:wu4o9efvd25nz9rpp5v3"
+// }
+
+{
+  "from": [
+    "person:mario",
+    "person:alex"
+  ],
+  "to": [
+    "post:3jzehgkqyqvip86ryy5f",
+    "post:wu4o9efvd25nz9rpp5v3"
+  ],
+  "data": {
+    "newProp": "fooBar",
+    "temp": {
+      "prop1": "value1",
+      "prop2": "value2",
+      "prop3": "value3"
+    },
+    "tags": [ "rust", "ts" ]
+  }
+}
+
+
+
+### postRpc
+// @name postRpc
+
+// POST {{uriSurrealDb}}/rpc/version
+POST {{uriSurrealDb}}/rpc/query
+// POST {{uriSurrealDb}}/rpc/run
+Content-Type: application/json
+
+// query
+[
+  "CREATE person SET name = 'John'; SELECT * FROM type::table($tb);",
+  {
+    "tb": "person"
+  }
+]
+// run  
+// [ "time::now" ]
 
 // TODO: export
 

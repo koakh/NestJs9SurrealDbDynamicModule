@@ -67,7 +67,7 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
    * @param data payload
    * @returns updated object
    */
-  async update<T extends { [x: string]: unknown; id: RecordId<string> }, U extends T>(id: string, data: Z): Promise<T> {
+  async update<T extends { [x: string]: unknown; id: RecordId<string> }, U extends T>(id: string, data: any): Promise<T> {
     return (await this.surrealDb.update<T, U>(id, data)) as any as T;
   }
 
