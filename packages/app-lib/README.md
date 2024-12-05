@@ -6,7 +6,6 @@ surrealdb nestjs 9 dynamic module wrapper on top of [surrealdb.js](https://surre
 
 Setting up a new project is quite simple with the **Nest CLI**. With npm installed, you can create a new Nest project with the following commands in your OS terminal:
 
-
 ```shell
 $ nest new surrealdb-graphql
 ? Which package manager would you ❤️  to use? 
@@ -15,11 +14,11 @@ $ nest new surrealdb-graphql
   pnpm
 ```
 
-## Installing the required packages:
+## Installing the required packages and create a simple graphql app
 
 ```shell
 $ cd tutorial-graphql
-$ yarn add @nestjs/graphql @nestjs/apollo @nestjs/config apollo-server-express graphql graphql-subscriptions graphql-query-complexity @koakh/nestjs-surrealdb
+$ yarn add @nestjs/graphql @nestjs/apollo @nestjs/config @apollo/server apollo-server-express graphql graphql-subscriptions graphql-query-complexity @graphql-tools/utils @koakh/nestjs-surrealdb class-transformer
 ```
 
 ## CleanUp non used Files
@@ -67,8 +66,8 @@ import { join } from 'path';
         url: configService.get('SURREALDB_URL'),
         namespace: configService.get('SURREALDB_NAMESPACE'),
         database: configService.get('SURREALDB_DATABASE'),
-        user: configService.get('SURREALDB_USERNAME'),
-        pass: configService.get('SURREALDB_PASSWORD'),
+        username: configService.get('SURREALDB_USERNAME'),
+        password: configService.get('SURREALDB_PASSWORD'),
       }),
       imports: [AppModule],
       inject: [ConfigService],
@@ -78,7 +77,10 @@ import { join } from 'path';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        autoSchemaFile: join(process.cwd(), configService.get<string>('GRAPHQL_AUTO_SCHEMA_FILE')),
+        autoSchemaFile: join(
+          process.cwd(),
+          configService.get<string>('GRAPHQL_AUTO_SCHEMA_FILE'),
+        ),
         installSubscriptionHandlers: true,
         formatError: (err) => {
           if (err.extensions.code === 'INTERNAL_SERVER_ERROR') {
@@ -90,7 +92,7 @@ import { join } from 'path';
     }),
   ],
 })
-export class AppModule { }
+export class AppModule {}
 ```
 
 now we can use `surrealDb: SurrealDbService` like any other NestJs provider ex

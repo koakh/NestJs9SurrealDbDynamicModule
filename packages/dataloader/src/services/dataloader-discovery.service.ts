@@ -1,11 +1,11 @@
 import { Injectable, InternalServerErrorException, OnModuleInit } from '@nestjs/common';
 import { DiscoveryService } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { InstanceToken } from '@nestjs/core/injector/module';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import DataLoader from 'dataloader';
 import { METADATA_KEY } from '../constants';
 import { DataloaderFactory } from '../interfaces/dataloader-factory.interface';
+import { InstanceToken } from '../types';
 
 /**
  * Maps dataloader provider tokens to dataloader instances.

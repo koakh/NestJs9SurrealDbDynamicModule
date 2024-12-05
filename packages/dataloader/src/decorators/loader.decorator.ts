@@ -1,11 +1,11 @@
 import { createParamDecorator, ExecutionContext, InternalServerErrorException } from '@nestjs/common';
-import { InstanceToken } from '@nestjs/core/injector/module';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import DataLoader from 'dataloader';
 import { GQL_CONTEXT_KEY } from '../constants';
 import { DataloaderInterceptor } from '../interceptors/dataloader.interceptor';
 import { DataloaderMap } from '../services/dataloader-discovery.service';
 import { DataloaderProvider } from './dataloader-provider.decorator';
+import { InstanceToken } from 'src/types';
 
 /**
  * Stringifies a NestJS `InstanceToken`.

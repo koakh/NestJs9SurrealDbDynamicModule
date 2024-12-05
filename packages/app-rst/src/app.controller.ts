@@ -25,11 +25,11 @@ export class AppController {
 
   // TODO: comment/uncomment to use/hide outside AppServiceAbstract
   // use app-lib > calling appService
-  @Get('appservice')
-  getHelloAppModule(): { message: string } {
-    // Logger.log(JSON.stringify(this.SurrealDbService));
-    return this.surrealDbService.getHelloAppModule();
-  }
+  // @Get('appservice')
+  // getHelloAppModule(): { message: string } {
+  //   // Logger.log(JSON.stringify(this.SurrealDbService));
+  //   return this.surrealDbService.getHelloAppModule();
+  // }
 
   // use app-lib > calling userService
   @Get('userservice')

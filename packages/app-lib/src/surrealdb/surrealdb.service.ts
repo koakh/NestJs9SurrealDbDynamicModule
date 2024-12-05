@@ -15,8 +15,10 @@ export class SurrealDbService {
     @Inject(SURREALDB_MODULE_USER_SERVICE)
     private readonly userService: UserServiceAbstract,
     // TODO: comment/uncomment to use/hide outside AppServiceAbstract
-    @Inject(APP_SERVICE)
-    private readonly appService: AppServiceAbstract,
+    // WARN: this is only useful in debug mode, but gives problems in consumer apps, because they don't implement this service, always leave uncomment to prevent issues, and use only for tests in dev env
+    // Nest can't resolve dependencies of the SurrealDbService (Symbol(SURREALDB_MODULE_OPTIONS), Symbol(SURREALDB_MODULE_USER_SERVICE), ?). Please make sure that the argument Symbol(APP_SERVICE) at index [2] is available in the SurrealDbModule context.
+    // @Inject(APP_SERVICE)
+    // private readonly appService: AppServiceAbstract,
   ) {
     this.initSurrealDb();
   }
@@ -29,9 +31,9 @@ export class SurrealDbService {
   // TODO: comment/uncomment to use/hide outside AppServiceAbstract
   // example
   // appServiceAbstract: this is from consumer app AppModule/AppService
-  getHelloAppModule(): { message: string } {
-    return { message: `${this.appService.getHello()} (called in SurrealDbService.getHelloAppModule())` };
-  }
+  // getHelloAppModule(): { message: string } {
+  //   return { message: `${this.appService.getHello()} (called in SurrealDbService.getHelloAppModule())` };
+  // }
 
   // example
   // userServiceAbstract: this is from consumer app AppModule/UserService
