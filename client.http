@@ -13,7 +13,7 @@
 @thingRecipe = recipe:a1
 @namespaceAndDatabase = test
 
-// ::::: BO app-rst :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+### ::::: BO app-rst :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 // local AppModule:AppController
 
@@ -73,9 +73,9 @@ Content-Type: {{contentType}}
 GET {{uriDb}}/select/{{thing}}
 Content-Type: application/json
 
-// ::::: EO app-rst :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+### ::::: EO app-rst :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-// ::::: BO app-rst and app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+### ::::: BO app-rst and app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ###  surrealDbModule: surrealDb proxy methods
 
@@ -533,8 +533,6 @@ Content-Type: application/json
   }
 }
 
-
-
 ### postRpc
 // @name postRpc
 
@@ -543,6 +541,8 @@ POST {{uriSurrealDb}}/rpc/query
 // POST {{uriSurrealDb}}/rpc/run
 Content-Type: application/json
 
+// version
+// [ ]
 // query
 [
   "CREATE person SET name = 'John'; SELECT * FROM type::table($tb);",
@@ -553,11 +553,29 @@ Content-Type: application/json
 // run  
 // [ "time::now" ]
 
-// TODO: export
+### postExport
+// @name postExport
 
-// ::::: EO app-rst and app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+POST {{uriSurrealDb}}/export
+Content-Type: application/json
 
-// ::::: BO app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+{  
+  "users": true,
+  "accesses": true,
+  "params": true,
+  "functions": true,
+  "analyzers": true,
+  // WIP: if we use true in versions, it starts acts like false in some cases, uncomment it to check the issue
+  // "versions": true,
+  // NOTE: tables can be boolean or string[]
+  "tables": true,
+  // "tables": [ "person", "post" ],
+  "records": true
+}
+
+### ::::: EO app-rst and app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+### ::::: BO app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 @requestType = GraphQL
 @random = {{$randomInt 1000 9999}}
@@ -957,4 +975,4 @@ subscription recipeDeleted{
   recipeDeleted
 }
 
-// ::::: EO app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+### ::::: EO app-gql :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

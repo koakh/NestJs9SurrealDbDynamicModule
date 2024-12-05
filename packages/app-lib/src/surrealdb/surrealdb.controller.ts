@@ -188,7 +188,7 @@ export class SurrealDbController {
     return await this.surrealDbService.run(name, runDto);
   }
 
-  // TODO: relate
+  // TODO: relate: this method is WIP, until it works in surreal javascript sdk
   @Post('/relate/:thing')
   async relate(@Param('thing') thing: string, @Body() rawPayload: any) {
     // Logger.log(`Raw Payload: ${JSON.stringify(rawPayload)}`, SurrealDbController.name);
@@ -205,18 +205,24 @@ export class SurrealDbController {
     relationDto.data = transformedData;
     Logger.log(`Transformed DTO: ${JSON.stringify(relationDto)}`, SurrealDbController.name);
 
-    // const from = [
-    //   new StringRecordId('person:mario'),
-    //   new StringRecordId('person:alex'),
-    // ];
-    // const to = [
-    //   new StringRecordId('post:3jzehgkqyqvip86ryy5f'),
-    //   new StringRecordId('post:wu4o9efvd25nz9rpp5v3'),
-    // ];
+    // TRY #1: string
+    // const from = 'person:mario';
+    // const to = 'post:3jzehgkqyqvip86ryy5f';
+    // 
+    // TRY #2: StringRecordId
     // const from = new StringRecordId('person:mario');
     // const to = new StringRecordId('post:3jzehgkqyqvip86ryy5f');
-    const from = 'person:mario';
-    const to = 'post:3jzehgkqyqvip86ryy5f';
+    //
+    // TRY #3
+    const from = [
+      new StringRecordId('person:mario'),
+      new StringRecordId('person:alex'),
+    ];
+    const to = [
+      new StringRecordId('post:3jzehgkqyqvip86ryy5f'),
+      new StringRecordId('post:wu4o9efvd25nz9rpp5v3'),
+    ];
+
     const data = {
       newProp: 'fooBar',
       temp: {
@@ -235,15 +241,14 @@ export class SurrealDbController {
     // });
   }
 
-  // TODO: rpc
   @Post('/rpc/:method')
   async rpc(@Param('method') method: string, @Body() rpcDto: unknown[]) {
     return await this.surrealDbService.rpc(method, rpcDto);
   }
 
   // TODO: export
-  // @Post('/export')
-  // async export(@Param('method') method: string, @Body() optionsDto?: Partial<ExportOptions>) {
-  //   return await this.surrealDbService.export(method, optionsDto);
-  // }
+  @Post('/export')
+  async export(@Body() optionsDto?: Partial<ExportOptions>) {
+    return await this.surrealDbService.export(optionsDto);
+  }
 }
