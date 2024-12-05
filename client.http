@@ -500,38 +500,50 @@ Content-Type: application/json
   "Tobie"
 ]
 
-// TODO: relate
 ### postRelate
 // @name postRelate
 
-POST {{uriSurrealDb}}/relate/person_relation_post
+POST {{uriSurrealDb}}/relate/person_relate_post
 Content-Type: application/json
 
-// test with one relation
-// {
-//   "in": "person:mario",
-//   "out": "post:wu4o9efvd25nz9rpp5v3"
-// }
-
 {
-  "from": [
-    "person:mario",
-    "person:alex"
-  ],
-  "to": [
-    "post:3jzehgkqyqvip86ryy5f",
-    "post:wu4o9efvd25nz9rpp5v3"
-  ],
+  "from": "person:mario",
+  "to": "post:3jzehgkqyqvip86ryy5f",
   "data": {
-    "newProp": "fooBar",
-    "temp": {
-      "prop1": "value1",
-      "prop2": "value2",
-      "prop3": "value3"
-    },
-    "tags": [ "rust", "ts" ]
+    // this will be store all data in a data property, and is optional, only use here as a example to not add data props to root of record
+    "data": {
+      "newProp": "fooBar",
+      "temp": {
+        "prop1": "value1",
+        "prop2": "value2",
+        "prop3": "value3"
+      },
+      "tags": [ "rust", "ts" ]
+    }
   }
 }
+
+// BOF: future implementation
+// {
+//   "from": [
+//     "person:mario",
+//     "person:alex"
+//   ],
+//   "to": [
+//     "post:3jzehgkqyqvip86ryy5f",
+//     "post:wu4o9efvd25nz9rpp5v3"
+//   ],
+//   "data": {
+//     "newProp": "fooBar",
+//     "temp": {
+//       "prop1": "value1",
+//       "prop2": "value2",
+//       "prop3": "value3"
+//     },
+//     "tags": [ "rust", "ts" ]
+//   }
+// }
+// EOF: future implementation
 
 ### postRpc
 // @name postRpc

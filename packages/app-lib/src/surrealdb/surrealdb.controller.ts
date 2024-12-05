@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Put } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { ExportOptions, RecordId, StringRecordId, Uuid } from 'surrealdb';
-import { ConnectDto, DataDto, InsertRelation, InsertRelationDto, Relate, RelateDto, SigninDto, SignupDto, UseDto } from './dto';
+import { ExportOptions, StringRecordId, Uuid } from 'surrealdb';
+import { ConnectDto, DataDto, InsertRelation, InsertRelationDto, RelateDto, SigninDto, SignupDto, UseDto } from './dto';
 import { SurrealDbService } from './surrealdb.service';
 
 const callbackSubscribeLive =
@@ -190,55 +190,61 @@ export class SurrealDbController {
 
   // TODO: relate: this method is WIP, until it works in surreal javascript sdk
   @Post('/relate/:thing')
-  async relate(@Param('thing') thing: string, @Body() rawPayload: any) {
-    // Logger.log(`Raw Payload: ${JSON.stringify(rawPayload)}`, SurrealDbController.name);
-    // normalize payload to always be an array, this wai it works with arrays and plain objects
-    const payloadArray = Array.isArray(rawPayload) ? rawPayload : [rawPayload];
-    const transformedData = payloadArray.map(item =>
-      plainToInstance(Relate, item, {
-        enableImplicitConversion: true,
-        excludeExtraneousValues: false,
-      })
-    );
-    // used RelateDto here, not in controller
-    const relationDto = new RelateDto();
-    relationDto.data = transformedData;
-    Logger.log(`Transformed DTO: ${JSON.stringify(relationDto)}`, SurrealDbController.name);
+async relate(@Param('thing') thing: string, @Body() relateDto: RelateDto) {
+    // BOF: future implementation
+    // // Logger.log(`Raw Payload: ${JSON.stringify(rawPayload)}`, SurrealDbController.name);
+    // // normalize payload to always be an array, this wai it works with arrays and plain objects
+    // const payloadArray = Array.isArray(rawPayload) ? rawPayload : [rawPayload];
+    // const transformedData = payloadArray.map(item =>
+    //   plainToInstance(Relate, item, {
+    //     enableImplicitConversion: true,
+    //     excludeExtraneousValues: false,
+    //   })
+    // );
+    // // used RelateDto here, not in controller
+    // const relationDto = new RelateDto();
+    // relationDto.data = transformedData;
+    // Logger.log(`Transformed DTO: ${JSON.stringify(relationDto)}`, SurrealDbController.name);
+    // // TRY #1: string
+    // // const from = 'person:mario';
+    // // const to = 'post:3jzehgkqyqvip86ryy5f';
+    // // 
+    // // TRY #2: StringRecordId
+    // // const from = new StringRecordId('person:mario');
+    // // const to = new StringRecordId('post:3jzehgkqyqvip86ryy5f');
+    // //
+    // // TRY #3
+    // const from = [
+    //   new StringRecordId('person:mario'),
+    //   new StringRecordId('person:alex'),
+    // ];
+    // const to = [
+    //   new StringRecordId('post:3jzehgkqyqvip86ryy5f'),
+    //   new StringRecordId('post:wu4o9efvd25nz9rpp5v3'),
+    // ];
 
-    // TRY #1: string
-    // const from = 'person:mario';
-    // const to = 'post:3jzehgkqyqvip86ryy5f';
-    // 
-    // TRY #2: StringRecordId
-    // const from = new StringRecordId('person:mario');
-    // const to = new StringRecordId('post:3jzehgkqyqvip86ryy5f');
-    //
-    // TRY #3
-    const from = [
-      new StringRecordId('person:mario'),
-      new StringRecordId('person:alex'),
-    ];
-    const to = [
-      new StringRecordId('post:3jzehgkqyqvip86ryy5f'),
-      new StringRecordId('post:wu4o9efvd25nz9rpp5v3'),
-    ];
-
-    const data = {
-      newProp: 'fooBar',
-      temp: {
-        prop1: 'value1',
-        prop2: 'value2',
-        prop3: 'value3'
-      },
-      tags: ['rust', 'ts']
-    };
-    return await this.surrealDbService.relate(from, new StringRecordId(thing), to, data);
+    // const data = {
+    //   newProp: 'fooBar',
+    //   temp: {
+    //     prop1: 'value1',
+    //     prop2: 'value2',
+    //     prop3: 'value3'
+    //   },
+    //   tags: ['rust', 'ts']
+    // };
+    // return await this.surrealDbService.relate(from, new StringRecordId(thing), to, data);
+    // EOF: future implementation
 
     // https://discord.com/channels/902568124350599239/1013527402674139268/1313934957776736277
     // await this.surrealDbService.query(`RELATE $from->${thing}->$to`, {
     //   from: new StringRecordId(from),
     //   to: new StringRecordId(to)
     // });
+    return await this.surrealDbService.query(`RELATE $from->${thing}->$to CONTENT $data`, {
+      from: new StringRecordId(relateDto.from),
+      to: new StringRecordId(relateDto.to),
+      data: relateDto.data,
+    });
   }
 
   @Post('/rpc/:method')
