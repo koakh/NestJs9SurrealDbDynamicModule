@@ -19,47 +19,47 @@ export function BaseResolver<T extends Type<BaseEntity>, K extends BaseCreateEnt
     @Mutation(() => classRef, { name: `create${classRef.name}` })
     async createEntity(@Args(`create${classRef.name}Input`, { type: () => CreateClassRefInput }) createClassRefInput: K) {
       const entity = await this.serviceRef.create(createClassRefInput);
-      this.pubSub.publish(`${classRef.name.toLowerCase()}Added`, { [`${classRef.name.toLowerCase()}Added`]: entity });
+      await this.pubSub.publish(`${classRef.name.toLowerCase()}Added`, { [`${classRef.name.toLowerCase()}Added`]: entity });
       return entity;
     }
 
     @Mutation(() => classRef, { name: `update${classRef.name}` })
     async updateEntity(@Args('id') id: string, @Args(`update${classRef.name}Input`, { type: () => UpdateClassRefInput }) updateClassRefInput: K) {
       const entity = await this.serviceRef.update(id, updateClassRefInput);
-      this.pubSub.publish(`${classRef.name.toLowerCase()}Updated`, { [`${classRef.name.toLowerCase()}Updated`]: entity });
+      await this.pubSub.publish(`${classRef.name.toLowerCase()}Updated`, { [`${classRef.name.toLowerCase()}Updated`]: entity });
       return entity;
     }
 
     @Query(() => classRef, { name: `findOne${classRef.name}` })
     async findOne(@Args('id') id: string) {
-      return this.serviceRef.findOne(id);
+      return await this.serviceRef.findOne(id);
     }
 
     @Query(() => [classRef], { name: `findMany${classRef.name}s` })
     // only work with any and not T[]
     async findMany(@Args() args: BaseFindAllArgs): Promise<any[]> {
-      return this.serviceRef.findMany(args);
+      return await this.serviceRef.findMany(args);
     }
 
     @Mutation(() => Boolean, { name: `remove${classRef.name}` })
     async removeEntity(@Args('id') id: string) {
       this.pubSub.publish(`${classRef.name.toLowerCase()}Deleted`, { [`${classRef.name.toLowerCase()}Deleted`]: id });
-      return this.serviceRef.remove(id);
+      return await this.serviceRef.remove(id);
     }
 
     @Subscription(() => classRef, { name: `${classRef.name.toLowerCase()}Added` })
     entityAdded() {
-      return (this.pubSub as any | AsyncIterableIterator<any>).asyncIterator(`${classRef.name.toLowerCase()}Added`);
+      return (this.pubSub as any | AsyncIterableIterator<any>).asyncIterableIterator(`${classRef.name.toLowerCase()}Added`);
     }
 
     @Subscription(() => classRef, { name: `${classRef.name.toLowerCase()}Updated` })
     entityUpdated() {
-      return (this.pubSub as any | AsyncIterableIterator<any>).asyncIterator(`${classRef.name.toLowerCase()}Updated`);
+      return (this.pubSub as any | AsyncIterableIterator<any>).asyncIterableIterator(`${classRef.name.toLowerCase()}Updated`);
     }
 
     @Subscription(() => String, { name: `${classRef.name.toLowerCase()}Deleted` })
     entityDeleted() {
-      return (this.pubSub as any | AsyncIterableIterator<any>).asyncIterator(`${classRef.name.toLowerCase()}Deleted`);
+      return (this.pubSub as any | AsyncIterableIterator<any>).asyncIterableIterator(`${classRef.name.toLowerCase()}Deleted`);
     }
   }
 

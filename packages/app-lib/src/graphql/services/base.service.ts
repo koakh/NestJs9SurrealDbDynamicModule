@@ -1,9 +1,9 @@
 import { Injectable, Type } from '@nestjs/common';
-import { SurrealDbService } from '../../surrealdb/surrealdb.service';
+import { Fill, MapQueryResult, PreparedQuery, Prettify, RecordId } from 'surrealdb';
+import { SurrealDbService, } from '../../surrealdb/surrealdb.service';
 import { BaseCreateEntityInput, BaseUpdateEntityInput } from '../dto';
 import { BaseFindAllArgs } from '../dto/base-find-all.args';
 import { BaseEntity } from '../entities';
-import { Fill, MapQueryResult, PreparedQuery, Prettify, RecordId } from 'surrealdb';
 
 @Injectable()
 export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFindAllArgs, V extends BaseCreateEntityInput, Z extends BaseUpdateEntityInput> {
@@ -21,12 +21,11 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
    */
   async create<T extends { [x: string]: unknown; id: RecordId<string>; }, U extends T>(data: V): Promise<T> {
     // await this.surrealDb.thingExists(data.restaurant);
-    const id = data?.id ? data.id : this.entityName.name.toLowerCase();
-    return (await this.surrealDb.create<T, U>(id, {
-      ...data,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    })) as unknown as T;
+    // const id = data?.id ? await this.surrealDb.recordIdFromStringThing(data.id as string) : this.entityName.name.toLowerCase();
+    const id = data?.id ? await this.surrealDb.recordIdFromStringThing(data.id as string) : this.entityName.name.toLowerCase();
+    const result = await this.surrealDb.create<T, U>(id, {...data, id: undefined});
+    // if passed id `table` return array, if pass id `table:id` returns object must cast both to T
+    return result[0] ? result[0] as unknown as T : result as unknown as T;
   }
 
   /**
@@ -36,15 +35,12 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
    */
   async findMany<T extends unknown[]>({ filter, skip, take }: K): Promise<T[]> {
     const where = filter ? ` WHERE ${filter} ` : '';
-    const limit = take != undefined ? ` LIMIT ${take}` : '';
-    const start = skip != undefined ? ` START ${skip}` : '';
+    const limit = take != undefined ? ` LIMIT $take` : '';
+    const start = skip != undefined ? ` START $skip` : '';
     const query = `SELECT * FROM type::table($table)${where}${limit}${start};`;
-    // TODO: use vars with LIMIT and START
-    // const query = 'SELECT * FROM type::table($table) LIMIT $limit START $start';
-    const vars = { table: this.entityName.name.toLowerCase(), start: skip, limit: take };
+    const vars = { table: this.entityName.name.toLowerCase(), skip, take };
     const data = await this.surrealDb.query<T>(query, vars);
-    // TODO:
-    return (data[0] as any).result;
+    return (data[0] as any);
   }
 
   /**
@@ -52,13 +48,16 @@ export abstract class BaseService<T extends Type<BaseEntity>, K extends BaseFind
    * @param id entity id
    * @returns array of entity object
    */
-  async findOne(id: string): Promise<T[]> {
+  async findOne(id: string): Promise<T> {
     const data = await this.surrealDb.select(id);
     // should not get here if we pass above validation
     if (data && Array.isArray(data) && data.length > 1) {
       throw new Error('found more than one record');
     }
-    return data && Array.isArray(data) && data.length === 1 ? (data[0] as unknown as T[]) : [];
+    // return data && Array.isArray(data) && data.length === 1 ? (data[0] as unknown as T[]) : [];
+    // Logger.log(`data: [${JSON.stringify((data as unknown as T[]), undefined, 2)}]`, BaseService.name);
+    // TODO: when doesn't found anything still responds with `{ "errors": [ {} ], "data": null }`
+    return data as unknown as T;
   }
 
   /**

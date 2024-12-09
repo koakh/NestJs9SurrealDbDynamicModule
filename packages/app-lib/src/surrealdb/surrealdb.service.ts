@@ -79,6 +79,22 @@ export class SurrealDbService {
     }
   }
 
+  /**
+   * generate a RecordId from a string
+   * @param thing 
+   */
+  async recordIdFromStringThing(thing: string): Promise<RecordId | string> {
+    if (typeof thing === 'string') {
+      const [table, id] = thing.split(':');
+      if (table && id) {
+        return new RecordId(table, id);
+      } else {
+        return thing;
+      }
+    }
+    return thing;
+  }
+
   // surrealDb Proxy methods
 
   /**
@@ -262,8 +278,9 @@ export class SurrealDbService {
    * @param thing - The table name or the specific record ID to create.
    * @param data - The document / record data to insert.
    */
-  async create<T extends { [x: string]: unknown; id: RecordId<string> }, U extends T>(thing: string | Table<string>, data?: any): Promise<{ [x: string]: unknown; id: RecordId<string>; }[]> {
-    return await this.db.create<T, U>(thing, data);
+  async create<T extends { [x: string]: unknown; id: RecordId<string> }, U extends T>(thing: string | Table<string>, data?: any): Promise<{ [x: string]: unknown; id: RecordId<string>; }[]> {    
+    // NOTE: if use id is tb:id will be object, if id is tb will be array, this will unwrap array and responses always with object
+    return await this.db.create<T, U>(thing as string, data);
   }
 
   /**

@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { APP_SERVICE, SurrealDbModule } from '@koakh/nestjs-surrealdb';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
@@ -35,7 +36,7 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         autoSchemaFile: join(process.cwd(), configService.get<string>('graphqlAutoSchemaFile')),
-        installSubscriptionHandlers: true,
+        installSubscriptionHandlers: true,        
         // prevent `server is vulnerable to denial of service attacks via memory exhaustion`
         cache: 'bounded',
         transformSchema: (schema) => upperDirectiveTransformer(schema, 'upper'),
@@ -54,9 +55,14 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
           // if (err.message.startsWith('Database Error: ')) {
           //   return new Error('Internal server error');
           // }
-          if (err.extensions.code === 'INTERNAL_SERVER_ERROR') {
-            return new Error(err.message);
+          if (err.extensions?.code === 'INTERNAL_SERVER_ERROR') {
+            // return an object with message and extensions instead of new Error()
+            return {
+              message: err.message,
+              extensions: err.extensions
+            };
           }
+          // Fallback to returning the original error if it doesn't match the condition
           // Otherwise return the original error. The error can also
           // be manipulated in other ways, as long as it's returned.
           return err;

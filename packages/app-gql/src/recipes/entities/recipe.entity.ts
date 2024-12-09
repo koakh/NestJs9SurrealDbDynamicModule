@@ -5,7 +5,7 @@ import { Restaurant } from '../../restaurants/entities';
 @ObjectType({ description: 'recipe ' })
 export class Recipe extends BaseEntity {
   @Field()
-  @Directive('@upper')
+  @Directive('@lower')
   uuid: string;
 
   @Field()

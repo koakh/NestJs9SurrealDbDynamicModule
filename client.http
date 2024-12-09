@@ -10,7 +10,7 @@
 @thing = person:kapa
 @thingTobie = person:tobie
 @thingRestaurant = restaurant:a6
-@thingRecipe = recipe:a1
+@thingRecipe = recipe:n21ste2k9q2vnpgwhmwt
 @namespaceAndDatabase = test
 
 ### ::::: BO app-rst :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -332,8 +332,9 @@ Content-Type: application/json
 
 ### postCreate
 // @name postCreate
+// NOTE: if use id `tb:id` result will be object, if use id `tb` result will be array
 
-POST {{uriSurrealDb}}/create/person
+POST {{uriSurrealDb}}/create/person:mario
 Content-Type: application/json
 // Authorization: Bearer {{postSignin.response.body.*}}
 
@@ -608,14 +609,14 @@ mutation createRestaurant($createRestaurantInput: CreateRestaurantInput!) {
     name
     description
     email
-    recipes {
-      id
-      title
-      description
-      ingredients
-      createdAt
-      updatedAt
-    }
+    // recipes {
+    //   id
+    //   title
+    //   description
+    //   ingredients
+    //   createdAt
+    //   updatedAt
+    // }
     createdAt
     updatedAt
 	}
@@ -623,13 +624,13 @@ mutation createRestaurant($createRestaurantInput: CreateRestaurantInput!) {
 
 {
 	"createRestaurantInput": {
-    "id": "{{thingRestaurant}}",
+    "id": "restaurant:restaurant01",
     "uuid": "{{$guid}}",
     "name": "Restaurant #{{random}}",
     "description": "some description #{{random}}",
-    "email": "fake@email.com"
+    "email": "mail{{random}}@email.com",
     // TODO: use surrealId here, and check if exists
-    // "recipes": ["bananas", "apples", "lemons", "pears"]
+    // "recipes": ["recipe:641myeo4pu0rq1tsw60s", "recipe:69lat6j61cg1pdhhb8mz"]
   }
 }
 
@@ -724,12 +725,12 @@ query findManyRestaurants($skip: Int, $take: Int) {
       updatedAt
       # this test dataLoader working using same recipes from restaurants
       # if we opt to not use it in `async recipes(` we can comprove that we have a lot more queries against surrealdb
-      restaurant {
-        id
-        recipes {
-          id
-        }
-      }
+      # restaurant {
+      #   id
+      #   recipes {
+      #     id
+      #   }
+      # }
     }
     createdAt
     updatedAt
@@ -815,18 +816,18 @@ mutation createRecipe($createRecipeInput: CreateRecipeInput!) {
     title
     description
     ingredients
-    restaurant{
-      id
-      name
-      recipes {
-        id
-        title
-        description
-        ingredients
-        createdAt
-        updatedAt
-      }
-    }
+    # restaurant{
+    #   id
+    #   name
+    #   recipes {
+    #     id
+    #     title
+    #     description
+    #     ingredients
+    #     createdAt
+    #     updatedAt
+    #   }
+    # }
     createdAt
     updatedAt
 	}
@@ -834,8 +835,9 @@ mutation createRecipe($createRecipeInput: CreateRecipeInput!) {
 
 {
 	"createRecipeInput": {
-    "id": "{{thingRecipe}}",
-    "restaurant": "{{thingRestaurant}}",
+    // don't use 004 else will be `recipe:⟨004⟩`
+    // "id": "recipe:a009",
+    "restaurant": "restaurant:restaurant01",
     "uuid": "{{$guid}}",
     "title": "Recipe #{{random}}",
     "description": "some description #{{random}}",
@@ -887,10 +889,11 @@ query findOneRecipe($id: String!){
     title
     description
     ingredients
-    restaurant {
-      id
-      name
-    }
+    // commented to work with simple example without restaurant entity, if present don't output anything and ant error
+    // restaurant {
+    //   id
+    //   name
+    // }
     createdAt
     updatedAt
   }
@@ -915,6 +918,7 @@ query findManyRecipes($skip: Int, $take: Int) {
     title
     description
     ingredients
+    // commented to work with simple example without restaurant entity, if present don't output anything and ant error
     restaurant {
       id
       name
@@ -926,7 +930,7 @@ query findManyRecipes($skip: Int, $take: Int) {
 
 {
 	"skip": 0,
-  "take": 10
+  "take": 1
 }
 
 ### mutation: removeRecipe
