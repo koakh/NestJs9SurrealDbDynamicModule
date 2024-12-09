@@ -12,12 +12,13 @@ async function bootstrap() {
   const configService = app.get<ConfigService>(ConfigService);
   // config vars
   const graphqlServerPort = configService.get<string>('graphqlServerPort');
+  const surrealDbUrl = configService.get('surrealDbUrl');
   // middleware
   app.useGlobalFilters(new AllExceptionsFilter(AppHttpAdapter));
   app.useGlobalPipes(new ValidationPipe());
   // start server
   await app.listen(graphqlServerPort);
   Logger.log(`Application is running on: ${await app.getUrl()}`, context);
-  Logger.log(`using surrealDb host: ${configService.get('surrealDbUrl')}`, context);
+  Logger.log(`using surrealDb host: ${surrealDbUrl}`, context);
 }
 bootstrap();

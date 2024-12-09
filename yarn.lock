@@ -1379,7 +1379,7 @@ __metadata:
   resolution: "@koakh/nestjs-surrealdb-graphql-demo@workspace:packages/app-gql"
   dependencies:
     "@koakh/nestjs-dataloader": "npm:^1.1.0"
-    "@koakh/nestjs-surrealdb": "npm:^0.1.8"
+    "@koakh/nestjs-surrealdb": "npm:^0.1.9"
     "@nestjs/apollo": "npm:^12.2.1"
     "@nestjs/cli": "npm:^10.4.8"
     "@nestjs/common": "npm:^10.4.9"
@@ -1428,7 +1428,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@koakh/nestjs-surrealdb-rest-demo@workspace:packages/app-rst"
   dependencies:
-    "@koakh/nestjs-surrealdb": "npm:0.1.8"
+    "@koakh/nestjs-surrealdb": "npm:0.1.9"
     "@nestjs/cli": "npm:^10.4.8"
     "@nestjs/common": "npm:^10.4.9"
     "@nestjs/config": "npm:^3.3.0"
@@ -1462,7 +1462,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@koakh/nestjs-surrealdb@npm:0.1.8, @koakh/nestjs-surrealdb@npm:^0.1.4, @koakh/nestjs-surrealdb@npm:^0.1.8, @koakh/nestjs-surrealdb@workspace:packages/app-lib":
+"@koakh/nestjs-surrealdb@npm:0.1.9, @koakh/nestjs-surrealdb@npm:^0.1.4, @koakh/nestjs-surrealdb@npm:^0.1.9, @koakh/nestjs-surrealdb@workspace:packages/app-lib":
   version: 0.0.0-use.local
   resolution: "@koakh/nestjs-surrealdb@workspace:packages/app-lib"
   dependencies:

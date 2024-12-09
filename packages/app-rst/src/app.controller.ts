@@ -36,4 +36,7 @@ export class AppController {
   async getUserFindOneByField(): Promise<User> {
     return this.surrealDbService.getUserFindOneByField();
   }
+
+  // NOTE: surrealdb endpoints
+  // we import and use SurrealDbController in AppModule controllers `packages/app-rst/src/app.module.ts`
 }

@@ -9,6 +9,7 @@
     - [Fix Error #1: NestJS/GraphQL/DataLoader】Context creation failed: dataloader\_1.default is not a constructor](#fix-error-1-nestjsgraphqldataloadercontext-creation-failed-dataloader_1default-is-not-a-constructor)
     - [Fix #2: DataLoader with Arrays ex](#fix-2-dataloader-with-arrays-ex)
   - [npm ERR! need auth This command requires you to be logged in to https://registry.yarnpkg.com/](#npm-err-need-auth-this-command-requires-you-to-be-logged-in-to-httpsregistryyarnpkgcom)
+  - [Force Consumer Apps to use AppLib package](#force-consumer-apps-to-use-applib-package)
 
 some other projects and files that help
 
@@ -273,4 +274,19 @@ $ npm publish
 # outcome
 npm notice Publishing to https://registry.npmjs.org/
 + @koakh/nestjs-surrealdb@0.1.5
+```
+
+## Force Consumer Apps to use AppLib package
+
+in case of consumer apps don't have the last updates from app-lib use
+
+```shell
+$ rm packages/app-lib/dist/ -R 
+$ rm packages/app-rst/node_modules/@koakh -R
+$ rm packages/app-gql/node_modules/@koakh -R
+
+$ yarn app-lib:dev
+$ yarn install --mode=skip-build
+$ yarn start:app-rst
+$ yarn start:app-gql
 ```

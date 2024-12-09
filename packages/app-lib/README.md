@@ -18,7 +18,7 @@ $ nest new surrealdb-graphql
 
 ```shell
 $ cd tutorial-graphql
-$ yarn add @nestjs/graphql @nestjs/apollo @nestjs/config @apollo/server apollo-server-express graphql graphql-subscriptions graphql-query-complexity @graphql-tools/utils @koakh/nestjs-surrealdb class-transformer
+$ yarn add @nestjs/graphql @nestjs/apollo @nestjs/config @apollo/server apollo-server-express graphql graphql-subscriptions graphql-query-complexity class-transformer @graphql-tools/utils @koakh/nestjs-surrealdb @koakh/nestjs-dataloader
 ```
 
 ## CleanUp non used Files

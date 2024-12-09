@@ -1,4 +1,4 @@
-import { APP_SERVICE, SurrealDbModule } from '@koakh/nestjs-surrealdb';
+import { APP_SERVICE, SurrealDbModule, SurrealDbController } from '@koakh/nestjs-surrealdb';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -38,6 +38,7 @@ import { UserService } from './user/user.service';
   ],
   controllers: [
     AppController,
+    SurrealDbController,
   ],
   providers: [
     // another trick is that this AppService is required to else we have the classic error

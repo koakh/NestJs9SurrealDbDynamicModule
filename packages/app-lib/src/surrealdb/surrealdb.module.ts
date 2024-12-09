@@ -1,7 +1,6 @@
 import { createConfigurableDynamicRootModule } from '@golevelup/nestjs-modules';
 import { Global, Module } from '@nestjs/common';
 import { SURREALDB_MODULE_OPTIONS } from './surrealdb.constants';
-import { SurrealDbController } from './surrealdb.controller';
 import { SurrealDbModuleOptions } from './surrealdb.interfaces';
 import { createNestSurrealDbModuleProviders } from './surrealdb.providers';
 import { SurrealDbService } from './surrealdb.service';
@@ -19,7 +18,10 @@ import { SurrealDbService } from './surrealdb.service';
     ...createNestSurrealDbModuleProviders
   ],
   controllers: [
-    SurrealDbController,
+    // uncomment to expose SurrealDbController to consumer apps
+    // SurrealDbController,
+    // to use this preconfigured controller in consumer apps just use ir in `AppModule` `controllers: [SurrealDbController]`
+    // and that should the way to go, package only exports and consumer use it or not
   ]
 })
 export class SurrealDbModule extends createConfigurableDynamicRootModule<
