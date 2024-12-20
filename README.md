@@ -242,7 +242,6 @@ $ yarn start:app-rst
 
 > launch debug here, it will work with consumer app and lib/package
 
-
 ```shell
 # or start docker stack
 $ docker:app-rst:up

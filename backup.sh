@@ -14,6 +14,7 @@ touch database/${FILE_EXCLUDE}
 touch node_modules/${FILE_EXCLUDE}
 touch packages/app-gql/node_modules/${FILE_EXCLUDE}
 touch packages/app-lib/node_modules/${FILE_EXCLUDE}
+touch packages/app-lib-gql/node_modules/${FILE_EXCLUDE}
 touch packages/app-rst/node_modules/${FILE_EXCLUDE}
 touch packages/app/node_modules/${FILE_EXCLUDE}
 touch packages/dataloader/node_modules/${FILE_EXCLUDE}

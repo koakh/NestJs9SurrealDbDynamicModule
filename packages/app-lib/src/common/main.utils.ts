@@ -64,7 +64,7 @@ export const getEnumValueFromEnumKey = (
 };
 
 /**
- * ES7 / 2016 remove json empty properties recursivly
+ * ES7 / 2016 remove json empty properties recursively
  * @param obj
  */
 export const removeEmpty = obj => {

@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@koakh/nestjs-dataloader": "^1.1.0",
-    "@koakh/nestjs-surrealdb": "^0.1.9",
+    "@koakh/nestjs-surrealdb": "^0.1.12",
     "@nestjs/apollo": "^12.2.1",
     "@nestjs/common": "^10.4.9",
     "@nestjs/config": "^3.3.0",

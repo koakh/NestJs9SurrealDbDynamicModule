@@ -9,3 +9,8 @@ export * from './surrealdb/surrealdb.interfaces';
 export * from './surrealdb/surrealdb.module';
 export * from './surrealdb/surrealdb.service';
 export * from './surrealdb/types';
+// graphql
+export * from './graphql/dto';
+export * from './graphql/entities';
+export * from './graphql/resolvers';
+export * from './graphql/services';

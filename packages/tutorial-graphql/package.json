@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@koakh/nestjs-surrealdb": "^0.1.4",
+    "@koakh/nestjs-surrealdb": "^0.1.12",
     "@nestjs/apollo": "^12.2.1",
     "@nestjs/common": "^10.4.9",
     "@nestjs/config": "^3.3.0",

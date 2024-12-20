@@ -54,7 +54,7 @@ export class SurrealDbService {
       // await this.db.use({ namespace, database });
       // await this.db.signin({ username, password });
       // wait for the connection to the database to succeed
-      Logger.log(`surrealdb database is ready url: ${url}, namespace: ${namespace}, database: ${database}`, SurrealDbService.name);
+      Logger.verbose(`surrealdb database is ready url: ${url}, namespace: ${namespace}, database: ${database}`, SurrealDbService.name);
       await this.db.ready;
       return this.db;
     } catch (err) {

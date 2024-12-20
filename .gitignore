@@ -30,7 +30,10 @@ composer.lock
 .yarn/install-state.gz
 *.log
 /lib
-/node_modules
 coverage/
 packages_removed
 database/
+/node_modules
+**/node_modules/**
+
+@temp-app-surrealdb-graphql/
