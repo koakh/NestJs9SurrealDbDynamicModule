@@ -37,3 +37,4 @@ database/
 **/node_modules/**
 
 @temp-app-surrealdb-graphql/
+packages/app-rst/.env

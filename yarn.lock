@@ -915,7 +915,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@koakh/nestjs-surrealdb-rest-demo@workspace:packages/app-rst"
   dependencies:
-    "@koakh/nestjs-surrealdb": ../app-lib
+    "@koakh/nestjs-surrealdb": "workspace:^"
     "@nestjs/cli": "npm:^10.4.8"
     "@nestjs/common": "npm:^10.4.15"
     "@nestjs/config": "npm:^3.3.0"
@@ -949,23 +949,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@koakh/nestjs-surrealdb@file:../app-lib::locator=%40koakh%2Fnestjs-surrealdb-rest-demo%40workspace%3Apackages%2Fapp-rst":
-  version: 0.1.13
-  resolution: "@koakh/nestjs-surrealdb@file:../app-lib#../app-lib::hash=b3e795&locator=%40koakh%2Fnestjs-surrealdb-rest-demo%40workspace%3Apackages%2Fapp-rst"
-  dependencies:
-    "@golevelup/nestjs-modules": "npm:0.7.1"
-    "@nestjs/config": "npm:3.3.0"
-    babel-core: "npm:6.26.3"
-    class-validator: "npm:^0.14.1"
-    rxjs: "npm:7.8.1"
-    surrealdb: "npm:^1.1.0"
-    ts-morph: "npm:25.0.0"
-    ws: "npm:^8.18.0"
-  checksum: 10c0/777c52a40508108fbcbac2bb6ba72f2bb9c33df446ab0f073c859265f6fcc810285845437d727b6d878da7de02e50525fb5b105d310e1cf732eee87764b24198
-  languageName: node
-  linkType: hard
-
-"@koakh/nestjs-surrealdb@workspace:packages/app-lib":
+"@koakh/nestjs-surrealdb@workspace:^, @koakh/nestjs-surrealdb@workspace:packages/app-lib":
   version: 0.0.0-use.local
   resolution: "@koakh/nestjs-surrealdb@workspace:packages/app-lib"
   dependencies:
