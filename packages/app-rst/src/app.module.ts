@@ -38,7 +38,10 @@ import { UserService } from './user/user.service';
   ],
   controllers: [
     AppController,
+    // uncomment to expose SurrealDbController to consumer apps
     SurrealDbController,
+    // to use this preconfigured controller in consumer apps just use ir in `AppModule` `controllers: [SurrealDbController]`
+    // and that should the way to go, package only exports and consumer use it or not
   ],
   providers: [
     // another trick is that this AppService is required to else we have the classic error
