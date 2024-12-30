@@ -1,6 +1,7 @@
 # TLDR
 
 ```shell
+$ git clone https://github.com/koakh/NestJs9SurrealDbDynamicModule.git
 $ yarn install --mode=skip-build
 # term1
 $ yarn surreal
@@ -9,4 +10,3 @@ $ yarn app-lib:dev
 # term3
 $ yarn start:app-rst
 ```
-
