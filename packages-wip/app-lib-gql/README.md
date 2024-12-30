@@ -107,4 +107,4 @@ export class RecipesService extends BaseService<Type<Recipe>, BaseFindAllArgs, C
 }
 ```
 
-view the [full example](https://github.com/koakh/NestJs9SurrealDbDynamicModule/tree/main/packages/app-gql) or [tutorial](https://github.com/koakh/NestJs9SurrealDbDynamicModule/tree/main/packages/tutorial-graphql)
+view the [full example](https://github.com/koakh/NestJsSurrealDbDynamicModule/tree/main/packages/app-gql) or [tutorial](https://github.com/koakh/NestJsSurrealDbDynamicModule/tree/main/packages/tutorial-graphql)

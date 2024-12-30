@@ -19,7 +19,7 @@ Global:
     ✔ rest @done(22-10-07 22:58)
     ✔ graphql @done(22-10-07 22:58)
     ✔ create a new github repo with this, and after finish project delete the old one @done(22-10-11 23:15)
-    https://github.com/koakh/NestJs9SurrealDbDynamicModule
+    https://github.com/koakh/NestJsSurrealDbDynamicModule
   ✔ add a graphql tutorial to use nestjs package and add it to tutorials.surrealdb.com @done(22-10-11 23:15)
   ☐ graphql:
     ☐ fix errors output, `{ "errors": [ {} ], "data": null }`, response don't output any error, just a empty object

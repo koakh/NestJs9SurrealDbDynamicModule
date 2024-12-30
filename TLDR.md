@@ -1,7 +1,7 @@
 # TLDR
 
 ```shell
-$ git clone https://github.com/koakh/NestJs9SurrealDbDynamicModule.git
+$ git clone https://github.com/koakh/NestJsSurrealDbDynamicModule.git
 $ yarn install --mode=skip-build
 # term1 : optional, only if don't connect to c3-system-stack, see `packages/app-rst/.env`
 # yarn surreal

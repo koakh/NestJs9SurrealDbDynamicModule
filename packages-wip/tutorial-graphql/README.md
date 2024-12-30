@@ -43,14 +43,14 @@
 ## Intro
 
 A simple tutorial of a GraphQL Server with [NestJs 9](https://nestjs.com/) and [SurrealDB](https://surrealdb.com), 
-using [@koakh/nestjs-surrealdb](https://github.com/koakh/NestJs9SurrealDbDynamicModule/tree/main/packages/app-lib) surrealdb nestjs 9 dynamic module wrapper on top of [surrealdb.js](https://surrealdb.com/surrealdb.js) driver, with DataLoaders, Subscriptions and BaseClasses to generate CRUD from simple DTOs and using Schemaless SurrealDb Scheme.....
+using [@koakh/nestjs-surrealdb](https://github.com/koakh/NestJsSurrealDbDynamicModule/tree/main/packages/app-lib) surrealdb nestjs 9 dynamic module wrapper on top of [surrealdb.js](https://surrealdb.com/surrealdb.js) driver, with DataLoaders, Subscriptions and BaseClasses to generate CRUD from simple DTOs and using Schemaless SurrealDb Scheme.....
 
 ## Links
 
 ### Main Repo
 
-- [GitHub - koakh/NestJs9SurrealDbDynamicModule](https://github.com/koakh/NestJs9SurrealDbDynamicModule)
-- [GitHub - koakh/NestJs9SurrealDbDynamicModule : tutorial-graphql](https://github.com/koakh/NestJs9SurrealDbDynamicModule/tree/main/packages/tutorial-graphql)
+- [GitHub - koakh/NestJsSurrealDbDynamicModule](https://github.com/koakh/NestJsSurrealDbDynamicModule)
+- [GitHub - koakh/NestJsSurrealDbDynamicModule : tutorial-graphql](https://github.com/koakh/NestJsSurrealDbDynamicModule/tree/main/packages/tutorial-graphql)
 
 > full `tutorial-graphql` project on above link
 
